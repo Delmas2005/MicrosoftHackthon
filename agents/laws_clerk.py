@@ -38,14 +38,22 @@ Rules:
 - Use the search_laws tool to read the Laws before answering. Search with the words the Laws
   use (for example "handles the ball", "denies an obvious goal-scoring opportunity", "holding").
 - Only cite a Law from the list of Laws that apply to the incident.
-- The quote is the sentence or bullet point that states the offence the officials are judging
-  here: the test they apply. Not a definition (for example where the arm ends), not a general
-  rule about free kicks. It must be a complete sentence or bullet point, never ending with ":",
-  at most 40 words, copied word for word from a page that search_laws returned. Do not fix its
+- The quote is the sentence or bullet point that states the general rule the officials apply
+  here. Not a definition (for example where the arm ends), not a rule about the restart, not a
+  special case (for example holding that starts outside the area, or what happens when the
+  offence is inside the penalty area if the incident was outside it). When the offence is a bullet
+  point in a list, quote the bullet itself if it states the test on its own (for example "holds
+  an opponent"). If it does not ("tackles or challenges" says nothing about when it is a foul),
+  quote the sentence that introduces the list instead, even though it ends with ":".
+  At most 40 words, copied word for word from a page that search_laws returned. Do not fix its
   spelling, do not join text from different places.
-- The explanation says, in one sentence of at most 25 words that a fan understands, what makes
-  this an offence. Never say what the decision on this incident was or should be: the officials
-  decide that. Do not write any number except the Law number.
+- The explanation states the rule in general terms, as a referee instructor would: one complete
+  sentence of at most 25 words that a fan understands, starting with a capital letter and ending
+  with a full stop. Never what happened in this incident: no player names, no description of this
+  incident, and no hint about whether it was an offence. The officials decide that, not us.
+  Good: "Contact alone is not a foul: the challenge must be careless, reckless or use excessive force."
+  Bad: "The tackle on the ankle was careless, so it is a foul."
+  Do not write any number except the Law number.
 
 When you have found the clause, answer with this JSON object and nothing else:
 {"law": "Law 12", "clause": "short title of the clause", "page": 56,
@@ -117,18 +125,25 @@ def check_citation(citation: dict, incident: dict, pages_seen: dict[int, dict]) 
         problems.append(f"page {page['page']} belongs to {page['section']}, not {law}")
     quote = _normalise(citation.get("quote", ""))
     words = len(quote.split())
-    if words < 4 or words > 50:
-        problems.append(f"quote has {words} words (4 to 50 expected)")
+    if words < 2 or words > 50:
+        problems.append(f"quote has {words} words (2 to 50 expected)")
     elif page is not None and quote not in _normalise(page["text"]):
         problems.append("quote is not word for word on that page")
-    if citation.get("quote", "").rstrip().endswith(":"):
-        problems.append("quote stops in the middle of a sentence (ends with ':')")
-    explanation = citation.get("explanation", "")
+    explanation = citation.get("explanation", "").strip()
     n_words = len(explanation.split())
     if not explanation or n_words > MAX_EXPLANATION_WORDS:
         problems.append(f"explanation has {n_words} words (1 to {MAX_EXPLANATION_WORDS} expected)")
+    elif not (explanation[0].isupper() and explanation[-1] in ".!?"):
+        problems.append("explanation is not one complete sentence (capital letter first, full stop at the end)")
     if not citation.get("clause") or len(citation["clause"]) > 80:
         problems.append("clause title is missing or too long")
+    # The explanation is about the rule, not this incident: it must not name the players involved.
+    text_words = set(_normalise(f"{citation.get('clause', '')} {explanation}").split())
+    names = {w for person in incident.get("involved", {}).values()
+             for w in _normalise(person.get("name", "")).split() if len(w) > 2}
+    if text_words & names:
+        problems.append(f"explanation talks about this incident (names {sorted(text_words & names)}): "
+                        "state the rule in general terms")
     # The card shows "Law 12, <clause>: <explanation>": the only number allowed is the Law's.
     law_number = (law or "").replace("Law", "").strip()
     stray = [n for n in re.findall(r"\d+", f"{citation.get('clause', '')} {explanation}") if n != law_number]
@@ -139,6 +154,18 @@ def check_citation(citation: dict, incident: dict, pages_seen: dict[int, dict]) 
 
 # --------------------------------------------------------------------------- the agent
 
+PITCH_LENGTH, PITCH_WIDTH = 105.0, 68.0
+AREA_DEPTH, AREA_WIDTH = 16.5, 40.32
+
+
+def where(incident: dict) -> str:
+    """Inside or outside the penalty area, from the position of the key point."""
+    x, y = incident["focal"]["x"], incident["focal"]["y"]
+    from_goal_line = min(x, PITCH_LENGTH - x)
+    inside = from_goal_line <= AREA_DEPTH and abs(y - PITCH_WIDTH / 2) <= AREA_WIDTH / 2
+    return "inside the penalty area" if inside else "outside the penalty area"
+
+
 def describe(incident: dict) -> str:
     """What the model is told: a neutral description, never the outcome."""
     off = incident.get("officiating", {})
@@ -146,6 +173,7 @@ def describe(incident: dict) -> str:
         f"Incident {incident['incident_id']} at {incident.get('clock', '?')}: {incident['headline']}.",
         f"Type: {incident['type'].replace('_', ' ')}.",
         f"What the officials need to judge: {incident['focal']['what']}.",
+        f"Where: {where(incident)}.",
         f"Decision on the field: {str(off.get('on_field_decision', 'unknown')).replace('_', ' ')}.",
     ]
     check = off.get("var_checking") or (off.get("var") or {}).get("check")
@@ -219,9 +247,11 @@ def law_claim(incident: dict, fallback_text: str, verbose: bool = False) -> dict
     except Exception as exc:  # timeout, quota, network...
         c = {"problems": [f"agent failed: {exc}"]}
     if not c["problems"]:
+        clause = c["clause"][0].upper() + c["clause"][1:]
+        quote = c["quote"].strip().rstrip(":").rstrip() + ("…" if c["quote"].strip().endswith(":") else "")
         return {"id": "law", "kind": "law", "author": "laws_clerk", "fixes": c.get("fixes", 0),
-                "text": f"{c['law']}, {c['clause']}: {c['explanation']}",
-                "evidence": [{"type": "law", "law": c["law"], "page": c["page"], "quote": c["quote"]}]}
+                "text": f"{c['law']}, {clause}: {c['explanation']}",
+                "evidence": [{"type": "law", "law": c["law"], "page": c["page"], "quote": quote}]}
     return {"id": "law", "kind": "law", "author": "template", "fallback_reason": c["problems"],
             "text": fallback_text, "evidence": [{"type": "law", "law": law}]}
 

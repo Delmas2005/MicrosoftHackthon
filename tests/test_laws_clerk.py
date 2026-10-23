@@ -97,9 +97,14 @@ def test_whole_loop_and_card_verifier(monkeypatch):
     assert "law" in verify_card(card, DATA)["publishable_claims"]
 
 
-def test_quote_cut_mid_sentence_is_rejected():
-    bad = dict(GOOD, quote="It is an offence if a player:")
-    assert any("middle of a sentence" in p for p in laws_clerk.check_citation(bad, HANDBALL, {56: PAGE}))
+def test_explanation_must_be_a_sentence():
+    bad = dict(GOOD, explanation="whether the arm made the body bigger")
+    assert any("complete sentence" in p for p in laws_clerk.check_citation(bad, HANDBALL, {56: PAGE}))
+
+
+def test_list_introduction_can_be_quoted():
+    intro = dict(GOOD, quote="It is an offence if a player:")
+    assert laws_clerk.check_citation(intro, HANDBALL, {56: PAGE}) == []
 
 
 def test_explanation_must_be_short():
@@ -108,7 +113,7 @@ def test_explanation_must_be_short():
 
 
 def test_model_gets_one_chance_to_fix(monkeypatch):
-    first = dict(GOOD, quote="It is an offence if a player:")  # rejected: stops mid-sentence
+    first = dict(GOOD, explanation="whether the arm made the body bigger")  # rejected: not a sentence
     model = FakeModel(first, GOOD)
     monkeypatch.setattr(laws_clerk, "client", lambda: model)
     monkeypatch.setattr(laws_clerk, "search_laws", lambda q, law=None, top=3: [PAGE])
@@ -123,3 +128,21 @@ def test_still_wrong_after_the_fix_falls_back(monkeypatch):
     monkeypatch.setattr(laws_clerk, "search_laws", lambda q, law=None, top=3: [PAGE])
     claim = laws_clerk.law_claim(HANDBALL, LAW_LINE["handball"][1])
     assert claim["author"] == "template"
+
+
+def test_explanation_must_not_name_the_players():
+    bad = dict(GOOD, explanation="Corrigan's arm made his body bigger, so it is handball.")
+    assert any("talks about this incident" in p for p in laws_clerk.check_citation(bad, HANDBALL, {56: PAGE}))
+
+
+def test_short_bullet_point_quote_is_fine():
+    holding = DATA.incident("INC-05")
+    ok = {"law": "Law 12", "clause": "Holding an opponent", "page": 56, "quote": "holds an opponent",
+          "explanation": "Holding is a foul when it stops an opponent from moving freely."}
+    assert laws_clerk.check_citation(ok, holding, {56: PAGE}) == []
+
+
+def test_where_the_incidents_happened():
+    places = {i: laws_clerk.where(DATA.incident(i)) for i in ("INC-01", "INC-03", "INC-04", "INC-05")}
+    assert places == {"INC-01": "inside the penalty area", "INC-03": "inside the penalty area",
+                      "INC-04": "outside the penalty area", "INC-05": "inside the penalty area"}
