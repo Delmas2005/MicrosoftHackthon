@@ -1,6 +1,11 @@
 numpy>=1.26
 matplotlib>=3.8        # previews only
 mcp>=2.2,<3            # MCP tool server
-pytest>=8              # optional: python -m pytest tests
+pytest>=8              # optional: py -m pytest tests
+# Agents on Microsoft Foundry and the Laws of the Game index
+openai>=1.40
+python-dotenv>=1.0
+azure-search-documents>=11.4
+pypdf>=4.0             # laws/build_index.py only
 # Azure (when deploying):
 # azure-eventhub>=5.11
