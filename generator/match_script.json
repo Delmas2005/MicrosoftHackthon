@@ -1,0 +1,2257 @@
+{
+  "match_id": "match_001",
+  "seed": 2026,
+  "competition": "Synthetic league (all clubs, players and officials are fictional)",
+  "venue": "Harrowgate Park",
+  "pitch": {
+    "length_m": 105.0,
+    "width_m": 68.0
+  },
+  "teams": {
+    "NBR": {
+      "name": "Northbridge FC",
+      "short": "Northbridge",
+      "side": "home",
+      "colour": "#1f4e9c",
+      "formation": "4-3-3",
+      "starting": {
+        "NBR-01": {
+          "name": "Tom Ashdown",
+          "number": 1,
+          "slot": "GK"
+        },
+        "NBR-02": {
+          "name": "Callum Reyes",
+          "number": 2,
+          "slot": "RB"
+        },
+        "NBR-05": {
+          "name": "Idris Okafor",
+          "number": 5,
+          "slot": "RCB"
+        },
+        "NBR-04": {
+          "name": "Mattias Lund",
+          "number": 4,
+          "slot": "LCB"
+        },
+        "NBR-03": {
+          "name": "Jamie Corrigan",
+          "number": 3,
+          "slot": "LB"
+        },
+        "NBR-06": {
+          "name": "Ben Holloway",
+          "number": 6,
+          "slot": "DM"
+        },
+        "NBR-08": {
+          "name": "Luca Ferro",
+          "number": 8,
+          "slot": "RCM"
+        },
+        "NBR-10": {
+          "name": "Sami Haddad",
+          "number": 10,
+          "slot": "LCM"
+        },
+        "NBR-07": {
+          "name": "Kai Mensah",
+          "number": 7,
+          "slot": "RW"
+        },
+        "NBR-09": {
+          "name": "Ollie Brandt",
+          "number": 9,
+          "slot": "ST"
+        },
+        "NBR-11": {
+          "name": "Rafael Duarte",
+          "number": 11,
+          "slot": "LW"
+        }
+      },
+      "bench": {
+        "NBR-17": {
+          "name": "Noah Pryce",
+          "number": 17
+        },
+        "NBR-20": {
+          "name": "Elliot Vance",
+          "number": 20
+        },
+        "NBR-19": {
+          "name": "Kofi Asante",
+          "number": 19
+        }
+      }
+    },
+    "KES": {
+      "name": "Kestrel Rovers",
+      "short": "Kestrel",
+      "side": "away",
+      "colour": "#d4462f",
+      "formation": "4-3-3",
+      "starting": {
+        "KES-01": {
+          "name": "Marek Novak",
+          "number": 1,
+          "slot": "GK"
+        },
+        "KES-02": {
+          "name": "Dylan Shaw",
+          "number": 2,
+          "slot": "RB"
+        },
+        "KES-05": {
+          "name": "Aaron Kettle",
+          "number": 5,
+          "slot": "RCB"
+        },
+        "KES-04": {
+          "name": "Yusuf Demir",
+          "number": 4,
+          "slot": "LCB"
+        },
+        "KES-03": {
+          "name": "Liam Carver",
+          "number": 3,
+          "slot": "LB"
+        },
+        "KES-06": {
+          "name": "Theo Marchetti",
+          "number": 6,
+          "slot": "DM"
+        },
+        "KES-08": {
+          "name": "Jonah Whitfield",
+          "number": 8,
+          "slot": "RCM"
+        },
+        "KES-10": {
+          "name": "Andres Villa",
+          "number": 10,
+          "slot": "LCM"
+        },
+        "KES-07": {
+          "name": "Ezra Quinn",
+          "number": 7,
+          "slot": "RW"
+        },
+        "KES-09": {
+          "name": "Conor Blake",
+          "number": 9,
+          "slot": "ST"
+        },
+        "KES-11": {
+          "name": "Malik Osei",
+          "number": 11,
+          "slot": "LW"
+        }
+      },
+      "bench": {
+        "KES-16": {
+          "name": "Finn Harper",
+          "number": 16
+        },
+        "KES-14": {
+          "name": "Owen Stride",
+          "number": 14
+        },
+        "KES-21": {
+          "name": "Jude Morrow",
+          "number": 21
+        }
+      }
+    }
+  },
+  "officials": {
+    "REF": {
+      "name": "Daniel Whitlock",
+      "role": "referee"
+    },
+    "AR1": {
+      "name": "Priya Nandakumar",
+      "role": "assistant referee 1"
+    },
+    "VAR": {
+      "name": "Graham Pell",
+      "role": "video assistant referee"
+    }
+  },
+  "attack_direction": {
+    "1": {
+      "NBR": 1,
+      "KES": -1
+    },
+    "2": {
+      "NBR": -1,
+      "KES": 1
+    }
+  },
+  "kick_off": {
+    "1": "NBR",
+    "2": "KES"
+  },
+  "substitutions": [
+    {
+      "period": 2,
+      "not_before_t": 960,
+      "team": "KES",
+      "off": "KES-07",
+      "on": "KES-16"
+    },
+    {
+      "period": 2,
+      "not_before_t": 1020,
+      "team": "NBR",
+      "off": "NBR-07",
+      "on": "NBR-17"
+    },
+    {
+      "period": 2,
+      "not_before_t": 1680,
+      "team": "KES",
+      "off": "KES-10",
+      "on": "KES-14",
+      "slot": "RCB"
+    },
+    {
+      "period": 2,
+      "not_before_t": 1860,
+      "team": "NBR",
+      "off": "NBR-10",
+      "on": "NBR-20"
+    },
+    {
+      "period": 2,
+      "not_before_t": 2340,
+      "team": "NBR",
+      "off": "NBR-11",
+      "on": "NBR-19"
+    },
+    {
+      "period": 2,
+      "not_before_t": 2400,
+      "team": "KES",
+      "off": "KES-11",
+      "on": "KES-21"
+    }
+  ],
+  "scripted": [
+    {
+      "id": "SEQ-NBR-GOAL",
+      "kind": "sequence",
+      "period": 1,
+      "t": 800,
+      "team": "NBR",
+      "events": [
+        {
+          "dt": -4.0,
+          "dt_end": -2.9,
+          "type": "pass",
+          "team": "NBR",
+          "player": "NBR-10",
+          "x": 70.0,
+          "y": 44.0,
+          "end_x": 86.0,
+          "end_y": 52.0,
+          "receiver": "NBR-11",
+          "outcome": "complete"
+        },
+        {
+          "dt": -2.9,
+          "dt_end": -1.4,
+          "type": "carry",
+          "team": "NBR",
+          "player": "NBR-11",
+          "x": 86.0,
+          "y": 52.0,
+          "end_x": 88.0,
+          "end_y": 51.0
+        },
+        {
+          "dt": -1.2,
+          "dt_end": 0.0,
+          "type": "cross",
+          "team": "NBR",
+          "player": "NBR-11",
+          "x": 88.0,
+          "y": 51.0,
+          "end_x": 95.5,
+          "end_y": 33.5,
+          "receiver": "NBR-09",
+          "outcome": "complete"
+        },
+        {
+          "dt": 0.0,
+          "dt_end": 0.4,
+          "type": "shot",
+          "team": "NBR",
+          "player": "NBR-09",
+          "x": 95.5,
+          "y": 33.5,
+          "end_x": 105.3,
+          "end_y": 35.2,
+          "outcome": "goal",
+          "body_part": "head"
+        },
+        {
+          "dt": 0.4,
+          "type": "goal",
+          "team": "NBR",
+          "player": "NBR-09",
+          "assist": "NBR-11",
+          "status": "confirmed",
+          "x": 105.3,
+          "y": 35.2
+        }
+      ],
+      "after": [
+        {
+          "stoppage": "goal",
+          "duration": 72,
+          "chargeable": true
+        },
+        {
+          "restart": {
+            "type": "kick_off",
+            "team": "KES",
+            "player": "KES-09",
+            "x": 52.5,
+            "y": 34.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "INC-01",
+      "kind": "incident",
+      "period": 1,
+      "t": 1390,
+      "team": "KES",
+      "events": [
+        {
+          "dt": -3.0,
+          "dt_end": -1.2,
+          "type": "pass",
+          "team": "KES",
+          "player": "KES-10",
+          "x": 34.0,
+          "y": 37.0,
+          "end_x": 17.5,
+          "end_y": 32.5,
+          "receiver": "KES-09",
+          "outcome": "complete"
+        },
+        {
+          "dt": -1.2,
+          "dt_end": -0.25,
+          "type": "carry",
+          "team": "KES",
+          "player": "KES-09",
+          "x": 17.5,
+          "y": 32.5,
+          "end_x": 12.6,
+          "end_y": 31.0
+        },
+        {
+          "dt": -0.15,
+          "dt_end": 1.5,
+          "type": "tackle",
+          "team": "NBR",
+          "player": "NBR-04",
+          "x": 12.3,
+          "y": 30.8,
+          "end_x": 0.0,
+          "end_y": 19.0,
+          "outcome": "ball_played",
+          "opponent": "KES-09"
+        },
+        {
+          "dt": 0.0,
+          "type": "challenge_contact",
+          "team": "NBR",
+          "player": "NBR-04",
+          "opponent": "KES-09",
+          "x": 12.0,
+          "y": 30.8,
+          "contact": "lower_leg",
+          "on_field_call": "none",
+          "incident": "INC-01"
+        },
+        {
+          "dt": 1.5,
+          "type": "ball_out",
+          "team": "NBR",
+          "player": "NBR-04",
+          "x": 0.0,
+          "y": 19.0,
+          "out_over": "goal_line"
+        }
+      ],
+      "after": [
+        {
+          "stoppage": "var_check",
+          "duration": 52,
+          "chargeable": true,
+          "event": {
+            "type": "var_check",
+            "incident": "INC-01",
+            "check": "possible_penalty",
+            "outcome": "check_complete_no_intervention"
+          }
+        },
+        {
+          "stoppage": "corner_setup",
+          "duration": 14,
+          "chargeable": false
+        },
+        {
+          "restart": {
+            "type": "corner",
+            "team": "KES",
+            "player": "KES-11",
+            "x": 0.4,
+            "y": 0.4
+          }
+        }
+      ],
+      "incident": {
+        "type": "penalty_claim",
+        "headline": "Penalty shout: Blake goes down under Lund's sliding challenge",
+        "attacking_team": "KES",
+        "defending_team": "NBR",
+        "involved": {
+          "attacker": "KES-09",
+          "defender": "NBR-04"
+        },
+        "focal": {
+          "dt": 0.0,
+          "x": 12.0,
+          "y": 30.8,
+          "what": "the contact on the attacker's ankle",
+          "height_m": 0.15
+        },
+        "critical_window": [
+          -0.5,
+          0.5
+        ],
+        "observers": [
+          "REF"
+        ],
+        "officiating": {
+          "on_field_decision": "play_on",
+          "var": {
+            "action": "check",
+            "check": "possible_penalty",
+            "duration_s": 52,
+            "outcome": "no_intervention"
+          },
+          "final_decision": "no_penalty",
+          "stadium_announcement": null,
+          "restart": "corner to Kestrel"
+        },
+        "ground_truth": {
+          "ball_played_first": true,
+          "ball_to_contact_s": 0.15,
+          "contact": "the defender plays the ball first; his follow-through clips the attacker's ankle after the ball has gone",
+          "contact_severity": "low",
+          "correct_decision": "no_penalty",
+          "verdict": "referee_call_correct",
+          "laws": [
+            "Law 12: fouls and misconduct (careless challenge)"
+          ],
+          "panel_note": "Clear contact with the ball first; the follow-through is minimal and does not meet the threshold for a careless challenge. VAR correctly did not intervene."
+        },
+        "keyframes": {
+          "BALL": [
+            [
+              -3.0,
+              34.0,
+              37.0
+            ],
+            [
+              -1.2,
+              17.5,
+              32.5
+            ],
+            [
+              -0.25,
+              12.6,
+              31.0
+            ],
+            [
+              -0.15,
+              12.3,
+              30.8
+            ],
+            [
+              1.5,
+              0.0,
+              19.0
+            ]
+          ],
+          "KES-10": [
+            [
+              -6.0,
+              40.0,
+              40.0
+            ],
+            [
+              -3.0,
+              34.6,
+              37.4
+            ],
+            [
+              0.0,
+              30.0,
+              36.0
+            ],
+            [
+              1.5,
+              28.0,
+              35.0
+            ]
+          ],
+          "KES-09": [
+            [
+              -6.0,
+              30.0,
+              30.0
+            ],
+            [
+              -3.0,
+              23.0,
+              32.0
+            ],
+            [
+              -1.2,
+              17.8,
+              32.4
+            ],
+            [
+              -0.25,
+              12.9,
+              31.1
+            ],
+            [
+              0.0,
+              12.1,
+              31.0
+            ],
+            [
+              0.5,
+              11.3,
+              30.6
+            ],
+            [
+              1.5,
+              11.0,
+              30.5
+            ]
+          ],
+          "NBR-04": [
+            [
+              -6.0,
+              22.0,
+              38.0
+            ],
+            [
+              -3.0,
+              18.0,
+              35.0
+            ],
+            [
+              -1.2,
+              15.0,
+              32.0
+            ],
+            [
+              -0.25,
+              12.8,
+              30.4
+            ],
+            [
+              0.0,
+              12.1,
+              30.5
+            ],
+            [
+              0.5,
+              11.4,
+              29.9
+            ],
+            [
+              1.5,
+              10.6,
+              29.5
+            ]
+          ],
+          "NBR-05": [
+            [
+              -6.0,
+              29.0,
+              45.5
+            ],
+            [
+              -3.0,
+              25.5,
+              42.7
+            ],
+            [
+              -1.2,
+              22.5,
+              40.0
+            ],
+            [
+              0.0,
+              20.3,
+              38.1
+            ],
+            [
+              0.6,
+              19.2,
+              37.2
+            ],
+            [
+              1.5,
+              17.8,
+              36.0
+            ]
+          ],
+          "REF": [
+            [
+              -6.0,
+              34.0,
+              46.0
+            ],
+            [
+              -3.0,
+              30.0,
+              45.2
+            ],
+            [
+              -1.2,
+              28.0,
+              44.4
+            ],
+            [
+              0.0,
+              27.0,
+              44.0
+            ],
+            [
+              1.5,
+              25.5,
+              43.5
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "INC-02",
+      "kind": "incident",
+      "period": 1,
+      "t": 2320,
+      "team": "KES",
+      "events": [
+        {
+          "dt": -2.0,
+          "dt_end": 0.0,
+          "type": "carry",
+          "team": "KES",
+          "player": "KES-08",
+          "x": 33.0,
+          "y": 17.5,
+          "end_x": 30.0,
+          "end_y": 20.0
+        },
+        {
+          "dt": 0.0,
+          "dt_end": 1.1,
+          "type": "pass",
+          "team": "KES",
+          "player": "KES-08",
+          "x": 30.0,
+          "y": 20.0,
+          "end_x": 9.2,
+          "end_y": 28.8,
+          "receiver": "KES-11",
+          "outcome": "complete",
+          "incident": "INC-02"
+        },
+        {
+          "dt": 1.5,
+          "dt_end": 1.9,
+          "type": "shot",
+          "team": "KES",
+          "player": "KES-11",
+          "x": 8.6,
+          "y": 29.6,
+          "end_x": -0.3,
+          "end_y": 33.5,
+          "outcome": "goal",
+          "body_part": "right_foot"
+        },
+        {
+          "dt": 1.9,
+          "type": "goal",
+          "team": "KES",
+          "player": "KES-11",
+          "assist": "KES-08",
+          "status": "provisional",
+          "x": -0.3,
+          "y": 33.5
+        }
+      ],
+      "after": [
+        {
+          "stoppage": "goal_celebration",
+          "duration": 38,
+          "chargeable": true
+        },
+        {
+          "stoppage": "var_check",
+          "duration": 68,
+          "chargeable": true,
+          "event": {
+            "type": "var_check",
+            "incident": "INC-02",
+            "check": "offside_semi_automated",
+            "outcome": "goal_disallowed"
+          }
+        },
+        {
+          "event": {
+            "type": "decision",
+            "incident": "INC-02",
+            "decision": "goal_disallowed",
+            "reason": "offside",
+            "team": "KES",
+            "player": "KES-11"
+          }
+        },
+        {
+          "stoppage": "restart_setup",
+          "duration": 12,
+          "chargeable": false
+        },
+        {
+          "restart": {
+            "type": "free_kick",
+            "team": "NBR",
+            "player": "NBR-05",
+            "x": 14.1,
+            "y": 25.0,
+            "kind": "indirect"
+          }
+        }
+      ],
+      "incident": {
+        "type": "offside_goal",
+        "headline": "Osei scores from Whitfield's through ball",
+        "attacking_team": "KES",
+        "defending_team": "NBR",
+        "involved": {
+          "attacker": "KES-11",
+          "passer": "KES-08",
+          "second_last_defender": "NBR-05"
+        },
+        "focal": {
+          "dt": 0.0,
+          "x": 14.11,
+          "y": 25.0,
+          "what": "the attacker's position when the pass was played",
+          "height_m": 1.2
+        },
+        "critical_window": [
+          -0.2,
+          0.2
+        ],
+        "observers": [
+          "AR1",
+          "REF"
+        ],
+        "officiating": {
+          "on_field_decision": "goal",
+          "var": {
+            "action": "check",
+            "check": "offside_semi_automated",
+            "duration_s": 68,
+            "outcome": "goal_disallowed"
+          },
+          "final_decision": "goal_disallowed_offside",
+          "stadium_announcement": null,
+          "announcement_note": "Factual offside decisions are shown as a graphic, not announced by the referee.",
+          "restart": "indirect free kick to Northbridge"
+        },
+        "ground_truth": {
+          "offside_margin_m": 0.09,
+          "measured_on": "tracking centroid (body centre); real semi-automated offside uses the nearest playable body part",
+          "correct_decision": "goal_disallowed_offside",
+          "verdict": "var_correct",
+          "laws": [
+            "Law 11: offside"
+          ],
+          "panel_note": "Attacker beyond the second-last defender at the moment of the pass. Margin too small for the assistant referee to see in real time."
+        },
+        "keyframes": {
+          "BALL": [
+            [
+              -2.0,
+              33.0,
+              17.5
+            ],
+            [
+              0.0,
+              30.0,
+              20.0
+            ],
+            [
+              1.1,
+              9.2,
+              28.8
+            ],
+            [
+              1.5,
+              8.6,
+              29.6
+            ],
+            [
+              1.9,
+              -0.3,
+              33.5
+            ]
+          ],
+          "KES-08": [
+            [
+              -4.0,
+              37.0,
+              15.0
+            ],
+            [
+              -2.0,
+              33.4,
+              17.2
+            ],
+            [
+              0.0,
+              30.6,
+              19.6
+            ],
+            [
+              2.0,
+              27.5,
+              21.5
+            ]
+          ],
+          "KES-11": [
+            [
+              -4.0,
+              21.0,
+              21.0
+            ],
+            [
+              -2.0,
+              17.0,
+              23.0
+            ],
+            [
+              0.0,
+              14.11,
+              25.0
+            ],
+            [
+              1.1,
+              9.4,
+              28.6
+            ],
+            [
+              1.5,
+              8.8,
+              29.4
+            ],
+            [
+              2.5,
+              6.0,
+              31.0
+            ]
+          ],
+          "NBR-05": [
+            [
+              -4.0,
+              18.5,
+              25.0
+            ],
+            [
+              -2.0,
+              16.0,
+              26.0
+            ],
+            [
+              0.0,
+              14.2,
+              27.5
+            ],
+            [
+              1.1,
+              11.5,
+              29.0
+            ],
+            [
+              2.5,
+              9.5,
+              30.5
+            ]
+          ],
+          "NBR-04": [
+            [
+              -4.0,
+              19.0,
+              37.0
+            ],
+            [
+              -2.0,
+              17.0,
+              36.0
+            ],
+            [
+              0.0,
+              15.4,
+              35.0
+            ],
+            [
+              2.5,
+              11.0,
+              33.0
+            ]
+          ],
+          "NBR-02": [
+            [
+              -4.0,
+              22.0,
+              12.0
+            ],
+            [
+              -2.0,
+              19.0,
+              14.0
+            ],
+            [
+              0.0,
+              16.8,
+              15.5
+            ],
+            [
+              2.5,
+              12.5,
+              18.5
+            ]
+          ],
+          "NBR-03": [
+            [
+              -4.0,
+              22.0,
+              46.0
+            ],
+            [
+              -2.0,
+              19.0,
+              44.0
+            ],
+            [
+              0.0,
+              16.5,
+              42.0
+            ],
+            [
+              2.5,
+              12.5,
+              38.0
+            ]
+          ],
+          "NBR-01": [
+            [
+              -4.0,
+              6.0,
+              32.0
+            ],
+            [
+              -2.0,
+              5.5,
+              31.0
+            ],
+            [
+              0.0,
+              4.5,
+              30.0
+            ],
+            [
+              1.5,
+              2.8,
+              30.6
+            ],
+            [
+              2.5,
+              2.4,
+              31.2
+            ]
+          ],
+          "AR1": [
+            [
+              -4.0,
+              19.0,
+              -0.8
+            ],
+            [
+              -2.0,
+              16.3,
+              -0.8
+            ],
+            [
+              0.0,
+              14.55,
+              -0.8
+            ],
+            [
+              2.5,
+              11.5,
+              -0.8
+            ]
+          ],
+          "REF": [
+            [
+              -4.0,
+              34.0,
+              29.0
+            ],
+            [
+              -2.0,
+              30.0,
+              30.0
+            ],
+            [
+              0.0,
+              27.5,
+              31.0
+            ],
+            [
+              2.5,
+              21.5,
+              31.5
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "INC-03",
+      "kind": "incident",
+      "period": 2,
+      "t": 740,
+      "team": "KES",
+      "events": [
+        {
+          "dt": -2.5,
+          "dt_end": -0.6,
+          "type": "carry",
+          "team": "KES",
+          "player": "KES-07",
+          "x": 82.0,
+          "y": 5.0,
+          "end_x": 90.5,
+          "end_y": 7.5
+        },
+        {
+          "dt": -0.6,
+          "dt_end": 0.0,
+          "type": "cross",
+          "team": "KES",
+          "player": "KES-07",
+          "x": 90.5,
+          "y": 7.5,
+          "end_x": 93.35,
+          "end_y": 14.85,
+          "outcome": "blocked"
+        },
+        {
+          "dt": 0.0,
+          "type": "ball_arm_contact",
+          "team": "NBR",
+          "player": "NBR-03",
+          "x": 93.35,
+          "y": 14.85,
+          "on_field_call": "none",
+          "incident": "INC-03"
+        },
+        {
+          "dt": 2.0,
+          "dt_end": 3.4,
+          "type": "clearance",
+          "team": "NBR",
+          "player": "NBR-04",
+          "x": 89.0,
+          "y": 24.0,
+          "end_x": 82.0,
+          "end_y": 0.0
+        },
+        {
+          "dt": 3.4,
+          "type": "ball_out",
+          "team": "NBR",
+          "player": "NBR-04",
+          "x": 82.0,
+          "y": 0.0,
+          "out_over": "touchline"
+        }
+      ],
+      "after": [
+        {
+          "stoppage": "var_check",
+          "duration": 38,
+          "chargeable": true,
+          "event": {
+            "type": "var_check",
+            "incident": "INC-03",
+            "check": "possible_handball_penalty",
+            "outcome": "on_field_review_recommended"
+          }
+        },
+        {
+          "stoppage": "on_field_review",
+          "duration": 96,
+          "chargeable": true,
+          "event": {
+            "type": "on_field_review",
+            "incident": "INC-03",
+            "outcome": "penalty_awarded"
+          }
+        },
+        {
+          "event": {
+            "type": "decision",
+            "incident": "INC-03",
+            "decision": "penalty",
+            "reason": "handball",
+            "team": "KES",
+            "against": "NBR-03"
+          }
+        },
+        {
+          "event": {
+            "type": "announcement",
+            "incident": "INC-03",
+            "text": "After review, the decision is a penalty for handball by Northbridge number 3."
+          }
+        },
+        {
+          "stoppage": "penalty_setup",
+          "duration": 58,
+          "chargeable": true
+        },
+        {
+          "event": {
+            "type": "penalty_kick",
+            "team": "KES",
+            "player": "KES-09",
+            "x": 94.0,
+            "y": 34.0,
+            "end_x": 105.3,
+            "end_y": 36.2,
+            "outcome": "goal",
+            "travel_s": 0.5
+          }
+        },
+        {
+          "event": {
+            "type": "goal",
+            "team": "KES",
+            "player": "KES-09",
+            "status": "confirmed",
+            "x": 105.3,
+            "y": 36.2,
+            "from": "penalty"
+          },
+          "advance": 0.5
+        },
+        {
+          "stoppage": "goal",
+          "duration": 68,
+          "chargeable": true
+        },
+        {
+          "restart": {
+            "type": "kick_off",
+            "team": "NBR",
+            "player": "NBR-09",
+            "x": 52.5,
+            "y": 34.0
+          }
+        }
+      ],
+      "incident": {
+        "type": "handball",
+        "headline": "Cross strikes Corrigan's arm in the area",
+        "attacking_team": "KES",
+        "defending_team": "NBR",
+        "involved": {
+          "attacker": "KES-07",
+          "defender": "NBR-03"
+        },
+        "focal": {
+          "dt": 0.0,
+          "x": 93.35,
+          "y": 14.85,
+          "what": "the ball hitting the defender's arm",
+          "height_m": 1.55
+        },
+        "facing_target": {
+          "x": 90.5,
+          "y": 7.5,
+          "note": "the defender is facing the crosser"
+        },
+        "critical_window": [
+          -0.3,
+          0.3
+        ],
+        "observers": [
+          "REF"
+        ],
+        "officiating": {
+          "on_field_decision": "play_on",
+          "var": {
+            "action": "on_field_review",
+            "check": "possible_handball_penalty",
+            "duration_s": 134,
+            "outcome": "penalty_awarded"
+          },
+          "final_decision": "penalty",
+          "stadium_announcement": "After review, the decision is a penalty for handball by Northbridge number 3.",
+          "restart": "penalty to Kestrel"
+        },
+        "ground_truth": {
+          "arm_position": "raised above shoulder height and away from the body",
+          "body_bigger_unnaturally": true,
+          "distance_from_cross_m": 7.9,
+          "ball_travel_time_s": 0.6,
+          "correct_decision": "penalty",
+          "verdict": "on_field_error_corrected_by_var",
+          "laws": [
+            "Law 12: handling the ball"
+          ],
+          "panel_note": "The arm is in an unjustifiable position that makes the body bigger. The referee viewed the defender from behind and could not see the contact."
+        },
+        "keyframes": {
+          "BALL": [
+            [
+              -2.5,
+              82.0,
+              5.0
+            ],
+            [
+              -0.6,
+              90.5,
+              7.5
+            ],
+            [
+              0.0,
+              93.35,
+              14.85
+            ],
+            [
+              0.9,
+              91.0,
+              19.5
+            ],
+            [
+              2.0,
+              89.0,
+              24.0
+            ],
+            [
+              3.4,
+              82.0,
+              0.0
+            ]
+          ],
+          "KES-07": [
+            [
+              -4.0,
+              77.0,
+              4.0
+            ],
+            [
+              -2.5,
+              82.3,
+              4.8
+            ],
+            [
+              -0.6,
+              90.0,
+              7.0
+            ],
+            [
+              1.0,
+              92.0,
+              8.5
+            ],
+            [
+              3.0,
+              92.5,
+              10.0
+            ]
+          ],
+          "NBR-03": [
+            [
+              -4.0,
+              91.0,
+              11.5
+            ],
+            [
+              -2.5,
+              92.2,
+              12.8
+            ],
+            [
+              -0.6,
+              93.4,
+              14.6
+            ],
+            [
+              0.0,
+              93.6,
+              15.1
+            ],
+            [
+              1.0,
+              93.2,
+              15.6
+            ],
+            [
+              3.0,
+              92.0,
+              17.0
+            ]
+          ],
+          "NBR-04": [
+            [
+              -4.0,
+              95.0,
+              27.0
+            ],
+            [
+              -2.5,
+              94.5,
+              26.0
+            ],
+            [
+              0.0,
+              92.0,
+              24.5
+            ],
+            [
+              2.0,
+              89.4,
+              24.2
+            ],
+            [
+              3.4,
+              88.5,
+              23.0
+            ]
+          ],
+          "REF": [
+            [
+              -4.0,
+              74.0,
+              34.0
+            ],
+            [
+              -2.5,
+              76.5,
+              32.5
+            ],
+            [
+              -0.6,
+              78.5,
+              31.0
+            ],
+            [
+              0.0,
+              80.0,
+              30.0
+            ],
+            [
+              3.0,
+              81.0,
+              29.0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "INC-04",
+      "kind": "incident",
+      "period": 2,
+      "t": 1565,
+      "team": "NBR",
+      "events": [
+        {
+          "dt": -2.4,
+          "dt_end": -0.9,
+          "type": "pass",
+          "team": "NBR",
+          "player": "NBR-08",
+          "x": 52.0,
+          "y": 31.0,
+          "end_x": 33.5,
+          "end_y": 30.0,
+          "receiver": "NBR-11",
+          "outcome": "complete"
+        },
+        {
+          "dt": -0.9,
+          "dt_end": 0.0,
+          "type": "carry",
+          "team": "NBR",
+          "player": "NBR-11",
+          "x": 33.5,
+          "y": 30.0,
+          "end_x": 24.6,
+          "end_y": 30.6
+        },
+        {
+          "dt": 0.0,
+          "type": "foul",
+          "team": "KES",
+          "player": "KES-05",
+          "opponent": "NBR-11",
+          "x": 25.5,
+          "y": 30.15,
+          "on_field_call": "foul",
+          "incident": "INC-04"
+        }
+      ],
+      "after": [
+        {
+          "stoppage": "foul_card",
+          "duration": 28,
+          "chargeable": true,
+          "event": {
+            "type": "card",
+            "team": "KES",
+            "player": "KES-05",
+            "card": "yellow",
+            "reason": "stopping a promising attack",
+            "incident": "INC-04"
+          }
+        },
+        {
+          "stoppage": "var_check",
+          "duration": 34,
+          "chargeable": true,
+          "event": {
+            "type": "var_check",
+            "incident": "INC-04",
+            "check": "possible_red_card_dogso",
+            "outcome": "on_field_review_recommended"
+          }
+        },
+        {
+          "stoppage": "on_field_review",
+          "duration": 88,
+          "chargeable": true,
+          "event": {
+            "type": "on_field_review",
+            "incident": "INC-04",
+            "outcome": "red_card"
+          }
+        },
+        {
+          "event": {
+            "type": "card",
+            "team": "KES",
+            "player": "KES-05",
+            "card": "red",
+            "reason": "denying an obvious goal-scoring opportunity",
+            "replaces": "yellow",
+            "incident": "INC-04"
+          }
+        },
+        {
+          "event": {
+            "type": "announcement",
+            "incident": "INC-04",
+            "text": "After review, the yellow card is upgraded to a red card for denying an obvious goal-scoring opportunity."
+          }
+        },
+        {
+          "stoppage": "player_leaves",
+          "duration": 35,
+          "chargeable": true
+        },
+        {
+          "restart": {
+            "type": "free_kick",
+            "team": "NBR",
+            "player": "NBR-10",
+            "x": 25.5,
+            "y": 30.2,
+            "kind": "direct"
+          }
+        }
+      ],
+      "incident": {
+        "type": "dogso",
+        "headline": "Kettle trips Duarte as he breaks through on goal",
+        "attacking_team": "NBR",
+        "defending_team": "KES",
+        "involved": {
+          "attacker": "NBR-11",
+          "offender": "KES-05"
+        },
+        "focal": {
+          "dt": 0.0,
+          "x": 25.5,
+          "y": 30.15,
+          "what": "the trip",
+          "height_m": 0.3
+        },
+        "critical_window": [
+          -0.3,
+          0.3
+        ],
+        "observers": [
+          "REF"
+        ],
+        "officiating": {
+          "on_field_decision": "foul_yellow_card",
+          "var": {
+            "action": "on_field_review",
+            "check": "possible_red_card_dogso",
+            "duration_s": 122,
+            "outcome": "red_card"
+          },
+          "final_decision": "red_card",
+          "stadium_announcement": "After review, the yellow card is upgraded to a red card for denying an obvious goal-scoring opportunity.",
+          "restart": "direct free kick to Northbridge"
+        },
+        "ground_truth": {
+          "distance_to_goal_m": 25.8,
+          "direction_of_play": "central, straight at goal",
+          "ball_control": "ball 0.9 m ahead of the attacker and playable",
+          "covering_defenders": "none could reach the attacker before the box",
+          "correct_decision": "red_card_dogso",
+          "verdict": "on_field_error_corrected_by_var",
+          "laws": [
+            "Law 12: denying an obvious goal-scoring opportunity"
+          ],
+          "panel_note": "All four DOGSO considerations are met. From directly behind the play, the referee misjudged how close the covering defender was."
+        },
+        "keyframes": {
+          "BALL": [
+            [
+              -2.4,
+              52.0,
+              31.0
+            ],
+            [
+              -0.9,
+              33.5,
+              30.0
+            ],
+            [
+              -0.15,
+              26.2,
+              30.4
+            ],
+            [
+              0.0,
+              24.6,
+              30.6
+            ],
+            [
+              1.0,
+              21.5,
+              31.0
+            ],
+            [
+              2.5,
+              17.5,
+              31.5
+            ],
+            [
+              3.5,
+              16.0,
+              31.6
+            ]
+          ],
+          "NBR-08": [
+            [
+              -4.0,
+              56.0,
+              33.0
+            ],
+            [
+              -2.4,
+              52.5,
+              31.4
+            ],
+            [
+              0.0,
+              49.5,
+              31.0
+            ],
+            [
+              2.0,
+              47.0,
+              31.0
+            ]
+          ],
+          "NBR-11": [
+            [
+              -4.0,
+              46.0,
+              22.0
+            ],
+            [
+              -2.4,
+              42.0,
+              26.0
+            ],
+            [
+              -0.9,
+              34.0,
+              29.6
+            ],
+            [
+              -0.15,
+              26.8,
+              30.2
+            ],
+            [
+              0.0,
+              25.4,
+              30.3
+            ],
+            [
+              0.5,
+              24.5,
+              30.4
+            ],
+            [
+              2.0,
+              24.2,
+              30.5
+            ]
+          ],
+          "KES-05": [
+            [
+              -4.0,
+              40.0,
+              27.0
+            ],
+            [
+              -2.4,
+              37.0,
+              28.5
+            ],
+            [
+              -0.9,
+              31.5,
+              29.2
+            ],
+            [
+              -0.15,
+              26.6,
+              29.8
+            ],
+            [
+              0.0,
+              25.8,
+              30.0
+            ],
+            [
+              0.5,
+              25.0,
+              29.6
+            ],
+            [
+              2.0,
+              24.5,
+              29.0
+            ]
+          ],
+          "KES-04": [
+            [
+              -4.0,
+              36.0,
+              44.0
+            ],
+            [
+              -2.4,
+              35.0,
+              42.0
+            ],
+            [
+              -0.9,
+              33.0,
+              39.0
+            ],
+            [
+              0.0,
+              30.5,
+              37.5
+            ],
+            [
+              2.0,
+              27.0,
+              35.0
+            ]
+          ],
+          "KES-01": [
+            [
+              -4.0,
+              8.0,
+              33.0
+            ],
+            [
+              0.0,
+              10.5,
+              33.2
+            ],
+            [
+              2.0,
+              9.0,
+              33.0
+            ]
+          ],
+          "REF": [
+            [
+              -4.0,
+              56.0,
+              18.0
+            ],
+            [
+              -2.4,
+              50.0,
+              20.0
+            ],
+            [
+              -0.9,
+              44.0,
+              22.5
+            ],
+            [
+              0.0,
+              40.5,
+              23.5
+            ],
+            [
+              2.0,
+              34.0,
+              25.0
+            ]
+          ],
+          "KES-06": [
+            [
+              -4.0,
+              52.0,
+              36.0
+            ],
+            [
+              -2.4,
+              48.0,
+              35.0
+            ],
+            [
+              0.0,
+              38.5,
+              34.0
+            ],
+            [
+              2.0,
+              34.0,
+              33.0
+            ]
+          ],
+          "KES-03": [
+            [
+              -4.0,
+              32.0,
+              56.0
+            ],
+            [
+              -2.4,
+              30.0,
+              54.5
+            ],
+            [
+              0.0,
+              26.5,
+              52.0
+            ],
+            [
+              2.0,
+              24.0,
+              49.0
+            ]
+          ],
+          "KES-02": [
+            [
+              -4.0,
+              31.0,
+              13.0
+            ],
+            [
+              -2.4,
+              29.0,
+              14.0
+            ],
+            [
+              0.0,
+              24.5,
+              16.0
+            ],
+            [
+              2.0,
+              20.0,
+              18.5
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "INC-05",
+      "kind": "incident",
+      "period": 2,
+      "t": 2595,
+      "team": "NBR",
+      "events": [
+        {
+          "dt": -1.4,
+          "dt_end": 0.05,
+          "type": "corner",
+          "team": "NBR",
+          "player": "NBR-17",
+          "x": 0.3,
+          "y": 67.7,
+          "end_x": 5.0,
+          "end_y": 40.6,
+          "outcome": "cleared"
+        },
+        {
+          "dt": -1.4,
+          "type": "grappling",
+          "team": "KES",
+          "player": "KES-06",
+          "opponent": "NBR-09",
+          "x": 6.65,
+          "y": 37.7,
+          "until_dt": 0.05,
+          "mutual": true,
+          "on_field_call": "none",
+          "incident": "INC-05"
+        },
+        {
+          "dt": 0.05,
+          "dt_end": 2.0,
+          "type": "clearance",
+          "team": "KES",
+          "player": "KES-03",
+          "x": 5.0,
+          "y": 40.6,
+          "end_x": 19.0,
+          "end_y": 26.0,
+          "body_part": "head"
+        }
+      ],
+      "after": [
+        {
+          "event": {
+            "type": "var_check",
+            "incident": "INC-05",
+            "check": "possible_penalty_holding",
+            "outcome": "check_complete_no_intervention",
+            "concurrent_with_play": true,
+            "duration_s": 40
+          }
+        },
+        {
+          "continue": {
+            "team": "KES",
+            "x": 19.0,
+            "y": 26.0,
+            "player": "KES-08"
+          }
+        }
+      ],
+      "incident": {
+        "type": "penalty_claim_holding",
+        "headline": "Brandt and Marchetti grapple at a near-post corner",
+        "attacking_team": "NBR",
+        "defending_team": "KES",
+        "involved": {
+          "attacker": "NBR-09",
+          "defender": "KES-06"
+        },
+        "focal": {
+          "dt": 0.0,
+          "x": 6.65,
+          "y": 37.7,
+          "what": "the holding at the near post",
+          "height_m": 1.2
+        },
+        "critical_window": [
+          -1.4,
+          0.05
+        ],
+        "observers": [
+          "REF"
+        ],
+        "officiating": {
+          "on_field_decision": "play_on",
+          "var": {
+            "action": "check",
+            "check": "possible_penalty_holding",
+            "duration_s": 40,
+            "outcome": "no_intervention",
+            "concurrent_with_play": true
+          },
+          "final_decision": "no_penalty",
+          "stadium_announcement": null,
+          "restart": "play continued"
+        },
+        "ground_truth": {
+          "holding": "both players hold each other from the start of the run",
+          "mutual": true,
+          "duration_s": 1.4,
+          "correct_decision": "no_penalty",
+          "verdict": "referee_call_correct",
+          "laws": [
+            "Law 12: holding an opponent"
+          ],
+          "panel_note": "Holding by both players; neither is clearly impeded more than the other. Not a clear and obvious error, so VAR does not intervene."
+        },
+        "keyframes": {
+          "BALL": [
+            [
+              -1.4,
+              0.3,
+              67.7
+            ],
+            [
+              0.05,
+              5.0,
+              40.6
+            ],
+            [
+              2.0,
+              19.0,
+              26.0
+            ],
+            [
+              3.0,
+              22.5,
+              23.5
+            ]
+          ],
+          "NBR-17": [
+            [
+              -4.0,
+              0.6,
+              67.2
+            ],
+            [
+              -1.4,
+              0.4,
+              67.6
+            ],
+            [
+              1.0,
+              2.5,
+              64.0
+            ],
+            [
+              3.0,
+              5.0,
+              60.0
+            ]
+          ],
+          "NBR-09": [
+            [
+              -4.0,
+              10.0,
+              32.0
+            ],
+            [
+              -1.4,
+              8.6,
+              35.0
+            ],
+            [
+              -0.6,
+              7.6,
+              36.6
+            ],
+            [
+              0.0,
+              6.9,
+              37.4
+            ],
+            [
+              1.0,
+              7.2,
+              37.0
+            ],
+            [
+              3.0,
+              9.0,
+              35.0
+            ]
+          ],
+          "KES-06": [
+            [
+              -4.0,
+              9.2,
+              32.4
+            ],
+            [
+              -1.4,
+              7.8,
+              35.6
+            ],
+            [
+              -0.6,
+              7.0,
+              37.2
+            ],
+            [
+              0.0,
+              6.4,
+              38.0
+            ],
+            [
+              1.0,
+              6.8,
+              37.4
+            ],
+            [
+              3.0,
+              9.0,
+              34.0
+            ]
+          ],
+          "KES-03": [
+            [
+              -4.0,
+              3.5,
+              44.0
+            ],
+            [
+              -1.4,
+              3.8,
+              42.5
+            ],
+            [
+              0.05,
+              4.6,
+              41.2
+            ],
+            [
+              2.0,
+              6.0,
+              40.0
+            ],
+            [
+              3.0,
+              8.0,
+              38.0
+            ]
+          ],
+          "KES-08": [
+            [
+              -4.0,
+              11.5,
+              31.0
+            ],
+            [
+              -1.4,
+              11.3,
+              30.8
+            ],
+            [
+              0.0,
+              11.5,
+              30.6
+            ],
+            [
+              1.5,
+              13.0,
+              29.0
+            ],
+            [
+              3.0,
+              16.0,
+              27.0
+            ]
+          ],
+          "NBR-05": [
+            [
+              -4.0,
+              11.0,
+              35.5
+            ],
+            [
+              -1.4,
+              9.9,
+              34.3
+            ],
+            [
+              0.0,
+              9.4,
+              33.8
+            ],
+            [
+              1.5,
+              9.5,
+              33.0
+            ],
+            [
+              3.0,
+              11.0,
+              32.0
+            ]
+          ],
+          "REF": [
+            [
+              -4.0,
+              18.5,
+              21.0
+            ],
+            [
+              -1.4,
+              17.8,
+              21.7
+            ],
+            [
+              0.0,
+              17.5,
+              22.0
+            ],
+            [
+              3.0,
+              20.5,
+              22.0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "SEQ-KES-WINNER",
+      "kind": "sequence",
+      "period": 2,
+      "t": 2970,
+      "team": "KES",
+      "events": [
+        {
+          "dt": -26.0,
+          "dt_end": -24.0,
+          "type": "clearance",
+          "team": "NBR",
+          "player": "NBR-02",
+          "x": 90.0,
+          "y": 60.0,
+          "end_x": 88.0,
+          "end_y": 68.0
+        },
+        {
+          "dt": -24.0,
+          "type": "ball_out",
+          "team": "NBR",
+          "player": "NBR-02",
+          "x": 88.0,
+          "y": 68.0,
+          "out_over": "touchline",
+          "stoppage": {
+            "type": "throw_in",
+            "until_dt": -1.6,
+            "chargeable": false
+          }
+        },
+        {
+          "dt": -1.6,
+          "dt_end": 0.0,
+          "type": "throw_in",
+          "team": "KES",
+          "player": "KES-03",
+          "x": 88.0,
+          "y": 68.0,
+          "end_x": 99.5,
+          "end_y": 41.0,
+          "long_throw": true,
+          "receiver": "KES-09",
+          "outcome": "complete"
+        },
+        {
+          "dt": 0.0,
+          "dt_end": 0.35,
+          "type": "header_pass",
+          "team": "KES",
+          "player": "KES-09",
+          "x": 99.5,
+          "y": 41.0,
+          "end_x": 101.0,
+          "end_y": 36.5,
+          "receiver": "KES-04",
+          "outcome": "complete",
+          "note": "near-post flick-on"
+        },
+        {
+          "dt": 0.4,
+          "dt_end": 0.7,
+          "type": "shot",
+          "team": "KES",
+          "player": "KES-04",
+          "x": 101.0,
+          "y": 36.5,
+          "end_x": 105.3,
+          "end_y": 34.2,
+          "outcome": "goal",
+          "body_part": "head"
+        },
+        {
+          "dt": 0.7,
+          "type": "goal",
+          "team": "KES",
+          "player": "KES-04",
+          "assist": "KES-09",
+          "status": "confirmed",
+          "x": 105.3,
+          "y": 34.2
+        }
+      ],
+      "after": [
+        {
+          "stoppage": "goal",
+          "duration": 64,
+          "chargeable": true
+        },
+        {
+          "restart": {
+            "type": "kick_off",
+            "team": "NBR",
+            "player": "NBR-19",
+            "x": 52.5,
+            "y": 34.0
+          }
+        }
+      ]
+    }
+  ]
+}

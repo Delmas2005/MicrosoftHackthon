@@ -1,0 +1,11 @@
+{
+  "incident_id": "INC-02",
+  "offside_margin_m": 0.09,
+  "measured_on": "tracking centroid (body centre); real semi-automated offside uses the nearest playable body part",
+  "correct_decision": "goal_disallowed_offside",
+  "verdict": "var_correct",
+  "laws": [
+    "Law 11: offside"
+  ],
+  "panel_note": "Attacker beyond the second-last defender at the moment of the pass. Margin too small for the assistant referee to see in real time."
+}

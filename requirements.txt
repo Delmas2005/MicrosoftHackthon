@@ -1,0 +1,6 @@
+numpy>=1.26
+matplotlib>=3.8        # previews only
+mcp>=2.2,<3            # MCP tool server
+pytest>=8              # optional: python -m pytest tests
+# Azure (when deploying):
+# azure-eventhub>=5.11

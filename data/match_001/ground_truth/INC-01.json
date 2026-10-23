@@ -1,0 +1,13 @@
+{
+  "incident_id": "INC-01",
+  "ball_played_first": true,
+  "ball_to_contact_s": 0.15,
+  "contact": "the defender plays the ball first; his follow-through clips the attacker's ankle after the ball has gone",
+  "contact_severity": "low",
+  "correct_decision": "no_penalty",
+  "verdict": "referee_call_correct",
+  "laws": [
+    "Law 12: fouls and misconduct (careless challenge)"
+  ],
+  "panel_note": "Clear contact with the ball first; the follow-through is minimal and does not meet the threshold for a careless challenge. VAR correctly did not intervene."
+}

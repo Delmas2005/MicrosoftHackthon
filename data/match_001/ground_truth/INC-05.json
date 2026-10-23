@@ -1,0 +1,12 @@
+{
+  "incident_id": "INC-05",
+  "holding": "both players hold each other from the start of the run",
+  "mutual": true,
+  "duration_s": 1.4,
+  "correct_decision": "no_penalty",
+  "verdict": "referee_call_correct",
+  "laws": [
+    "Law 12: holding an opponent"
+  ],
+  "panel_note": "Holding by both players; neither is clearly impeded more than the other. Not a clear and obvious error, so VAR does not intervene."
+}

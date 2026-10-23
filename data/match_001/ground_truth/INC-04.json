@@ -1,0 +1,13 @@
+{
+  "incident_id": "INC-04",
+  "distance_to_goal_m": 25.8,
+  "direction_of_play": "central, straight at goal",
+  "ball_control": "ball 0.9 m ahead of the attacker and playable",
+  "covering_defenders": "none could reach the attacker before the box",
+  "correct_decision": "red_card_dogso",
+  "verdict": "on_field_error_corrected_by_var",
+  "laws": [
+    "Law 12: denying an obvious goal-scoring opportunity"
+  ],
+  "panel_note": "All four DOGSO considerations are met. From directly behind the play, the referee misjudged how close the covering defender was."
+}

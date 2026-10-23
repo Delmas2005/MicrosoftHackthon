@@ -1,0 +1,403 @@
+{
+  "match_id": "match_001",
+  "generator_version": "0.1.0",
+  "seed": 2026,
+  "synthetic": true,
+  "disclaimer": "Every club, player, official and venue in this file is fictional.",
+  "competition": "Synthetic league (all clubs, players and officials are fictional)",
+  "venue": "Harrowgate Park",
+  "pitch": {
+    "length_m": 105.0,
+    "width_m": 68.0
+  },
+  "coordinates": "metres; x along the length 0..105, y across 0..68; origin at a corner flag",
+  "attack_direction": {
+    "1": {
+      "NBR": 1,
+      "KES": -1
+    },
+    "2": {
+      "NBR": -1,
+      "KES": 1
+    }
+  },
+  "teams": {
+    "NBR": {
+      "name": "Northbridge FC",
+      "short": "Northbridge",
+      "side": "home",
+      "colour": "#1f4e9c",
+      "formation": "4-3-3",
+      "starting": {
+        "NBR-01": {
+          "name": "Tom Ashdown",
+          "number": 1,
+          "slot": "GK"
+        },
+        "NBR-02": {
+          "name": "Callum Reyes",
+          "number": 2,
+          "slot": "RB"
+        },
+        "NBR-05": {
+          "name": "Idris Okafor",
+          "number": 5,
+          "slot": "RCB"
+        },
+        "NBR-04": {
+          "name": "Mattias Lund",
+          "number": 4,
+          "slot": "LCB"
+        },
+        "NBR-03": {
+          "name": "Jamie Corrigan",
+          "number": 3,
+          "slot": "LB"
+        },
+        "NBR-06": {
+          "name": "Ben Holloway",
+          "number": 6,
+          "slot": "DM"
+        },
+        "NBR-08": {
+          "name": "Luca Ferro",
+          "number": 8,
+          "slot": "RCM"
+        },
+        "NBR-10": {
+          "name": "Sami Haddad",
+          "number": 10,
+          "slot": "LCM"
+        },
+        "NBR-07": {
+          "name": "Kai Mensah",
+          "number": 7,
+          "slot": "RW"
+        },
+        "NBR-09": {
+          "name": "Ollie Brandt",
+          "number": 9,
+          "slot": "ST"
+        },
+        "NBR-11": {
+          "name": "Rafael Duarte",
+          "number": 11,
+          "slot": "LW"
+        }
+      },
+      "bench": {
+        "NBR-17": {
+          "name": "Noah Pryce",
+          "number": 17
+        },
+        "NBR-20": {
+          "name": "Elliot Vance",
+          "number": 20
+        },
+        "NBR-19": {
+          "name": "Kofi Asante",
+          "number": 19
+        }
+      }
+    },
+    "KES": {
+      "name": "Kestrel Rovers",
+      "short": "Kestrel",
+      "side": "away",
+      "colour": "#d4462f",
+      "formation": "4-3-3",
+      "starting": {
+        "KES-01": {
+          "name": "Marek Novak",
+          "number": 1,
+          "slot": "GK"
+        },
+        "KES-02": {
+          "name": "Dylan Shaw",
+          "number": 2,
+          "slot": "RB"
+        },
+        "KES-05": {
+          "name": "Aaron Kettle",
+          "number": 5,
+          "slot": "RCB"
+        },
+        "KES-04": {
+          "name": "Yusuf Demir",
+          "number": 4,
+          "slot": "LCB"
+        },
+        "KES-03": {
+          "name": "Liam Carver",
+          "number": 3,
+          "slot": "LB"
+        },
+        "KES-06": {
+          "name": "Theo Marchetti",
+          "number": 6,
+          "slot": "DM"
+        },
+        "KES-08": {
+          "name": "Jonah Whitfield",
+          "number": 8,
+          "slot": "RCM"
+        },
+        "KES-10": {
+          "name": "Andres Villa",
+          "number": 10,
+          "slot": "LCM"
+        },
+        "KES-07": {
+          "name": "Ezra Quinn",
+          "number": 7,
+          "slot": "RW"
+        },
+        "KES-09": {
+          "name": "Conor Blake",
+          "number": 9,
+          "slot": "ST"
+        },
+        "KES-11": {
+          "name": "Malik Osei",
+          "number": 11,
+          "slot": "LW"
+        }
+      },
+      "bench": {
+        "KES-16": {
+          "name": "Finn Harper",
+          "number": 16
+        },
+        "KES-14": {
+          "name": "Owen Stride",
+          "number": 14
+        },
+        "KES-21": {
+          "name": "Jude Morrow",
+          "number": 21
+        }
+      }
+    }
+  },
+  "officials": {
+    "REF": {
+      "name": "Daniel Whitlock",
+      "role": "referee"
+    },
+    "AR1": {
+      "name": "Priya Nandakumar",
+      "role": "assistant referee 1"
+    },
+    "VAR": {
+      "name": "Graham Pell",
+      "role": "video assistant referee"
+    }
+  },
+  "final_score": {
+    "NBR": 1,
+    "KES": 2
+  },
+  "goals": [
+    {
+      "clock": "13:20",
+      "team": "NBR",
+      "player": "NBR-09",
+      "name": "Ollie Brandt",
+      "from": "open_play"
+    },
+    {
+      "clock": "60:35",
+      "team": "KES",
+      "player": "KES-09",
+      "name": "Conor Blake",
+      "from": "penalty"
+    },
+    {
+      "clock": "90+04:30",
+      "team": "KES",
+      "player": "KES-04",
+      "name": "Yusuf Demir",
+      "from": "open_play"
+    }
+  ],
+  "periods": {
+    "1": {
+      "period": 1,
+      "end_t": 3014.14,
+      "added_time_announced_min": 5,
+      "chargeable_s_before_board": 399.1,
+      "chargeable_s_after_board": 0.0,
+      "end_clock": "45+05:14",
+      "regulation_s": 2700
+    },
+    "2": {
+      "period": 2,
+      "end_t": 3276.74,
+      "added_time_announced_min": 8,
+      "chargeable_s_before_board": 650.83,
+      "chargeable_s_after_board": 78.57,
+      "end_clock": "90+09:36",
+      "regulation_s": 2700
+    }
+  },
+  "roster_changes": [
+    {
+      "period": 2,
+      "t": 1003.9,
+      "team": "KES",
+      "off": "KES-07",
+      "on": "KES-16",
+      "slot": "RW",
+      "reason": "substitution"
+    },
+    {
+      "period": 2,
+      "t": 1054.48,
+      "team": "NBR",
+      "off": "NBR-07",
+      "on": "NBR-17",
+      "slot": "RW",
+      "reason": "substitution"
+    },
+    {
+      "period": 2,
+      "t": 1715.0,
+      "team": "KES",
+      "off": "KES-05",
+      "on": null,
+      "slot": "RCB",
+      "reason": "red_card"
+    },
+    {
+      "period": 2,
+      "t": 1750.0,
+      "team": "KES",
+      "off": "KES-10",
+      "on": "KES-14",
+      "slot": "RCB",
+      "reason": "substitution"
+    },
+    {
+      "period": 2,
+      "t": 1949.07,
+      "team": "NBR",
+      "off": "NBR-10",
+      "on": "NBR-20",
+      "slot": "LCM",
+      "reason": "substitution"
+    },
+    {
+      "period": 2,
+      "t": 2372.03,
+      "team": "NBR",
+      "off": "NBR-11",
+      "on": "NBR-19",
+      "slot": "LW",
+      "reason": "substitution"
+    },
+    {
+      "period": 2,
+      "t": 2432.44,
+      "team": "KES",
+      "off": "KES-11",
+      "on": "KES-21",
+      "slot": "LW",
+      "reason": "substitution"
+    }
+  ],
+  "incidents": [
+    {
+      "incident_id": "INC-01",
+      "period": 1,
+      "clock": "23:10",
+      "type": "penalty_claim",
+      "headline": "Penalty shout: Blake goes down under Lund's sliding challenge",
+      "final_decision": "no_penalty"
+    },
+    {
+      "incident_id": "INC-02",
+      "period": 1,
+      "clock": "38:40",
+      "type": "offside_goal",
+      "headline": "Osei scores from Whitfield's through ball",
+      "final_decision": "goal_disallowed_offside"
+    },
+    {
+      "incident_id": "INC-03",
+      "period": 2,
+      "clock": "57:20",
+      "type": "handball",
+      "headline": "Cross strikes Corrigan's arm in the area",
+      "final_decision": "penalty"
+    },
+    {
+      "incident_id": "INC-04",
+      "period": 2,
+      "clock": "71:05",
+      "type": "dogso",
+      "headline": "Kettle trips Duarte as he breaks through on goal",
+      "final_decision": "red_card"
+    },
+    {
+      "incident_id": "INC-05",
+      "period": 2,
+      "clock": "88:15",
+      "type": "penalty_claim_holding",
+      "headline": "Brandt and Marchetti grapple at a near-post corner",
+      "final_decision": "no_penalty"
+    }
+  ],
+  "scripted_sequences": {
+    "SEQ-NBR-GOAL": {
+      "period": 1,
+      "t": 800.0,
+      "scheduled_t": 800,
+      "clock": "13:20"
+    },
+    "INC-01": {
+      "period": 1,
+      "t": 1390.0,
+      "scheduled_t": 1390,
+      "clock": "23:10"
+    },
+    "INC-02": {
+      "period": 1,
+      "t": 2320.0,
+      "scheduled_t": 2320,
+      "clock": "38:40"
+    },
+    "INC-03": {
+      "period": 2,
+      "t": 740.0,
+      "scheduled_t": 740,
+      "clock": "57:20"
+    },
+    "INC-04": {
+      "period": 2,
+      "t": 1565.0,
+      "scheduled_t": 1565,
+      "clock": "71:05"
+    },
+    "INC-05": {
+      "period": 2,
+      "t": 2595.0,
+      "scheduled_t": 2595,
+      "clock": "88:15"
+    },
+    "SEQ-KES-WINNER": {
+      "period": 2,
+      "t": 2970.0,
+      "scheduled_t": 2970,
+      "clock": "90+04:30"
+    }
+  },
+  "files": {
+    "events.jsonl": "live event feed, one JSON object per line, in time order",
+    "stoppages.json": "dead-ball ledger and added-time breakdown",
+    "tracking_1hz.csv": "positions of every player, the referee and the ball, once per second",
+    "incidents/<id>.json": "what a live system would know about each incident, with 10 Hz positions",
+    "analysis/<id>.json": "Referee's Eye tool output for each incident",
+    "ground_truth/<id>.json": "correct decision and panel note; for evaluation only, never shown to agents",
+    "heatmaps.json": "5 m grids for every player and the referee"
+  }
+}

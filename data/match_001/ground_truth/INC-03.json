@@ -1,0 +1,13 @@
+{
+  "incident_id": "INC-03",
+  "arm_position": "raised above shoulder height and away from the body",
+  "body_bigger_unnaturally": true,
+  "distance_from_cross_m": 7.9,
+  "ball_travel_time_s": 0.6,
+  "correct_decision": "penalty",
+  "verdict": "on_field_error_corrected_by_var",
+  "laws": [
+    "Law 12: handling the ball"
+  ],
+  "panel_note": "The arm is in an unjustifiable position that makes the body bigger. The referee viewed the defender from behind and could not see the contact."
+}

@@ -1,0 +1,1583 @@
+{
+  "note": "Every dead-ball interval. 'chargeable' intervals are the ones officials add back as added time. The model adds 75% of chargeable time before the board goes up.",
+  "by_period": {
+    "1": {
+      "period_length_s": 3014.14,
+      "ball_in_play_s": 1672.86,
+      "dead_ball_s": 1341.28,
+      "added_time_announced_min": 5,
+      "chargeable_s_before_board": 399.1,
+      "chargeable_s_after_board": 0.0,
+      "by_type": {
+        "free_kick": {
+          "count": 14,
+          "seconds": 360.69,
+          "chargeable": false
+        },
+        "throw_in": {
+          "count": 24,
+          "seconds": 237.72,
+          "chargeable": false
+        },
+        "goal_kick": {
+          "count": 12,
+          "seconds": 243.35,
+          "chargeable": false
+        },
+        "card": {
+          "count": 2,
+          "seconds": 37.9,
+          "chargeable": true
+        },
+        "injury": {
+          "count": 2,
+          "seconds": 131.2,
+          "chargeable": true
+        },
+        "goal": {
+          "count": 1,
+          "seconds": 72.0,
+          "chargeable": true
+        },
+        "corner": {
+          "count": 3,
+          "seconds": 74.42,
+          "chargeable": false
+        },
+        "var_check": {
+          "count": 2,
+          "seconds": 120.0,
+          "chargeable": true
+        },
+        "corner_setup": {
+          "count": 1,
+          "seconds": 14.0,
+          "chargeable": false
+        },
+        "goal_celebration": {
+          "count": 1,
+          "seconds": 38.0,
+          "chargeable": true
+        },
+        "restart_setup": {
+          "count": 1,
+          "seconds": 12.0,
+          "chargeable": false
+        }
+      }
+    },
+    "2": {
+      "period_length_s": 3276.74,
+      "ball_in_play_s": 1625.22,
+      "dead_ball_s": 1651.52,
+      "added_time_announced_min": 8,
+      "chargeable_s_before_board": 650.83,
+      "chargeable_s_after_board": 78.57,
+      "by_type": {
+        "throw_in": {
+          "count": 21,
+          "seconds": 228.9,
+          "chargeable": false
+        },
+        "goal_kick": {
+          "count": 7,
+          "seconds": 132.86,
+          "chargeable": false
+        },
+        "card": {
+          "count": 3,
+          "seconds": 47.47,
+          "chargeable": true
+        },
+        "free_kick": {
+          "count": 14,
+          "seconds": 333.4,
+          "chargeable": false
+        },
+        "corner": {
+          "count": 8,
+          "seconds": 226.96,
+          "chargeable": false
+        },
+        "var_check": {
+          "count": 2,
+          "seconds": 72.0,
+          "chargeable": true
+        },
+        "on_field_review": {
+          "count": 2,
+          "seconds": 184.0,
+          "chargeable": true
+        },
+        "penalty_setup": {
+          "count": 1,
+          "seconds": 58.0,
+          "chargeable": true
+        },
+        "goal": {
+          "count": 2,
+          "seconds": 132.0,
+          "chargeable": true
+        },
+        "substitution": {
+          "count": 6,
+          "seconds": 172.93,
+          "chargeable": true
+        },
+        "foul_card": {
+          "count": 1,
+          "seconds": 28.0,
+          "chargeable": true
+        },
+        "player_leaves": {
+          "count": 1,
+          "seconds": 35.0,
+          "chargeable": true
+        }
+      }
+    }
+  },
+  "ledger": [
+    {
+      "stoppage_id": "S0001",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 42.28,
+      "end_t": 58.36,
+      "duration_s": 16.08,
+      "chargeable": false,
+      "linked_event": "E00021",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0002",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 67.65,
+      "end_t": 77.13,
+      "duration_s": 9.47,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0003",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 79.34,
+      "end_t": 112.89,
+      "duration_s": 33.55,
+      "chargeable": false,
+      "linked_event": "E00029",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0004",
+      "period": 1,
+      "type": "goal_kick",
+      "start_t": 115.13,
+      "end_t": 134.1,
+      "duration_s": 18.98,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0005",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 159.68,
+      "end_t": 170.71,
+      "duration_s": 11.02,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0006",
+      "period": 1,
+      "type": "goal_kick",
+      "start_t": 221.67,
+      "end_t": 237.09,
+      "duration_s": 15.42,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0007",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 264.84,
+      "end_t": 273.83,
+      "duration_s": 8.99,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0008",
+      "period": 1,
+      "type": "goal_kick",
+      "start_t": 322.98,
+      "end_t": 340.51,
+      "duration_s": 17.53,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0009",
+      "period": 1,
+      "type": "card",
+      "start_t": 373.28,
+      "end_t": 391.88,
+      "duration_s": 18.6,
+      "chargeable": true,
+      "linked_event": "E00139",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0010",
+      "period": 1,
+      "type": "injury",
+      "start_t": 391.88,
+      "end_t": 434.19,
+      "duration_s": 42.31,
+      "chargeable": true,
+      "linked_event": "E00140",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0011",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 434.19,
+      "end_t": 477.72,
+      "duration_s": 43.53,
+      "chargeable": false,
+      "linked_event": "E00138",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0012",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 508.95,
+      "end_t": 517.41,
+      "duration_s": 8.46,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0013",
+      "period": 1,
+      "type": "goal_kick",
+      "start_t": 589.2,
+      "end_t": 610.28,
+      "duration_s": 21.08,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0014",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 644.47,
+      "end_t": 652.43,
+      "duration_s": 7.96,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0015",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 671.74,
+      "end_t": 682.81,
+      "duration_s": 11.07,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0016",
+      "period": 1,
+      "type": "card",
+      "start_t": 724.08,
+      "end_t": 743.38,
+      "duration_s": 19.3,
+      "chargeable": true,
+      "linked_event": "E00258",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0017",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 743.38,
+      "end_t": 762.0,
+      "duration_s": 18.62,
+      "chargeable": false,
+      "linked_event": "E00257",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0018",
+      "period": 1,
+      "type": "goal",
+      "start_t": 800.4,
+      "end_t": 872.4,
+      "duration_s": 72.0,
+      "chargeable": true,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0019",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 874.99,
+      "end_t": 895.06,
+      "duration_s": 20.07,
+      "chargeable": false,
+      "linked_event": "E00279",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0020",
+      "period": 1,
+      "type": "goal_kick",
+      "start_t": 926.53,
+      "end_t": 948.45,
+      "duration_s": 21.93,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0021",
+      "period": 1,
+      "type": "injury",
+      "start_t": 978.36,
+      "end_t": 1067.25,
+      "duration_s": 88.89,
+      "chargeable": true,
+      "linked_event": "E00314",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0022",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 1067.25,
+      "end_t": 1083.78,
+      "duration_s": 16.53,
+      "chargeable": false,
+      "linked_event": "E00313",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0023",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 1103.48,
+      "end_t": 1112.89,
+      "duration_s": 9.41,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0024",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 1127.07,
+      "end_t": 1135.53,
+      "duration_s": 8.46,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0025",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 1149.31,
+      "end_t": 1157.37,
+      "duration_s": 8.06,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0026",
+      "period": 1,
+      "type": "corner",
+      "start_t": 1197.28,
+      "end_t": 1222.68,
+      "duration_s": 25.4,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0027",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 1245.55,
+      "end_t": 1257.84,
+      "duration_s": 12.29,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0028",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 1272.08,
+      "end_t": 1306.25,
+      "duration_s": 34.17,
+      "chargeable": false,
+      "linked_event": "E00382",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0029",
+      "period": 1,
+      "type": "goal_kick",
+      "start_t": 1311.92,
+      "end_t": 1333.74,
+      "duration_s": 21.82,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0030",
+      "period": 1,
+      "type": "var_check",
+      "start_t": 1391.5,
+      "end_t": 1443.5,
+      "duration_s": 52.0,
+      "chargeable": true,
+      "linked_event": "E00412",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0031",
+      "period": 1,
+      "type": "corner_setup",
+      "start_t": 1443.5,
+      "end_t": 1457.5,
+      "duration_s": 14.0,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0032",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 1526.81,
+      "end_t": 1543.85,
+      "duration_s": 17.04,
+      "chargeable": false,
+      "linked_event": "E00456",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0033",
+      "period": 1,
+      "type": "goal_kick",
+      "start_t": 1552.25,
+      "end_t": 1569.47,
+      "duration_s": 17.21,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0034",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 1576.87,
+      "end_t": 1614.51,
+      "duration_s": 37.65,
+      "chargeable": false,
+      "linked_event": "E00465",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0035",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 1635.79,
+      "end_t": 1658.05,
+      "duration_s": 22.26,
+      "chargeable": false,
+      "linked_event": "E00478",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0036",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 1679.92,
+      "end_t": 1689.82,
+      "duration_s": 9.9,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0037",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 1743.86,
+      "end_t": 1755.83,
+      "duration_s": 11.97,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0038",
+      "period": 1,
+      "type": "goal_kick",
+      "start_t": 1913.34,
+      "end_t": 1937.13,
+      "duration_s": 23.79,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0039",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 1941.27,
+      "end_t": 1949.0,
+      "duration_s": 7.73,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0040",
+      "period": 1,
+      "type": "corner",
+      "start_t": 2009.74,
+      "end_t": 2034.32,
+      "duration_s": 24.58,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0041",
+      "period": 1,
+      "type": "goal_kick",
+      "start_t": 2036.42,
+      "end_t": 2055.27,
+      "duration_s": 18.85,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0042",
+      "period": 1,
+      "type": "goal_kick",
+      "start_t": 2105.43,
+      "end_t": 2127.82,
+      "duration_s": 22.4,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0043",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 2138.83,
+      "end_t": 2146.85,
+      "duration_s": 8.01,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0044",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 2155.52,
+      "end_t": 2182.73,
+      "duration_s": 27.22,
+      "chargeable": false,
+      "linked_event": "E00679",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0045",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 2192.04,
+      "end_t": 2202.85,
+      "duration_s": 10.81,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0046",
+      "period": 1,
+      "type": "goal_kick",
+      "start_t": 2245.34,
+      "end_t": 2268.69,
+      "duration_s": 23.35,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0047",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 2287.14,
+      "end_t": 2296.06,
+      "duration_s": 8.92,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0048",
+      "period": 1,
+      "type": "goal_celebration",
+      "start_t": 2321.9,
+      "end_t": 2359.9,
+      "duration_s": 38.0,
+      "chargeable": true,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0049",
+      "period": 1,
+      "type": "var_check",
+      "start_t": 2359.9,
+      "end_t": 2427.9,
+      "duration_s": 68.0,
+      "chargeable": true,
+      "linked_event": "E00728",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0050",
+      "period": 1,
+      "type": "restart_setup",
+      "start_t": 2427.9,
+      "end_t": 2439.9,
+      "duration_s": 12.0,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0051",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 2517.82,
+      "end_t": 2530.13,
+      "duration_s": 12.31,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0052",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 2552.96,
+      "end_t": 2564.98,
+      "duration_s": 12.03,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0053",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 2587.1,
+      "end_t": 2598.45,
+      "duration_s": 11.35,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0054",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 2621.96,
+      "end_t": 2634.55,
+      "duration_s": 12.59,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0055",
+      "period": 1,
+      "type": "corner",
+      "start_t": 2716.04,
+      "end_t": 2740.48,
+      "duration_s": 24.44,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0056",
+      "period": 1,
+      "type": "goal_kick",
+      "start_t": 2743.18,
+      "end_t": 2764.17,
+      "duration_s": 20.99,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0057",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 2768.43,
+      "end_t": 2776.35,
+      "duration_s": 7.91,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0058",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 2790.46,
+      "end_t": 2802.28,
+      "duration_s": 11.82,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0059",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 2830.91,
+      "end_t": 2854.14,
+      "duration_s": 23.22,
+      "chargeable": false,
+      "linked_event": "E00903",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0060",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 2859.53,
+      "end_t": 2868.09,
+      "duration_s": 8.56,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0061",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 2907.56,
+      "end_t": 2936.81,
+      "duration_s": 29.25,
+      "chargeable": false,
+      "linked_event": "E00927",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0062",
+      "period": 1,
+      "type": "throw_in",
+      "start_t": 2969.1,
+      "end_t": 2977.72,
+      "duration_s": 8.62,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0063",
+      "period": 1,
+      "type": "free_kick",
+      "start_t": 2992.64,
+      "end_t": 3014.14,
+      "duration_s": 21.5,
+      "chargeable": false,
+      "linked_event": "E00957",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0064",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 33.83,
+      "end_t": 45.45,
+      "duration_s": 11.62,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0065",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 59.36,
+      "end_t": 70.06,
+      "duration_s": 10.71,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0066",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 98.13,
+      "end_t": 106.02,
+      "duration_s": 7.88,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0067",
+      "period": 2,
+      "type": "goal_kick",
+      "start_t": 143.14,
+      "end_t": 158.96,
+      "duration_s": 15.82,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0068",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 209.97,
+      "end_t": 221.92,
+      "duration_s": 11.94,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0069",
+      "period": 2,
+      "type": "goal_kick",
+      "start_t": 267.32,
+      "end_t": 285.86,
+      "duration_s": 18.54,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0070",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 325.23,
+      "end_t": 335.53,
+      "duration_s": 10.29,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0071",
+      "period": 2,
+      "type": "goal_kick",
+      "start_t": 358.45,
+      "end_t": 375.07,
+      "duration_s": 16.62,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0072",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 438.4,
+      "end_t": 446.79,
+      "duration_s": 8.39,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0073",
+      "period": 2,
+      "type": "card",
+      "start_t": 460.41,
+      "end_t": 473.78,
+      "duration_s": 13.37,
+      "chargeable": true,
+      "linked_event": "E01167",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0074",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 473.78,
+      "end_t": 509.46,
+      "duration_s": 35.68,
+      "chargeable": false,
+      "linked_event": "E01166",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0075",
+      "period": 2,
+      "type": "corner",
+      "start_t": 512.56,
+      "end_t": 540.16,
+      "duration_s": 27.6,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0076",
+      "period": 2,
+      "type": "corner",
+      "start_t": 542.24,
+      "end_t": 570.47,
+      "duration_s": 28.23,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0077",
+      "period": 2,
+      "type": "goal_kick",
+      "start_t": 584.95,
+      "end_t": 607.77,
+      "duration_s": 22.82,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0078",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 646.26,
+      "end_t": 668.26,
+      "duration_s": 22.0,
+      "chargeable": false,
+      "linked_event": "E01208",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0079",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 693.35,
+      "end_t": 714.57,
+      "duration_s": 21.22,
+      "chargeable": false,
+      "linked_event": "E01226",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0080",
+      "period": 2,
+      "type": "var_check",
+      "start_t": 743.4,
+      "end_t": 781.4,
+      "duration_s": 38.0,
+      "chargeable": true,
+      "linked_event": "E01238",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0081",
+      "period": 2,
+      "type": "on_field_review",
+      "start_t": 781.4,
+      "end_t": 877.4,
+      "duration_s": 96.0,
+      "chargeable": true,
+      "linked_event": "E01239",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0082",
+      "period": 2,
+      "type": "penalty_setup",
+      "start_t": 877.4,
+      "end_t": 935.4,
+      "duration_s": 58.0,
+      "chargeable": true,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0083",
+      "period": 2,
+      "type": "goal",
+      "start_t": 935.9,
+      "end_t": 1003.9,
+      "duration_s": 68.0,
+      "chargeable": true,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0084",
+      "period": 2,
+      "type": "substitution",
+      "start_t": 1003.9,
+      "end_t": 1030.64,
+      "duration_s": 26.74,
+      "chargeable": true,
+      "linked_event": "E01244",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0085",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 1043.95,
+      "end_t": 1054.48,
+      "duration_s": 10.54,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0086",
+      "period": 2,
+      "type": "substitution",
+      "start_t": 1054.48,
+      "end_t": 1082.18,
+      "duration_s": 27.69,
+      "chargeable": true,
+      "linked_event": "E01253",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0087",
+      "period": 2,
+      "type": "corner",
+      "start_t": 1113.57,
+      "end_t": 1138.87,
+      "duration_s": 25.3,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0088",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 1192.49,
+      "end_t": 1199.65,
+      "duration_s": 7.16,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0089",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 1224.44,
+      "end_t": 1255.41,
+      "duration_s": 30.97,
+      "chargeable": false,
+      "linked_event": "E01323",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0090",
+      "period": 2,
+      "type": "corner",
+      "start_t": 1257.56,
+      "end_t": 1290.97,
+      "duration_s": 33.4,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0091",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 1334.91,
+      "end_t": 1346.79,
+      "duration_s": 11.88,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0092",
+      "period": 2,
+      "type": "corner",
+      "start_t": 1352.44,
+      "end_t": 1379.24,
+      "duration_s": 26.8,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0093",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 1390.21,
+      "end_t": 1401.23,
+      "duration_s": 11.02,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0094",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 1436.53,
+      "end_t": 1447.09,
+      "duration_s": 10.56,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0095",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 1490.47,
+      "end_t": 1500.12,
+      "duration_s": 9.64,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0096",
+      "period": 2,
+      "type": "foul_card",
+      "start_t": 1565.0,
+      "end_t": 1593.0,
+      "duration_s": 28.0,
+      "chargeable": true,
+      "linked_event": "E01441",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0097",
+      "period": 2,
+      "type": "var_check",
+      "start_t": 1593.0,
+      "end_t": 1627.0,
+      "duration_s": 34.0,
+      "chargeable": true,
+      "linked_event": "E01442",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0098",
+      "period": 2,
+      "type": "on_field_review",
+      "start_t": 1627.0,
+      "end_t": 1715.0,
+      "duration_s": 88.0,
+      "chargeable": true,
+      "linked_event": "E01443",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0099",
+      "period": 2,
+      "type": "player_leaves",
+      "start_t": 1715.0,
+      "end_t": 1750.0,
+      "duration_s": 35.0,
+      "chargeable": true,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0100",
+      "period": 2,
+      "type": "substitution",
+      "start_t": 1750.0,
+      "end_t": 1780.12,
+      "duration_s": 30.12,
+      "chargeable": true,
+      "linked_event": "E01446",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0101",
+      "period": 2,
+      "type": "corner",
+      "start_t": 1786.6,
+      "end_t": 1812.23,
+      "duration_s": 25.63,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0102",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 1910.6,
+      "end_t": 1949.07,
+      "duration_s": 38.48,
+      "chargeable": false,
+      "linked_event": "E01503",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0103",
+      "period": 2,
+      "type": "substitution",
+      "start_t": 1949.07,
+      "end_t": 1976.68,
+      "duration_s": 27.61,
+      "chargeable": true,
+      "linked_event": "E01504",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0104",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 2096.69,
+      "end_t": 2114.21,
+      "duration_s": 17.52,
+      "chargeable": false,
+      "linked_event": "E01567",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0105",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 2116.72,
+      "end_t": 2128.8,
+      "duration_s": 12.08,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0106",
+      "period": 2,
+      "type": "corner",
+      "start_t": 2162.03,
+      "end_t": 2195.63,
+      "duration_s": 33.6,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0107",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 2222.14,
+      "end_t": 2230.87,
+      "duration_s": 8.74,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0108",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 2249.01,
+      "end_t": 2267.49,
+      "duration_s": 18.48,
+      "chargeable": false,
+      "linked_event": "E01616",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0109",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 2294.61,
+      "end_t": 2303.95,
+      "duration_s": 9.34,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0110",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 2308.43,
+      "end_t": 2318.83,
+      "duration_s": 10.4,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0111",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 2348.1,
+      "end_t": 2372.03,
+      "duration_s": 23.93,
+      "chargeable": false,
+      "linked_event": "E01645",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0112",
+      "period": 2,
+      "type": "substitution",
+      "start_t": 2372.03,
+      "end_t": 2402.69,
+      "duration_s": 30.67,
+      "chargeable": true,
+      "linked_event": "E01646",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0113",
+      "period": 2,
+      "type": "goal_kick",
+      "start_t": 2412.78,
+      "end_t": 2432.44,
+      "duration_s": 19.66,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0114",
+      "period": 2,
+      "type": "substitution",
+      "start_t": 2432.44,
+      "end_t": 2462.54,
+      "duration_s": 30.1,
+      "chargeable": true,
+      "linked_event": "E01653",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0115",
+      "period": 2,
+      "type": "card",
+      "start_t": 2482.85,
+      "end_t": 2502.38,
+      "duration_s": 19.53,
+      "chargeable": true,
+      "linked_event": "E01668",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0116",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 2502.38,
+      "end_t": 2529.92,
+      "duration_s": 27.54,
+      "chargeable": false,
+      "linked_event": "E01667",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0117",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 2534.85,
+      "end_t": 2544.74,
+      "duration_s": 9.89,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0118",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 2634.05,
+      "end_t": 2651.85,
+      "duration_s": 17.8,
+      "chargeable": false,
+      "linked_event": "E01715",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0119",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 2702.11,
+      "end_t": 2714.45,
+      "duration_s": 12.34,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0120",
+      "period": 2,
+      "type": "corner",
+      "start_t": 2767.84,
+      "end_t": 2794.24,
+      "duration_s": 26.4,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0121",
+      "period": 2,
+      "type": "goal_kick",
+      "start_t": 2836.27,
+      "end_t": 2855.09,
+      "duration_s": 18.82,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0122",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 2863.2,
+      "end_t": 2879.54,
+      "duration_s": 16.34,
+      "chargeable": false,
+      "linked_event": "E01816",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0123",
+      "period": 2,
+      "type": "card",
+      "start_t": 2890.38,
+      "end_t": 2904.95,
+      "duration_s": 14.57,
+      "chargeable": true,
+      "linked_event": "E01823",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0124",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 2904.95,
+      "end_t": 2922.71,
+      "duration_s": 17.76,
+      "chargeable": false,
+      "linked_event": "E01822",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0125",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 2946.0,
+      "end_t": 2968.4,
+      "duration_s": 22.4,
+      "chargeable": false,
+      "linked_event": "E01830",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0126",
+      "period": 2,
+      "type": "goal",
+      "start_t": 2970.7,
+      "end_t": 3034.7,
+      "duration_s": 64.0,
+      "chargeable": true,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0127",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 3036.98,
+      "end_t": 3058.15,
+      "duration_s": 21.17,
+      "chargeable": false,
+      "linked_event": "E01836",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0128",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 3100.92,
+      "end_t": 3112.8,
+      "duration_s": 11.87,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0129",
+      "period": 2,
+      "type": "throw_in",
+      "start_t": 3195.25,
+      "end_t": 3205.45,
+      "duration_s": 10.21,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    },
+    {
+      "stoppage_id": "S0130",
+      "period": 2,
+      "type": "free_kick",
+      "start_t": 3216.58,
+      "end_t": 3241.1,
+      "duration_s": 24.51,
+      "chargeable": false,
+      "linked_event": "E01908",
+      "note": null
+    },
+    {
+      "stoppage_id": "S0131",
+      "period": 2,
+      "type": "goal_kick",
+      "start_t": 3256.16,
+      "end_t": 3276.74,
+      "duration_s": 20.58,
+      "chargeable": false,
+      "linked_event": null,
+      "note": null
+    }
+  ]
+}
