@@ -3,14 +3,16 @@
    Grass and chalk for the pitch, referee-kit yellow for what the referee sees, signal red for what
    hid it, and a quiet paper panel for the words. */
 
-/* Fonts hosted with the site (SIL Open Font License, see fonts/LICENSES.txt): no third-party requests. */
-@font-face { font-family: "Big Shoulders Display"; font-weight: 600; font-display: swap; src: url(fonts/big-shoulders-display-latin-600-normal.woff2) format("woff2"); }
-@font-face { font-family: "Big Shoulders Display"; font-weight: 800; font-display: swap; src: url(fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2"); }
-@font-face { font-family: "Big Shoulders Display"; font-weight: 900; font-display: swap; src: url(fonts/big-shoulders-display-latin-900-normal.woff2) format("woff2"); }
-@font-face { font-family: "Atkinson Hyperlegible"; font-weight: 400; font-display: swap; src: url(fonts/atkinson-hyperlegible-latin-400-normal.woff2) format("woff2"); }
-@font-face { font-family: "Atkinson Hyperlegible"; font-weight: 400; font-style: italic; font-display: swap; src: url(fonts/atkinson-hyperlegible-latin-400-italic.woff2) format("woff2"); }
-@font-face { font-family: "Atkinson Hyperlegible"; font-weight: 700; font-display: swap; src: url(fonts/atkinson-hyperlegible-latin-700-normal.woff2) format("woff2"); }
-@font-face { font-family: "DotGothic16"; font-weight: 400; font-display: swap; src: url(fonts/dotgothic16-latin-400-normal.woff2) format("woff2"); }
+/* Fonts hosted with the site (SIL Open Font License, see fonts/LICENSES.txt): no third-party requests.
+   Barlow: a plain, broadcast-style sans with ordinary zeros and tabular figures. */
+@font-face { font-family: "Barlow"; font-weight: 400; font-display: swap; src: url(fonts/barlow-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 400; font-style: italic; font-display: swap; src: url(fonts/barlow-latin-400-italic.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 500; font-display: swap; src: url(fonts/barlow-latin-500-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; font-display: swap; src: url(fonts/barlow-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 700; font-display: swap; src: url(fonts/barlow-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: swap; src: url(fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: swap; src: url(fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 800; font-display: swap; src: url(fonts/barlow-condensed-latin-800-normal.woff2) format("woff2"); }
 
 :root {
   --grass: #1d5b3a;
@@ -23,12 +25,13 @@
   --rule: #d6ded6;
   --ref: #e5f23c;
   --alarm: #e5352b;
-  --led-bg: #050807;
-  --led-on: #f3f7ea;
+  --led-bg: #030504;
+  --led-on: #ffffff;
+  --band: rgba(6, 20, 13, .88);
 
-  --display: "Big Shoulders Display", "Arial Narrow", sans-serif;
-  --text: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
-  --led: "DotGothic16", "Courier New", monospace;
+  --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --text: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --led: "Barlow Condensed", "Arial Narrow", sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -37,6 +40,7 @@ body {
   background: #0d2a1c;
   color: var(--ink);
   font-family: var(--text);
+  font-variant-numeric: tabular-nums lining-nums;
   overflow: hidden;
 }
 button { font: inherit; cursor: pointer; }
@@ -44,6 +48,7 @@ button { font: inherit; cursor: pointer; }
 
 /* ---------------------------------------------------------------- stage: fixed design size, scaled to fit */
 .stage-wrap { position: fixed; inset: 0; overflow: hidden; }
+.has-controls .stage-wrap { bottom: 62px; }
 .stage { position: absolute; left: 50%; top: 50%; transform-origin: center center; }
 
 /* ---------------------------------------------------------------- TV: 1920 x 1080 */
@@ -59,7 +64,7 @@ button { font: inherit; cursor: pointer; }
 
 .bug {
   position: absolute; top: 36px; left: 40px; display: flex; align-items: stretch;
-  font-family: var(--display); font-weight: 800; font-size: 34px; color: var(--ink);
+  font-family: var(--display); font-weight: 700; font-size: 34px; color: var(--ink); text-transform: uppercase; letter-spacing: .02em;
   box-shadow: 0 6px 24px rgba(0, 0, 0, .28);
 }
 .bug .team { display: flex; align-items: center; gap: 12px; padding: 6px 18px; background: var(--paper); }
@@ -68,17 +73,21 @@ button { font: inherit; cursor: pointer; }
 .bug .clock { padding: 6px 18px; background: var(--ref); color: var(--ink); }
 
 .seen {
-  position: absolute; left: 40px; bottom: 124px; color: var(--chalk); max-width: 400px;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, .45);
+  position: absolute; left: 40px; bottom: 132px; color: var(--chalk); width: 420px;
+  background: var(--band); border-left: 8px solid var(--ref); padding: 22px 28px 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .35);
 }
-.seen .pct { font-family: var(--display); font-weight: 900; font-size: 200px; line-height: .8; color: var(--ref); display: block; }
+.seen .when { font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: .12em; text-transform: uppercase; color: rgba(238, 243, 232, .7); height: 24px; }
+.seen .pct { font-family: var(--display); font-weight: 800; font-size: 168px; line-height: .86; color: var(--ref); display: block; letter-spacing: -.01em; }
 .seen .pct.blind { color: var(--chalk); }
-.seen .what { font-size: 27px; line-height: 1.3; margin-top: 16px; }
+.seen .what { font-size: 24px; line-height: 1.3; margin-top: 10px; font-weight: 500; }
 .seen .what b { color: var(--ref); font-weight: 700; }
 
 .scrub {
-  position: absolute; left: 40px; right: 40px; bottom: 34px; height: 52px;
+  position: absolute; left: 0; right: 0; bottom: 0; height: 100px; padding: 0 40px;
   display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 18px; color: var(--chalk);
+  background: linear-gradient(0deg, rgba(6, 20, 13, .96), rgba(6, 20, 13, .82));
+  border-top: 1px solid rgba(238, 243, 232, .12);
 }
 .scrub button {
   width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--chalk); background: rgba(0, 0, 0, .25); color: var(--chalk);
@@ -91,49 +100,60 @@ button { font: inherit; cursor: pointer; }
 .track .window { position: absolute; top: 18px; height: 16px; background: rgba(229, 242, 60, .35); }
 .track .key { position: absolute; top: 10px; width: 3px; height: 32px; background: var(--ref); }
 .track .head { position: absolute; top: 15px; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; background: var(--chalk); }
-.scrub .time { font-size: 22px; min-width: 210px; text-align: right; font-variant-numeric: tabular-nums; }
+.scrub .time { font-family: var(--display); font-weight: 700; font-size: 26px; letter-spacing: .04em; text-transform: uppercase; min-width: 230px; text-align: right; }
 
 /* ---------------------------------------------------------------- the panel */
 .panel { background: var(--paper); display: flex; flex-direction: column; padding: 44px 44px 32px; overflow: hidden; }
-.status { display: flex; align-items: center; gap: 14px; font-size: 24px; font-weight: 700; color: var(--ink); }
+.status { display: flex; align-items: center; gap: 14px; font-family: var(--display); font-size: 26px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); }
 .status .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--ref); box-shadow: 0 0 0 4px var(--ink); }
 .checking .status .dot { animation: pulse 1.4s ease-in-out infinite; }
 @keyframes pulse { 50% { box-shadow: 0 0 0 10px rgba(19, 33, 43, .15); } }
 .headline { font-size: 22px; line-height: 1.35; color: var(--ink-2); margin: 14px 0 0; }
 .decision {
-  font-family: var(--display); font-weight: 900; font-size: 84px; line-height: .92; margin: 20px 0 0; color: var(--ink);
+  font-family: var(--display); font-weight: 800; font-size: 88px; line-height: .92; margin: 20px 0 0; color: var(--ink); letter-spacing: -.005em;
 }
-.checking .decision { font-size: 54px; line-height: .98; }
+.checking .decision { font-size: 58px; line-height: .98; }
 .badge {
   align-self: flex-start; margin-top: 22px; padding: 8px 14px; font-size: 20px; font-weight: 700;
   background: var(--ink); color: var(--ref);
 }
 .claims { list-style: none; margin: 26px 0 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
-.claims li { font-size: 22px; line-height: 1.36; padding-top: 16px; border-top: 2px solid var(--rule); }
+.claims li { font-size: 23px; line-height: 1.34; padding-top: 16px; border-top: 2px solid var(--rule); font-weight: 500; }
 .claims li:first-child { border-top: 0; padding-top: 0; }
-.claims .src { display: block; font-size: 15px; color: var(--ink-2); margin-top: 4px; }
+.claims .src { display: block; font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); margin-top: 6px; }
 .claims blockquote { margin: 10px 0 0; padding-left: 14px; border-left: 5px solid var(--ref); font-style: italic; font-size: 18px; line-height: 1.35; color: var(--ink-2); }
 .provenance { margin-top: auto; padding-top: 18px; font-size: 16px; color: var(--ink-2); line-height: 1.4; }
 .fresh { animation: arrive .5s ease-out; }
 @keyframes arrive { from { background: rgba(229, 242, 60, .55); } }
 
-/* ---------------------------------------------------------------- stadium board: 1920 x 400 */
+/* ---------------------------------------------------------------- stadium board: 1920 x 400, an LED video board */
 .stadium {
   width: 1920px; height: 400px; background: var(--led-bg); color: var(--led-on); font-family: var(--led);
-  display: grid; grid-template-columns: 500px 1fr; position: relative;
-  background-image: radial-gradient(rgba(255, 255, 255, .06) 1px, transparent 1.4px); background-size: 8px 8px;
+  display: grid; grid-template-columns: 460px 1fr; position: relative; overflow: hidden;
 }
-.stadium .board-score { border-right: 4px solid #1b2320; padding: 48px 40px; display: flex; flex-direction: column; justify-content: center; gap: 18px; font-size: 46px; }
-.stadium .board-score .row { display: flex; justify-content: space-between; gap: 24px; }
-.stadium .board-score .clock { color: var(--ref); }
-.stadium .line { padding: 24px 64px; display: flex; flex-direction: column; justify-content: center; gap: 20px; overflow: hidden; }
-.stadium .kicker { font-size: 52px; color: var(--ref); }
-.stadium .text { font-size: 84px; line-height: 1.08; }
-.stadium.checking .kicker { animation: blink 1s steps(2, start) infinite; }
+.stadium::after { /* the LED pixel pitch, barely there */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(0, 0, 0, .12) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, .12) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+.stadium .board-score { background: #0b1410; padding: 40px 40px; display: flex; flex-direction: column; justify-content: center; gap: 14px;
+  font-weight: 700; font-size: 54px; text-transform: uppercase; letter-spacing: .02em; }
+.stadium .board-score .row { display: grid; grid-template-columns: 12px 1fr auto; align-items: center; gap: 22px; }
+.stadium .board-score .row i { width: 12px; height: 46px; }
+.stadium .board-score .clock { margin-top: 10px; align-self: flex-start; padding: 4px 16px; background: var(--ref); color: var(--ink); font-size: 44px; }
+.stadium .line { padding: 30px 64px; display: flex; flex-direction: column; justify-content: center; gap: 14px; overflow: hidden;
+  background: linear-gradient(90deg, #08120d, #030504 60%); }
+.stadium .kicker { font-size: 40px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ref); display: flex; align-items: center; gap: 16px; }
+.stadium .kicker::before { content: ""; width: 18px; height: 18px; border-radius: 50%; background: var(--ref); }
+.stadium .text { font-size: 88px; font-weight: 700; line-height: 1.02; letter-spacing: -.005em; }
+.stadium.checking .kicker::before { animation: blink 1s steps(2, start) infinite; }
 @keyframes blink { to { visibility: hidden; } }
 
 /* ---------------------------------------------------------------- phone: 390 x 844 */
-.phone-frame { width: 430px; height: 884px; padding: 20px; border-radius: 64px; background: #0c1512; box-shadow: 0 30px 80px rgba(0, 0, 0, .45); }
+.phone-frame { width: 430px; height: 884px; padding: 18px; border-radius: 66px; background: linear-gradient(145deg, #2a2f2d, #0b0d0c 45%, #1c201e);
+  box-shadow: 0 0 0 2px #3a403d, 0 30px 80px rgba(0, 0, 0, .5); position: relative; }
+.phone-frame::before { /* the camera island */
+  content: ""; position: absolute; top: 30px; left: 50%; width: 118px; height: 32px; margin-left: -59px; border-radius: 20px; background: #000; z-index: 2; }
 .phone {
   width: 390px; height: 844px; border-radius: 46px; overflow: hidden; background: var(--paper);
   display: flex; flex-direction: column; position: relative;
@@ -141,43 +161,45 @@ button { font: inherit; cursor: pointer; }
 .phone.bare { border-radius: 0; width: 100vw; height: 100dvh; }
 .phone header { background: var(--grass); color: var(--chalk); padding: 54px 24px 20px; }
 .phone header .match { font-size: 15px; opacity: .85; }
-.phone header h1 { font-family: var(--display); font-weight: 800; font-size: 40px; line-height: 1; margin: 10px 0 0; }
+.phone header h1 { font-family: var(--display); font-weight: 800; font-size: 44px; line-height: 1; margin: 10px 0 0; }
 .phone header .club { margin-top: 12px; font-size: 15px; display: flex; align-items: center; gap: 8px; }
 .phone header .club i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
 .tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 2px solid var(--rule); background: var(--paper); }
 .tabs button { border: 0; background: none; padding: 16px 4px; font-size: 16px; color: var(--ink-2); border-bottom: 4px solid transparent; }
 .tabs button[aria-selected="true"] { color: var(--ink); font-weight: 700; border-bottom-color: var(--ink); }
 .phone .body { padding: 24px; overflow-y: auto; flex: 1; }
-.phone .body .verdict { font-family: var(--display); font-weight: 900; font-size: 52px; line-height: .95; margin: 0 0 18px; }
+.phone .body .verdict { font-family: var(--display); font-weight: 800; font-size: 54px; line-height: .95; margin: 0 0 18px; }
 .phone .body p { font-size: 19px; line-height: 1.45; margin: 0 0 16px; }
 .phone .note { font-size: 15px; color: var(--ink-2); }
 .phone .meter { display: flex; align-items: baseline; gap: 10px; margin: 6px 0 18px; }
-.phone .meter b { font-family: var(--display); font-size: 64px; font-weight: 900; line-height: 1; }
+.phone .meter b { font-family: var(--display); font-size: 68px; font-weight: 800; line-height: 1; }
 .phone .play {
   width: 100%; margin-top: 8px; padding: 18px; border: 0; background: var(--ink); color: var(--paper);
   font-size: 19px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 12px;
 }
-.phone .lang { display: inline-block; padding: 2px 8px; border: 1px solid var(--ink-2); font-size: 13px; margin-left: 6px; }
+.phone .lang { display: inline-block; padding: 3px 10px; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-left: 8px; vertical-align: 1px; }
 
 /* ---------------------------------------------------------------- control bar (not shown when recording) */
 .controls {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
-  padding: 10px 14px; background: rgba(9, 26, 18, .94); color: var(--chalk); font-size: 14px;
-  transform: translateY(calc(100% - 6px)); transition: transform .2s ease;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+  padding: 10px 14px; background: rgba(5, 14, 10, .96); color: var(--chalk); font-size: 14px;
+  border-top: 1px solid rgba(238, 243, 232, .12);
 }
-.controls:hover, .controls:focus-within, .controls.pinned { transform: none; }
-.controls .group { display: flex; gap: 6px; align-items: center; }
+.controls .group { display: flex; gap: 2px; align-items: center; padding: 3px; border-radius: 8px; background: rgba(238, 243, 232, .06); }
 .controls button, .controls a {
-  border: 1px solid rgba(238, 243, 232, .4); background: none; color: var(--chalk); padding: 7px 11px; text-decoration: none; font-size: 14px;
+  border: 0; border-radius: 6px; background: none; color: rgba(238, 243, 232, .82); padding: 8px 12px; text-decoration: none;
+  font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing: .06em; text-transform: uppercase;
 }
-.controls button[aria-pressed="true"] { background: var(--chalk); color: var(--ink); }
+.controls button:hover, .controls a:hover { background: rgba(238, 243, 232, .1); color: #fff; }
+.controls button[aria-pressed="true"] { background: var(--ref); color: var(--ink); }
 .controls .spacer { flex: 1; }
-.controls .live { display: flex; align-items: center; gap: 6px; }
+.controls .live { display: flex; align-items: center; gap: 8px; font-family: var(--display); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(238, 243, 232, .7); }
 .controls .live i { width: 9px; height: 9px; border-radius: 50%; background: #6a7a72; display: inline-block; }
-.controls .live.on i { background: var(--alarm); }
+.controls .live.on i { background: var(--alarm); box-shadow: 0 0 0 4px rgba(229, 53, 43, .25); }
 
 /* ---------------------------------------------------------------- wall: the three screens side by side */
-.wall { position: fixed; inset: 0; display: grid; grid-template-columns: 1fr 430px; grid-template-rows: 1fr 30%; gap: 18px; padding: 18px 18px 30px; }
+.wall { position: fixed; inset: 0; display: grid; grid-template-columns: 1fr 430px; grid-template-rows: 1fr 30%; gap: 18px; padding: 18px; }
+.has-controls .wall { bottom: 62px; }
 .wall iframe { border: 0; width: 100%; height: 100%; background: transparent; }
 .wall .w-tv { grid-column: 1; grid-row: 1; }
 .wall .w-stadium { grid-column: 1; grid-row: 2; }

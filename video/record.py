@@ -19,26 +19,35 @@ import http.server
 import json
 import shutil
 import subprocess
+import sys
 import tempfile
 import threading
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 OUT = ROOT / "video" / "fourth_official_demo.mp4"
 PORT = 8770
 BASE = f"http://localhost:{PORT}"
 
+# Subtitles: the voice-over's own words, small, at the bottom (at the top over the wall, where the
+# stadium board is at the bottom).
 CAPTION_JS = """([text, top]) => {
   let c = document.getElementById('vid-caption');
   if (!c) {
+    const f = new FontFace('Barlow', 'url(/web/fonts/barlow-latin-600-normal.woff2)', { weight: '600' });
+    f.load().then((x) => document.fonts.add(x)).catch(() => {});
     c = document.createElement('div'); c.id = 'vid-caption';
-    c.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);max-width:1500px;z-index:99;' +
-      'background:rgba(19,33,43,.92);color:#eef3e8;font:700 34px/1.3 "Atkinson Hyperlegible",sans-serif;padding:16px 30px;text-align:center';
+    c.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);max-width:1400px;z-index:99;border-radius:6px;' +
+      'background:rgba(6,20,13,.78);color:#fff;font:600 30px/1.3 Barlow,sans-serif;padding:10px 24px;text-align:center';
     document.body.append(c);
   }
-  c.style.top = top ? '24px' : 'auto'; c.style.bottom = top ? 'auto' : '44px';
+  c.style.top = top ? '26px' : 'auto'; c.style.bottom = top ? 'auto' : '40px';
   c.textContent = text; c.style.display = text ? 'block' : 'none';
 }"""
+FADE = 0.4   # crossfade between scenes, seconds
+# Subtitles only over the live screens: the other scenes already show their words on screen.
+SUBTITLED = {"tv", "decision", "wall", "bestview"}
 
 
 async def tab(page, frame_selector, tab_name):
@@ -70,6 +79,37 @@ SCENES = [
 ]
 
 
+def voice_lines() -> list[dict]:
+    index = ROOT / "video" / "voice" / "index.json"
+    if not index.exists():
+        return []
+    from video.voiceover import LINES
+    text = {f"{i:02d}-{scene}.wav": line for i, (scene, _, line, _) in enumerate(LINES)}
+    return [{**v, "text": text.get(v["file"], "")} for v in json.loads(index.read_text(encoding="utf-8"))]
+
+
+def timeline(scene: str, cues: list) -> list:
+    """What happens in a scene, in order. With a voice-over, the subtitles are its words, shown
+    while each line is spoken; without one, the scene's own captions."""
+    lines = voice_lines()
+    if not lines:
+        return sorted(cues, key=lambda c: c[0])
+    events = [(at, None, action) for at, _, action in cues if action is not None]
+    for v in lines:
+        if v["scene"] == scene and v["text"] and scene in SUBTITLED:
+            events += [(v["at"], v["text"], None), (v["at"] + v["seconds"] + 0.25, "", None)]
+    return sorted(events, key=lambda e: e[0])
+
+
+def scene_starts() -> dict:
+    """Where each scene starts in the final video (scenes overlap by FADE)."""
+    start, t = {}, 0.0
+    for name, _, seconds, _ in SCENES:
+        start[name] = t
+        t += seconds - 0.2 - FADE
+    return start
+
+
 def serve():
     handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(ROOT))
     handler.log_message = lambda *a: None
@@ -91,14 +131,14 @@ async def record(tmp: Path) -> list[Path]:
             await page.goto(BASE + url)
             await page.wait_for_timeout(400)  # let fonts and data load; trimmed below
             t = 0.0
-            for at, caption, action in cues:
-                await page.wait_for_timeout(int((at - t) * 1000))
-                t = at
+            for at, caption, action in timeline(name, cues):
+                await page.wait_for_timeout(max(0, int((at - t) * 1000)))
+                t = max(t, at)
                 if caption is not None:
                     await page.evaluate(CAPTION_JS, [caption, name == "wall"])
                 if action is not None:
                     await action(page)
-            await page.wait_for_timeout(int((seconds - t) * 1000))
+            await page.wait_for_timeout(max(0, int((seconds - t) * 1000)))
             await ctx.close()
             clips.append(next((tmp / name).glob("*.webm")))
             print(f"  recorded {name} ({seconds:.0f} s)")
@@ -120,11 +160,19 @@ def assemble(clips: list[Path], tmp: Path):
         subprocess.run([ffmpeg, "-y", "-loglevel", "error", "-ss", "0.6", "-i", str(clip), "-t", str(seconds - 0.2),
                         "-vf", "fps=30,format=yuv420p", "-c:v", "libx264", "-preset", "medium", "-crf", "18", str(part)], check=True)
         parts.append(part)
-    listing = tmp / "parts.txt"
-    listing.write_text("".join(f"file '{p.as_posix()}'\n" for p in parts))
+    # Join the scenes with short crossfades.
     silent = tmp / "silent.mp4"
-    subprocess.run([ffmpeg, "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(listing),
-                    "-c", "copy", "-movflags", "+faststart", str(silent)], check=True)
+    cmd, chain, offset, prev = [ffmpeg, "-y", "-loglevel", "error"], [], 0.0, "0:v"
+    for part in parts:
+        cmd += ["-i", str(part)]
+    for k in range(1, len(parts)):
+        offset += SCENES[k - 1][2] - 0.2 - FADE
+        out = f"v{k}"
+        chain.append(f"[{prev}][{k}:v]xfade=transition=fade:duration={FADE}:offset={offset:.3f}[{out}]")
+        prev = out
+    cmd += ["-filter_complex", ";".join(chain), "-map", f"[{prev}]", "-c:v", "libx264", "-preset", "medium", "-crf", "18",
+            "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(silent)]
+    subprocess.run(cmd, check=True)
     if not add_voice(silent, OUT):
         shutil.copy(silent, OUT)
 
@@ -136,10 +184,8 @@ def add_voice(video: Path, out: Path) -> bool:
         print("  no voice-over (run py video/voiceover.py for one): silent video")
         return False
     lines = json.loads(index.read_text(encoding="utf-8"))
-    start, t = {}, 0.0
-    for name, _, seconds, _ in SCENES:
-        start[name] = t
-        t += seconds - 0.2
+    start = scene_starts()
+    t = sum(s[2] - 0.2 for s in SCENES) - FADE * (len(SCENES) - 1)
     cmd, chains = [ffmpeg_exe(), "-y", "-loglevel", "error", "-i", str(video)], []
     for i, line in enumerate(lines, 1):
         cmd += ["-i", str(index.parent / line["file"])]
@@ -165,7 +211,7 @@ def main():
     finally:
         httpd.shutdown()
         shutil.rmtree(tmp, ignore_errors=True)
-    total = sum(s[2] - 0.2 for s in SCENES)
+    total = sum(s[2] - 0.2 for s in SCENES) - FADE * (len(SCENES) - 1)
     print(f"{OUT.relative_to(ROOT)}: about {total:.0f} s")
 
 

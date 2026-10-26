@@ -69,12 +69,20 @@
   const cleanQuote = (q) => q.replace(/^[\s•]+/, "").replace(/\s+/g, " ");
 
   // ------------------------------------------------------------------ positions
+  // Between the measured 10 Hz positions: a Catmull-Rom curve for people (they speed up and slow
+  // down, they do not turn on a pin), a straight line for the ball (it changes direction only when
+  // it is kicked). Both pass exactly through every measured position.
   function pos(inc, entity, dt) {
     const w = inc.window, track = w.positions[entity];
     if (!track) return null;
-    const f = Math.max(0, Math.min(track.length - 1, (dt - w.dt[0]) * w.hz));
-    const i = Math.floor(f), j = Math.min(track.length - 1, i + 1), a = f - i;
-    return [track[i][0] + (track[j][0] - track[i][0]) * a, track[i][1] + (track[j][1] - track[i][1]) * a];
+    const n = track.length, f = Math.max(0, Math.min(n - 1, (dt - w.dt[0]) * w.hz));
+    const i = Math.floor(f), t = f - i;
+    const P = (k) => track[Math.max(0, Math.min(n - 1, k))];
+    const p1 = P(i), p2 = P(i + 1);
+    if (entity === "BALL") return [p1[0] + (p2[0] - p1[0]) * t, p1[1] + (p2[1] - p1[1]) * t];
+    const p0 = P(i - 1), p3 = P(i + 2);
+    const cr = (a, b, c, d) => 0.5 * (2 * b + (c - a) * t + (2 * a - 5 * b + 4 * c - d) * t * t + (3 * b - a - 3 * c + d) * t * t * t);
+    return [cr(p0[0], p1[0], p2[0], p3[0]), cr(p0[1], p1[1], p2[1], p3[1])];
   }
   const observerId = (inc) => ("AR1" in inc.observers ? "AR1" : "REF");
   function observerPos(inc, dt) {
@@ -266,13 +274,18 @@
     tv.ghost.append(gl);
     s.append(tv.ghost);
 
+    // Trails: where the ball and the players involved were over the last second.
+    tv.trails = svg("g", { "pointer-events": "none" }); s.append(tv.trails);
+
     // Players, officials, ball.
     tv.dots = {};
     const named = new Set([...Object.values(inc.involved), ...(inc.observers[observerId(inc)].blockers || [])]);
     for (const ent of Object.keys(inc.window.positions)) {
       const g = svg("g");
       if (ent === "BALL") {
-        g.append(svg("circle", { r: 0.32, fill: "#fff", stroke: "#13212b", "stroke-width": 0.08 }));
+        g.append(svg("ellipse", { cx: 0.16, cy: 0.26, rx: 0.44, ry: 0.22, fill: "rgba(0,0,0,.38)" }));   // contact shadow
+        g.append(svg("circle", { r: 0.62, fill: "none", stroke: "rgba(255,255,255,.35)", "stroke-width": 0.1 }));   // halo
+        g.append(svg("circle", { r: 0.42, fill: "#fff", stroke: "#13212b", "stroke-width": 0.09 }));
       } else if (ent === "REF") {
         g.append(svg("circle", { r: 0.62, fill: "#e5f23c", stroke: "#13212b", "stroke-width": 0.14 }));
         const t = svg("text", { y: -1.05, "text-anchor": "middle", fill: "#e5f23c", "font-size": 0.85, class: "lbl strong" });
@@ -312,8 +325,9 @@
     // How much the official could see.
     const o = inc.observers[observerId(inc)];
     tv.pct = el("span", { class: "pct" });
+    tv.when = el("div", { class: "when" });
     const who = observerId(inc) === "AR1" ? "assistant referee" : "referee";
-    pitch.append(el("div", { class: "seen" }, tv.pct,
+    pitch.append(el("div", { class: "seen" }, tv.when, tv.pct,
       el("div", { class: "what" }, `of ${inc.focal.what} visible to the ${who}, `, el("b", { text: `${Math.round(o.distance_to_focal_m)} m away` }))));
 
     // Scrubber.
@@ -339,21 +353,50 @@
     return root;
   }
 
-  // Names above players, nudged so they never sit on top of each other.
+  // Names next to players, placed where they cover neither another name nor a player.
   function placeLabels(inc, dt) {
     const placed = [];
-    const items = Object.entries(tv.dots).filter(([, g]) => g.label).map(([ent, g]) => ({ g, p: pos(inc, ent, dt) }))
+    const discs = Object.keys(tv.dots).map((ent) => ({ ent, p: pos(inc, ent, dt) })).filter((d) => d.p);
+    discs.push({ ent: "target", p: [inc.focal.x, inc.focal.y] });
+    const items = Object.entries(tv.dots).filter(([, g]) => g.label).map(([ent, g]) => ({ ent, g, p: pos(inc, ent, dt) }))
       .filter((i) => i.p).sort((a, b) => a.p[1] - b.p[1]);
-    for (const { g, p } of items) {
-      const w = g.label.textContent.length * 0.42 + 0.6;
-      const options = [[0, -1.25], [0, 2.0], [w / 2 + 0.9, 0.3], [-(w / 2 + 0.9), 0.3], [0, -2.3], [0, 3.1]];
-      let chosen = options[0];
+    for (const { ent, g, p } of items) {
+      const w = g.label.textContent.length * 0.42 + 0.5, h = 0.95;
+      const options = [[0, -1.25], [0, 2.0], [w / 2 + 0.9, 0.3], [-(w / 2 + 0.9), 0.3], [0, -2.3], [0, 3.1], [w / 2 + 0.9, -1.0], [-(w / 2 + 0.9), -1.0]];
+      let chosen = options[0], best = Infinity;
       for (const o of options) {
-        const x = p[0] + o[0], y = p[1] + o[1];
-        if (!placed.some((q) => Math.abs(q.x - x) < (q.w + w) / 2 && Math.abs(q.y - y) < 0.95)) { chosen = o; break; }
+        const x = p[0] + o[0], y = p[1] + o[1] - 0.3;   // centre of the text box (y is the baseline)
+        let cost = placed.filter((q) => Math.abs(q.x - x) < (q.w + w) / 2 && Math.abs(q.y - y) < h).length * 3;
+        for (const d of discs) {
+          if (d.ent === ent) continue;
+          if (Math.abs(d.p[0] - x) < w / 2 + 0.55 && Math.abs(d.p[1] - y) < h / 2 + 0.55) cost += 1;
+        }
+        if (cost < best) { best = cost; chosen = o; if (!cost) break; }
       }
-      placed.push({ x: p[0] + chosen[0], y: p[1] + chosen[1], w });
+      placed.push({ x: p[0] + chosen[0], y: p[1] + chosen[1] - 0.3, w });
       g.label.setAttribute("x", chosen[0]); g.label.setAttribute("y", chosen[1]);
+    }
+  }
+
+  function drawTrails(inc, dt) {
+    tv.trails.replaceChildren();
+    const [a] = clipRange(inc);
+    const named = new Set([...Object.values(inc.involved), ...(inc.observers[observerId(inc)].blockers || [])]);
+    const path = (ent, from, to) => {
+      const pts = [];
+      for (let t = Math.max(a, from); t <= to + 1e-6; t += 0.05) { const p = pos(inc, ent, t); if (p) pts.push(`${p[0].toFixed(2)},${p[1].toFixed(2)}`); }
+      return pts.length > 1 ? pts.join(" ") : null;
+    };
+    for (const ent of Object.keys(tv.dots)) {
+      if (ent !== "BALL" && !named.has(ent)) continue;
+      // Older parts fainter: four segments over the last second.
+      for (let k = 0; k < 4; k++) {
+        const pts = path(ent, dt - 1 + k * 0.25, dt - 0.75 + k * 0.25);
+        if (!pts) continue;
+        tv.trails.append(svg("polyline", { points: pts, fill: "none", "stroke-linecap": "round",
+          stroke: ent === "BALL" ? "#ffffff" : "var(--chalk)", "stroke-width": ent === "BALL" ? 0.22 : 0.16,
+          "stroke-opacity": (ent === "BALL" ? 0.12 : 0.07) * (k + 1) }));
+      }
     }
   }
 
@@ -425,9 +468,11 @@
     tv.sightBlocked.setAttribute("opacity", cut === F ? 0 : 1);
 
     placeLabels(inc, dt);
+    drawTrails(inc, dt);
     tv.pct.textContent = pct(share);
     tv.pct.classList.toggle("blind", share != null && share < 0.5);
-    tv.pct.style.opacity = early ? 0.3 : 1;   // before the measured frames: the key-moment figure, dimmed
+    // Before the measured frames, the figure is the one at the key moment: say so.
+    tv.when.textContent = early || Math.abs(dt) < 0.06 ? "At the key moment" : "At this instant";
 
     const decided = state.phase === "decided";
     tv.ghost.setAttribute("opacity", decided && !inc.best_view.already_good && (!state.playing || dt >= 0) ? 1 : 0);
@@ -479,8 +524,8 @@
     root.className = `stadium ${state.phase}`;
     root.replaceChildren(
       el("div", { class: "board-score" },
-        el("div", { class: "row" }, el("span", { text: B.match.teams[home].short }), el("span", { text: inc.score_before[home] })),
-        el("div", { class: "row" }, el("span", { text: B.match.teams[away].short }), el("span", { text: inc.score_before[away] })),
+        el("div", { class: "row" }, el("i", { style: `background:${B.match.teams[home].colour}` }), el("span", { text: B.match.teams[home].short }), el("span", { text: inc.score_before[home] })),
+        el("div", { class: "row" }, el("i", { style: `background:${B.match.teams[away].colour}` }), el("span", { text: B.match.teams[away].short }), el("span", { text: inc.score_before[away] })),
         el("div", { class: "clock", text: inc.clock })),
       el("div", { class: "line" }, el("div", { class: "kicker", text: kicker }), el("div", { class: "text", text })));
     // Long lines shrink until they fit the board, the way an LED board scales its text.
@@ -491,8 +536,9 @@
 
   // ------------------------------------------------------------------ the phone
   const LANGS = { es: "Español", fr: "Français", en: "English", pt: "Português", de: "Deutsch", it: "Italiano", nl: "Nederlands" };
+  const phoneBare = () => !EMBED && window.innerWidth < 500;   // a real phone: no drawn frame
   function mountPhone() {
-    const bare = window.innerWidth < 500;
+    const bare = phoneBare();
     const ph = el("div", { class: `phone${bare ? " bare" : ""}` });
     return bare ? ph : el("div", { class: "phone-frame" }, ph);
   }
@@ -540,7 +586,7 @@
       const text = audio ? audio.claims.map((c) => c.text).join(" ") : (tvc?.claims || []).map((c) => c.text).join(" ");
       body.append(el("p", { text }));
       const file = audio?.audio_file;  // recorded with Azure AI Speech (web/build_audio.py)
-      const btn = el("button", { class: "play", onclick: () => (file ? play(file, text, btn) : speak(text, btn)) }, "▶ Play");
+      const btn = el("button", { class: "play", onclick: () => (file ? playRecording(file, text, btn) : speak(text, btn)) }, "▶ Play");
       body.append(btn);
       if (file) body.append(el("p", { class: "note", text: "Voice: Azure AI Speech, neural voice." }));
       else if (!("speechSynthesis" in window)) body.append(el("p", { class: "note", text: "This browser cannot read text aloud." }));
@@ -548,7 +594,7 @@
     ph.replaceChildren(header, tabs, body);
   }
   let player = null;
-  function play(file, text, btn) {
+  function playRecording(file, text, btn) {  // not "play": that one runs the replay
     if (player && !player.paused) { player.pause(); player.currentTime = 0; btn.textContent = "▶ Play"; return; }
     player = new Audio(file);
     player.onended = () => { btn.textContent = "▶ Play"; };
@@ -591,7 +637,7 @@
       ...["tv", "stadium", "phone", "wall"].filter((s) => s !== SCREEN).map((s) =>
         el("a", { href: `?screen=${s}${LIVE_URL ? `&live=${encodeURIComponent(LIVE_URL)}` : ""}`, target: "_blank", rel: "noopener" },
           { tv: "TV panel", stadium: "Stadium", phone: "Phone", wall: "All screens" }[s])));
-    const live = el("span", { class: `live${liveOn ? " on" : ""}` }, el("i"), LIVE_URL ? (liveOn ? "Live" : "Connecting") : `Replay of ${B.cards_source}`);
+    const live = el("span", { class: `live${liveOn ? " on" : ""}` }, el("i"), LIVE_URL ? (liveOn ? "Live" : "Connecting") : "Match replay");
     bar.append(incs, phases, el("span", { class: "spacer" }), live, links);
     setTimeout(() => bar.classList.remove("pinned"), 5000);
     return bar;
@@ -603,8 +649,9 @@
   function fit() {
     if (!stage) return;
     const [w, h] = SIZES[SCREEN];
-    const bare = SCREEN === "phone" && window.innerWidth < 500;
-    const s = bare ? 1 : Math.min(window.innerWidth / w, window.innerHeight / h);
+    const bare = SCREEN === "phone" && phoneBare();
+    const box = stage.parentElement || document.body;   // the room left by the control bar
+    const s = bare ? 1 : Math.min(box.clientWidth / w, box.clientHeight / h);
     stage.style.width = `${w}px`; stage.style.height = `${h}px`;
     stage.style.transform = bare ? "none" : `translate(-50%, -50%) scale(${s})`;
   }
@@ -616,15 +663,16 @@
       app.append(screenRoot);
     } else {
       screenRoot = SCREEN === "stadium" ? mountStadium() : SCREEN === "phone" ? mountPhone() : mountTV();
-      const bare = SCREEN === "phone" && window.innerWidth < 500;
+      const bare = SCREEN === "phone" && phoneBare();
       if (bare) { stage = null; app.append(screenRoot); }
       else {
         stage = el("div", { class: "stage" }, screenRoot);
         app.append(el("div", { class: "stage-wrap" }, stage));
+        if (!CLEAN && !EMBED) document.body.classList.add("has-controls");
         fit();
       }
     }
-    if (!CLEAN && !EMBED) app.append(controls());
+    if (!CLEAN && !EMBED) { app.append(controls()); document.body.classList.add("has-controls"); }
     update(true);
   }
   function update(force) {
