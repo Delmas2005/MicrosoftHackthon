@@ -3,10 +3,12 @@
     python -m stream.run_live --speed 30                 # whole match, cards printed as they publish
     python -m stream.run_live --from 1:22:50 --until 1:25:00 --speed 5
     python -m stream.run_live --no-wait --out cards.jsonl
+    python -m stream.run_live --agents --no-wait --out examples/cards_agents_match_001.jsonl
 
-Today the narrator is the template narrator (agents/fallback_narrator.py). When the Foundry agents
-are connected, they replace it; the template stays as the fallback if a model call fails or the
-verifier rejects every claim.
+Without --agents, every card comes from the template narrator (agents/fallback_narrator.py):
+instant, free, no model. With --agents, the template card is still published at once
+(revision 1), and the agents on Foundry improve it in the background (revision 2: the Laws Clerk's
+citation, then the Contradicteur's review). Screens show the highest revision of each card.
 """
 from __future__ import annotations
 
@@ -31,13 +33,22 @@ def publish(card: dict, data: MatchData) -> dict | None:
 
 def render(result: dict) -> str:
     c = result["card"]
-    head = f"[{c['issued_at']['period']}H {c['issued_at']['t']:7.1f}s] {c['incident_id']} {c['phase'].upper():8s} {c['audience']:7s}"
+    if c is None:
+        return f"  (an agent job failed, the template card stays on screen: {result.get('error')})"
+    rev = c.get("revision", 1)
+    who = "AGENTS  " if rev > 1 else "TEMPLATE"
+    head = (f"[{c['issued_at']['period']}H {c['issued_at']['t']:7.1f}s] {c['incident_id']} "
+            f"{c['phase'].upper():8s} {c['audience']:7s} rev {rev} {who}")
+    if c.get("framing") == "referees_call":
+        head += "  [REFEREE'S CALL]"
     if not result["published"]:
         return head + "  BLOCKED: " + "; ".join(e["detail"] for e in result["verification"]["errors"])
     lines = [head] + [f"    - {cl['text']}" for cl in c["claims"]]
     rej = result["verification"]["rejected_claims"]
     if rej:
         lines.append(f"    (dropped by verifier: {', '.join(rej)})")
+    for d in result.get("review", {}).get("dropped", []):
+        lines.append(f"    (dropped by Contradicteur: {d['id']}, {d['reason']})")
     return "\n".join(lines)
 
 
@@ -49,25 +60,50 @@ def main():
     ap.add_argument("--until")
     ap.add_argument("--no-wait", action="store_true")
     ap.add_argument("--out", help="also write published cards to this JSONL file")
+    ap.add_argument("--agents", action="store_true", help="improve each card with the Foundry agents")
     args = ap.parse_args()
     data = MatchData(args.match)
     spotter = Spotter()
-    out = open(args.out, "w") if args.out else None
+    out = open(args.out, "w", encoding="utf-8") if args.out else None
+    desk = None
+    if args.agents:
+        from agents.pipeline import AgentDesk
+        desk = AgentDesk(data)
+
+    def show(res):
+        print(render(res), flush=True)
+        if out and res["published"]:
+            out.write(json.dumps(res["card"], ensure_ascii=False) + "\n")
+            out.flush()
+
     feed = paced(live_events(load_events(Path(args.match))), args.speed, parse_at(args.start), parse_at(args.until), not args.no_wait)
     for e in feed:
         for s in spotter.on_event(e):
+            inc, at = s["incident_id"], s["at"]
+            if s["signal"] == "incident_detected":
+                if desk:
+                    desk.start_incident(inc)
+                continue
             if s["signal"] == "var_check_started" and not s.get("review"):
-                cards = [checking_card(data, s["incident_id"], s["at"], s["event_id"])]
+                cards = [checking_card(data, inc, at, s["event_id"])]
+                if desk:
+                    desk.checking(inc, at, s["event_id"])
             elif s["signal"] == "decision_settled":
-                cards = [decided_card(data, s["incident_id"], s["at"], "stadium"),
-                         decided_card(data, s["incident_id"], s["at"], "tv")]
+                cards = [decided_card(data, inc, at, "stadium"), decided_card(data, inc, at, "tv")]
+                if desk:
+                    desk.decided(inc, at, ("tv", "stadium"))
             else:
                 continue
             for card in cards:
-                res = publish(card, data)
-                print(render(res), flush=True)
-                if out and res["published"]:
-                    out.write(json.dumps(res["card"]) + "\n")
+                card["revision"] = 1
+                show(publish(card, data))
+        if desk:
+            for res in desk.ready():
+                show(res)
+    if desk:
+        print("\nEnd of the match: waiting for the agents to finish...", flush=True)
+        for res in desk.drain():
+            show(res)
     if out:
         out.close()
 

@@ -41,7 +41,9 @@ Drop a claim if any of these is true:
    what they could see and the Law they applied; we never overrule them. Advice on where the
    referee could have stood is fine when it is worded as coaching.
 3. On a "checking" card (the officials have not decided yet): it hints at what the decision
-   will be or should be, including a Law sentence that says this incident is or is not an offence.
+   will be or should be, or applies the Law to this incident ("this was careless", "this arm made
+   the body bigger"). A Law sentence that only states the general rule is allowed: it tells
+   viewers what VAR is checking against. Keep it, even if the rule matches the type of incident.
 4. A Law claim whose quote or explanation is about a different situation from this incident
    (for example a rule about offences inside the penalty area for an incident outside it).
 5. It is unkind, sarcastic or partisan.
