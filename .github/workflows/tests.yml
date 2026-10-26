@@ -1,0 +1,24 @@
+# Runs the tests on every push and pull request, on GitHub's free runners for public repos.
+# No Azure and no keys: the models are faked in the tests.
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - run: python -m pytest -q tests
+      - name: The screens' data bundle builds
+        run: python web/build_data.py
