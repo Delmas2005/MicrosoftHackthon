@@ -1,0 +1,73 @@
+{
+ "repeats": 3,
+ "incidents": 5,
+ "cards": [
+  {
+   "step": "Template card, no model (revision 1)",
+   "runs": 15,
+   "median_s": 0.0,
+   "slowest_s": 0.02,
+   "shown": "15/15"
+  },
+  {
+   "step": "TV panel during the VAR check: Laws Clerk, then Contradicteur",
+   "runs": 15,
+   "median_s": 21.78,
+   "slowest_s": 28.89,
+   "shown": "15/15"
+  },
+  {
+   "step": "TV card once decided: Contradicteur",
+   "runs": 15,
+   "median_s": 10.14,
+   "slowest_s": 13.21,
+   "shown": "15/15"
+  },
+  {
+   "step": "Stadium board once decided: Contradicteur",
+   "runs": 15,
+   "median_s": 17.97,
+   "slowest_s": 20.82,
+   "shown": "15/15"
+  },
+  {
+   "step": "Stadium line: Narrator (then verifier and Contradicteur)",
+   "runs": 15,
+   "median_s": 25.26,
+   "slowest_s": 30.22,
+   "shown": "13/15"
+  },
+  {
+   "step": "Fan's \"Why?\" card, in Spanish: Narrator",
+   "runs": 15,
+   "median_s": 34.92,
+   "slowest_s": 44.25,
+   "shown": "14/15"
+  },
+  {
+   "step": "Audio version: Narrator",
+   "runs": 15,
+   "median_s": 44.03,
+   "slowest_s": 53.76,
+   "shown": "12/15"
+  }
+ ],
+ "agents": {
+  "laws_clerk": {
+   "calls": 15,
+   "median_s": 12.3,
+   "slowest_s": 18.74
+  },
+  "contradicteur": {
+   "calls": 45,
+   "median_s": 8.33,
+   "slowest_s": 16.69
+  },
+  "narrator": {
+   "calls": 45,
+   "median_s": 10.03,
+   "slowest_s": 16.08
+  }
+ },
+ "measured": "2026-10-26 17:36"
+}

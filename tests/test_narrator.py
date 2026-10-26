@@ -107,3 +107,10 @@ def test_badge_comes_from_the_tv_card(monkeypatch):
     monkeypatch.setattr(narrator, "client", lambda: model_saying({"claims": [{"text": "No penalty.", "sources": ["verdict"]}]}))
     monkeypatch.setattr(contradicteur, "client", keep_everything)
     assert narrator.narrate(source, DATA, "stadium")["card"]["framing"] == "referees_call"
+
+
+def test_a_negation_before_zero_percent_is_refused():
+    bad = {"claims": [{"text": "El árbitro no pudo ver el 0% del agarre.", "sources": ["vis"]}]}
+    assert any("negation" in p for p in narrator.check_narration(bad, tv_card(), "fan", "es"))
+    ok = {"claims": [{"text": "El árbitro veía el 0% del contacto.", "sources": ["vis"]}]}
+    assert not narrator.check_narration(ok, tv_card(), "fan", "es")

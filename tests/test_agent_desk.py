@@ -38,7 +38,7 @@ def keep_everything_model():
 
 
 def no_narrator(monkeypatch):
-    monkeypatch.setattr(pipeline, "narrate_all", lambda tv, data, language: [])
+    monkeypatch.setattr(pipeline, "NARRATOR_AUDIENCES", ())
 
 
 def run_with_agents():

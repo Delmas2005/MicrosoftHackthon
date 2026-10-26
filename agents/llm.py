@@ -24,12 +24,16 @@ def client() -> OpenAI:
     """The Foundry client, created on first use (so tests can run without a .env file)."""
     global _client
     if _client is None:
+        from agents import telemetry
+        telemetry.setup()   # traces to Application Insights, if configured in .env
         _client = OpenAI(
             base_url=os.environ["AZURE_OPENAI_ENDPOINT"],
             api_key=os.environ["AZURE_OPENAI_API_KEY"],
             timeout=60,       # a live screen cannot wait forever: give up and use the template card
-            max_retries=2,
+            max_retries=4,    # rate limits (429): the SDK waits as Azure asks, then tries again
         )
+        # One trace span per model call (model, tokens), and a timing for stream/latency.py.
+        _client.chat.completions.create = telemetry.traced_create(_client.chat.completions.create)
     return _client
 
 

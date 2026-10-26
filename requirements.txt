@@ -8,5 +8,8 @@ python-dotenv>=1.0
 azure-search-documents>=11.4
 pypdf>=4.0             # laws/build_index.py only
 azure-messaging-webpubsubservice>=1.2   # live cards to the screens (stream/pubsub.py)
+azure-storage-blob>=12.19   # publishes the screens (web/deploy.py)
 # Azure (when deploying):
 # azure-eventhub>=5.11
+azure-monitor-opentelemetry>=1.6   # traces of every agent to Application Insights (agents/telemetry.py)
+azure-ai-evaluation>=1.10          # groundedness evaluation of the cards (evals/groundedness.py)

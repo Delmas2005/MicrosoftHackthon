@@ -78,6 +78,8 @@ def main():
     cards = [json.loads(l) for l in cards_path.read_text(encoding="utf-8").splitlines() if l.strip()]
     for c in cards:
         c.setdefault("revision", 1)
+    from build_audio import attach  # the Azure AI Speech recordings, if web/build_audio.py has made them
+    voiced = attach(cards)
 
     bundle = {"match": {"venue": match["venue"], "teams": teams, "officials": match["officials"],
                         "pitch": match["pitch"], "disclaimer": match["disclaimer"]},
@@ -87,7 +89,7 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(bundle, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"{out.relative_to(ROOT)}: {len(incidents)} incidents, {len(cards)} cards from {bundle['cards_source']}, "
-          f"{out.stat().st_size // 1024} KB")
+          f"{out.stat().st_size // 1024} KB, {voiced} audio cards with a recording")
 
 
 if __name__ == "__main__":

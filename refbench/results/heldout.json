@@ -1,0 +1,64 @@
+{
+ "split": "heldout",
+ "items": 100,
+ "agents_accuracy_ci95": [
+  0.826,
+  0.945
+ ],
+ "on_field_accuracy_ci95": [
+  0.604,
+  0.781
+ ],
+ "on_field_accuracy": 0.7,
+ "agents_accuracy": 0.9,
+ "facts": [
+  [
+   "of clear errors flagged for VAR",
+   "89%"
+  ],
+  [
+   "of VAR calls justified",
+   "64%"
+  ],
+  [
+   "final decisions right, with VAR",
+   "89%"
+  ]
+ ],
+ "agents": {
+  "system": "agents_heldout",
+  "items_scored": 100,
+  "items_total": 500,
+  "decision_accuracy": 0.9,
+  "decision_accuracy_by_family": {
+   "dogso": 1.0,
+   "handball": 0.9,
+   "holding": 0.65,
+   "offside": 1.0,
+   "penalty_contact": 0.95
+  },
+  "var_precision": 0.64,
+  "var_recall": 0.889,
+  "overreach_rate": 0.333,
+  "final_accuracy": 0.89,
+  "visibility_mae": null
+ },
+ "on_field": {
+  "system": "on_field_heldout",
+  "items_scored": 100,
+  "items_total": 500,
+  "decision_accuracy": 0.7,
+  "decision_accuracy_by_family": {
+   "dogso": 0.8,
+   "handball": 0.8,
+   "holding": 0.7,
+   "offside": 0.65,
+   "penalty_contact": 0.55
+  },
+  "var_precision": null,
+  "var_recall": 0.0,
+  "overreach_rate": 0.0,
+  "final_accuracy": 0.82,
+  "visibility_mae": null
+ }
+}

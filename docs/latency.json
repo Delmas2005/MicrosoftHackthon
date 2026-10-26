@@ -1,0 +1,87 @@
+{
+ "repeats": 3,
+ "incidents": 5,
+ "cards": [
+  {
+   "step": "Template card, no model (revision 1)",
+   "runs": 15,
+   "median_s": 0.0,
+   "slowest_s": 0.03,
+   "shown": "15/15"
+  },
+  {
+   "step": "TV panel during the VAR check: Laws Clerk, then Contradicteur",
+   "runs": 15,
+   "median_s": 20.64,
+   "slowest_s": 34.48,
+   "shown": "15/15"
+  },
+  {
+   "step": "TV card once decided: Contradicteur",
+   "runs": 15,
+   "median_s": 10.55,
+   "slowest_s": 13.03,
+   "shown": "15/15"
+  },
+  {
+   "step": "Stadium board once decided: Contradicteur",
+   "runs": 15,
+   "median_s": 10.56,
+   "slowest_s": 13.03,
+   "shown": "15/15"
+  },
+  {
+   "step": "Stadium line: Narrator (then verifier and Contradicteur)",
+   "runs": 15,
+   "median_s": 17.1,
+   "slowest_s": 23.76,
+   "shown": "12/15"
+  },
+  {
+   "step": "Fan's \"Why?\" card, in Spanish: Narrator",
+   "runs": 15,
+   "median_s": 22.48,
+   "slowest_s": 25.66,
+   "shown": "10/15"
+  },
+  {
+   "step": "Audio version: Narrator",
+   "runs": 15,
+   "median_s": 19.39,
+   "slowest_s": 27.26,
+   "shown": "11/15"
+  }
+ ],
+ "agents": {
+  "laws_clerk": {
+   "calls": 15,
+   "median_s": 13.15,
+   "slowest_s": 25.68
+  },
+  "contradicteur": {
+   "calls": 45,
+   "median_s": 8.65,
+   "slowest_s": 13.02
+  },
+  "narrator": {
+   "calls": 45,
+   "median_s": 8.63,
+   "slowest_s": 15.28
+  }
+ },
+ "not_shown": {
+  "fan: Narrator, fan card not shown: [\"removed by the verifier or the Contradicteur: [] ['n2: Adds \u201ceven accidentally\u201d, which the quoted Law text does not st": 1,
+  "audio: Narrator, audio card not shown: [\"removed by the verifier or the Contradicteur: [] ['n1: The claim adds \u2018even if the touch is accidental\u2019 which is not": 1,
+  "stadium: Narrator, stadium card not shown: ['17 words, 16 at most']": 1,
+  "stadium: Narrator, stadium card not shown: ['23 words, 16 at most']": 1,
+  "fan: Narrator, fan card not shown: ['62 words, 60 at most']": 1,
+  "fan: Narrator, fan card not shown: ['67 words, 60 at most']": 1,
+  "fan: Narrator, fan card not shown: [\"removed by the verifier or the Contradicteur: [] ['n2: Overstates the quote \u2014 Law 12 phrase includes exceptions (\u2018unle": 1,
+  "audio: Narrator, audio card not shown: ['78 words, 70 at most']": 1,
+  "stadium: Narrator, stadium card not shown: [\"removed by the verifier or the Contradicteur: [] ['n1: The card asserts the challenge was \u2018not careless, reckless,": 1,
+  "fan: Narrator, fan card not shown: ['removed by the verifier or the Contradicteur: [] [\"n2: Dice m\u00e1s que la evidencia: incluye \\'deliberadamente\\' que no a": 1,
+  "audio: Narrator, audio card not shown: [\"sentence 1 has missing or unknown sources ['verdict', 'law', 'body', 'vis', 'referees_call']\"]": 1,
+  "audio: Narrator, audio card not shown: ['71 words, 70 at most']": 1
+ },
+ "measured": "2026-10-26 18:13"
+}

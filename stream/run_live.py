@@ -44,6 +44,8 @@ def render(result: dict) -> str:
             f"{c['phase'].upper():8s} {c['audience']:7s} rev {rev} {who}")
     if c.get("framing") == "referees_call":
         head += "  [REFEREE'S CALL]"
+    if "latency_s" in result:
+        head += f"  (+{result['latency_s']:.1f} s)"
     if not result["published"]:
         return head + "  BLOCKED: " + "; ".join(e["detail"] for e in result["verification"]["errors"])
     lines = [head] + [f"    - {cl['text']}" for cl in c["claims"]]
@@ -121,6 +123,9 @@ def main():
         out.close()
     if publisher:
         print(f"Web PubSub: {publisher.sent} cards sent, {publisher.failed} failed.")
+    if desk:
+        from agents import telemetry
+        telemetry.flush()
 
 
 if __name__ == "__main__":

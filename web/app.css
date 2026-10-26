@@ -126,7 +126,7 @@ button { font: inherit; cursor: pointer; }
 .stadium .board-score { border-right: 4px solid #1b2320; padding: 48px 40px; display: flex; flex-direction: column; justify-content: center; gap: 18px; font-size: 46px; }
 .stadium .board-score .row { display: flex; justify-content: space-between; gap: 24px; }
 .stadium .board-score .clock { color: var(--ref); }
-.stadium .line { padding: 0 64px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+.stadium .line { padding: 24px 64px; display: flex; flex-direction: column; justify-content: center; gap: 20px; overflow: hidden; }
 .stadium .kicker { font-size: 52px; color: var(--ref); }
 .stadium .text { font-size: 84px; line-height: 1.08; }
 .stadium.checking .kicker { animation: blink 1s steps(2, start) infinite; }

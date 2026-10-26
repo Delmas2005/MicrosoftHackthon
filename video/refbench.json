@@ -1,0 +1,17 @@
+{
+ "items": 100,
+ "lead": "100 incidents the agents had never seen (penalties, offside, handball, red cards, holding), with answers from explicit rules. The agents never see the answers.",
+ "on_field_accuracy": 0.7,
+ "agents_accuracy": 0.9,
+ "facts": [
+  [
+   "of the clear errors flagged for VAR",
+   "89%"
+  ],
+  [
+   "of its VAR calls justified",
+   "64%"
+  ]
+ ],
+ "verdict": "Better than the call on the field on incidents it had never seen, but too quick to call VAR. That is why Fourth Official explains decisions and never makes them."
+}

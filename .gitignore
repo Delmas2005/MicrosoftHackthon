@@ -4,3 +4,6 @@ __pycache__/
 .venv/
 venv/
 laws/*.pdf
+video/*.mp4
+.pytest_cache/
+video/voice/

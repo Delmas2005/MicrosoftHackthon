@@ -483,6 +483,10 @@
         el("div", { class: "row" }, el("span", { text: B.match.teams[away].short }), el("span", { text: inc.score_before[away] })),
         el("div", { class: "clock", text: inc.clock })),
       el("div", { class: "line" }, el("div", { class: "kicker", text: kicker }), el("div", { class: "text", text })));
+    // Long lines shrink until they fit the board, the way an LED board scales its text.
+    const kick = root.querySelector(".kicker"), t = root.querySelector(".text");
+    const room = root.clientHeight - 48 - 20 - kick.offsetHeight;   // padding, gap, kicker
+    for (let size = 84; size > 36 && t.offsetHeight > room; size -= 6) t.style.fontSize = `${size - 6}px`;
   }
 
   // ------------------------------------------------------------------ the phone
@@ -535,11 +539,20 @@
     } else {
       const text = audio ? audio.claims.map((c) => c.text).join(" ") : (tvc?.claims || []).map((c) => c.text).join(" ");
       body.append(el("p", { text }));
-      const btn = el("button", { class: "play", onclick: () => speak(text, btn) }, "▶ Play");
+      const file = audio?.audio_file;  // recorded with Azure AI Speech (web/build_audio.py)
+      const btn = el("button", { class: "play", onclick: () => (file ? play(file, text, btn) : speak(text, btn)) }, "▶ Play");
       body.append(btn);
-      if (!("speechSynthesis" in window)) body.append(el("p", { class: "note", text: "This browser cannot read text aloud." }));
+      if (file) body.append(el("p", { class: "note", text: "Voice: Azure AI Speech, neural voice." }));
+      else if (!("speechSynthesis" in window)) body.append(el("p", { class: "note", text: "This browser cannot read text aloud." }));
     }
     ph.replaceChildren(header, tabs, body);
+  }
+  let player = null;
+  function play(file, text, btn) {
+    if (player && !player.paused) { player.pause(); player.currentTime = 0; btn.textContent = "▶ Play"; return; }
+    player = new Audio(file);
+    player.onended = () => { btn.textContent = "▶ Play"; };
+    player.play().then(() => { btn.textContent = "■ Stop"; }).catch(() => speak(text, btn));  // no file: browser voice
   }
   function speak(text, btn) {
     if (!("speechSynthesis" in window)) return;

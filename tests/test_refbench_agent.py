@@ -72,3 +72,17 @@ def test_subset_is_balanced():
     sub = agent.pick(ITEMS, 20)
     assert len(sub) == 100
     assert {f: sum(i["family"] == f for i in sub) for f in agent.DECISIONS} == {f: 20 for f in agent.DECISIONS}
+
+
+def test_facts_are_written_out_in_words():
+    behind = next(i for i in ITEMS if i["family"] == "offside" and i["facts"]["margin_m"] < 0)
+    words = " ".join(agent.facts_in_words(behind))
+    assert "behind the second-last defender" in words and "margin_m" not in words
+    for it in ITEMS:   # every kind of incident has a written description
+        assert all(isinstance(x, str) and x for x in agent.facts_in_words(it))
+
+
+def test_a_borderline_call_is_left_to_the_referee(monkeypatch):
+    item = next(i for i in ITEMS if i["family"] == "holding" and i["on_field_decision"] == "no_penalty")
+    setup(monkeypatch, {"decision": "penalty", "should_var_intervene": True, "borderline": True})
+    assert agent.judge(item)["should_var_intervene"] is False

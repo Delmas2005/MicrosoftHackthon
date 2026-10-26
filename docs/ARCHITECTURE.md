@@ -3,8 +3,8 @@
 One engine, three screens. Agents reason; tools measure; a verifier decides what reaches a screen.
 
 ```
- match feed ──► Event Hubs ──► Spotter ──► Analyst ──► Contradicteur ──► Narrator ──► Web PubSub ──► TV panel
- (replay)       (live)         (when)      (what)      (is it true?)     (for whom)   (push)          stadium line
+ match feed ──► Spotter ──► template card ──► Laws Clerk ──► Contradicteur ──► Narrator ──► Web PubSub ──► TV panel
+ (replay)       (when)      (revision 1)      (which Law)    (is it true?)     (for whom)   (push)          stadium line
                                              │   ▲          │                                         phone "Why?"
                                              ▼   │          ▼
                                        MCP tool server   verify_card (deterministic)
@@ -19,15 +19,15 @@ One engine, three screens. Agents reason; tools measure; a verifier decides what
 |---|---|---|
 | Ingest | `stream/replay.py`: replays the match at any speed to stdout or Azure Event Hubs. VAR outcomes are hidden until each check ends. | Built |
 | Interpret | `stream/spotter.py`: raises `incident_detected`, `var_check_started`, `decision_settled` from the feed alone. | Built |
-| Explain | `tools/referee_eye.py` (geometry), `agents/card.py` (verifier), agents on Foundry. | Tools and verifier built; LLM agents next |
-| Render | Decision cards (JSON) pushed to three screens. `stream/run_live.py` prints them today. | Cards built; screens next |
-| Personalize | Narrator agent: audience (`tv`, `stadium`, `fan`, `analyst`, `audio`), club, language. | Next |
+| Explain | `tools/referee_eye.py` (geometry), `agents/card.py` (verifier), Laws Clerk and Contradicteur on Foundry (`agents/pipeline.py`). | Built |
+| Render | Cards pushed to three screens through Azure Web PubSub (`stream/pubsub.py`); screens in `web/`, on an Azure Storage static website. | Built |
+| Personalize | Narrator agent: stadium line, the fan's card (club, language), audio. | Built |
 
-## Agents (Microsoft Agent Framework, models on Microsoft Foundry)
+## Agents (models on Microsoft Foundry, called through the Azure OpenAI endpoint)
 
 | Agent | Job | Tools it calls | Why it needs a model |
 |---|---|---|---|
-| Analyst | Picks the right measurements for the incident type and drafts claims, each tied to evidence | `get_incident`, `referee_eye`, `best_view`, `attack_value`, `get_events` | Every incident type needs a different line of enquiry |
+| Analyst (not an AI agent yet) | Picks the measurements for the incident type and drafts claims tied to evidence: today the template narrator does this without a model | `referee_eye`, `best_view`, `attack_value` | Left for later: the template already gets the measurements right |
 | Laws Clerk | Finds and cites the clause of the Laws of the Game that applies | Laws index (Azure AI Search over the IFAB PDF) | Reading and applying legal text |
 | Contradicteur | Attacks every claim: does the evidence say this? Drops what fails, forces "referee's call" when in doubt | `verify_card`, `referee_eye` | Judging whether a sentence says what the numbers say |
 | Narrator | Rewrites the verified claims for each screen, audience, club and language | none (works only from verified claims) | Tone, length, language, empathy |
@@ -72,24 +72,31 @@ python -m refbench.baselines        # on-field baseline and the consistency orac
 python -m refbench.evaluate refbench/predictions/<system>.jsonl
 ```
 
-| System | Decision accuracy | VAR recall | Overreach | Final accuracy |
-|---|---|---|---|---|
-| Trust the on-field call | 0.738 | 0.00 | 0.00 | 0.826 |
-| Rules oracle (consistency check, not a competitor) | 1.000 | 1.00 | 0.00 | 1.000 |
-| Fourth Official agents | to be measured | | | |
+On all 500 incidents: trusting the on-field call gets 73.8% of decisions right; the rules oracle
+(a consistency check, not a competitor) gets 100%. The agents, on 100 incidents (20 per kind):
+
+| System (same 100 incidents) | Decision accuracy | VAR recall | VAR precision | Overreach | Final accuracy |
+|---|---|---|---|---|---|
+| Trust the on-field call | 0.82 | 0.00 | n/a | 0.00 | 0.89 |
+| Fourth Official agents (gpt-5-mini) | 0.82 | 1.00 | 0.38 | 0.57 | 0.82 |
 
 What RefBench tests: applying the Laws to stated facts, knowing when VAR should and should not step
 in, and measuring what the referee could see. What it does not test: perception from video.
 
-## Azure deployment (target)
+## Azure deployment
 
-| Piece | Service |
-|---|---|
-| Agents and models | Microsoft Foundry (Agent Framework, Azure OpenAI in Foundry Models) |
-| Evaluations | Foundry evaluations on RefBench (accuracy) and on cards (groundedness) |
-| Laws of the Game | Azure AI Search index over the IFAB PDF |
-| Live feed | Azure Event Hubs (`stream/replay.py --sink eventhub`) |
-| Push to screens | Azure Web PubSub |
-| Tools | `mcp_server/server.py` on Azure Container Apps (`--http`) |
-| Front ends | Static web app (TV panel, stadium line, phone view) |
-| Voice | Azure AI Speech, prebuilt voices only |
+| Piece | Service | Status |
+|---|---|---|
+| Agents and models | Microsoft Foundry: gpt-5-mini, gpt-4.1-mini, through the Azure OpenAI endpoint | Live |
+| Laws of the Game | Azure AI Search index over the IFAB PDF | Live |
+| Push to screens | Azure Web PubSub (`stream/pubsub.py`) | Live |
+| Front ends | Azure Storage static website, France Central (`web/deploy.py`): Static Web Apps regions were not open to our subscription | Live |
+| Live feed | Azure Event Hubs (`stream/replay.py --sink eventhub`) | Supported in code, not deployed (no free tier) |
+| Tools | `mcp_server/server.py` (stdio or `--http`) | Runs locally |
+| Evaluations | RefBench scored locally (`refbench/evaluate.py`), tuning and held-out sets; groundedness of every card with the Azure AI Evaluation SDK (`evals/groundedness.py`) | Done |
+| Voice | Azure AI Speech (F0), prebuilt neural voices: audio cards made once as MP3 (`web/build_audio.py`), the browser's voice if a recording is missing | Live |
+| Traces | OpenTelemetry to Application Insights, shown in the Foundry project's Tracing (`agents/telemetry.py`) | Live |
+| Latency | Measured against the real models (`stream/latency.py`, `docs/latency.json`) | Done |
+| Tests | GitHub Actions on every push (`.github/workflows/tests.yml`) | Live |
+
+Everything runs on an Azure for Students subscription, on free tiers wherever one exists.

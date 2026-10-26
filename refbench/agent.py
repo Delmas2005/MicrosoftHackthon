@@ -17,12 +17,27 @@ Run (from the repo root):
     py -m refbench.evaluate refbench/predictions/agents.jsonl refbench/predictions/on_field.jsonl
 
 Interrupted? Run the same command again: incidents already answered are kept and skipped.
+Start again from zero: add --fresh.
+
+Held-out check (incidents never used while we wrote the prompt):
+    py -m refbench.agent --per-family 20 --split heldout
+The prompt was tuned on the first 20 incidents of each kind ("tuning"). "heldout" takes the next 20
+of each kind, which we never looked at; it is the honest score.
+
+What we learnt from the first run (60.5% of decisions right, against 82.6% for the on-field call):
+the facts were handed over as raw fields ("margin_m": -0.57), and the agent read a negative margin
+as offside; and it applied "holds an opponent" or "contact" literally, as if any contact were a foul.
+A VAR room does not work from raw fields or from the bare text of the Laws: it sees the picture and
+applies refereeing guidance. So the facts are now written out in words (facts_in_words), and the
+agent gets one page of refereeing guidance (GUIDANCE) on top of the Laws. The answer key's exact
+thresholds (how late, how long, how far) are not in that guidance.
 """
 from __future__ import annotations
 
 import argparse
 import json
 import threading
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -56,10 +71,26 @@ LAW_QUERIES = {  # what to look up in the Laws for each kind of incident
 }
 VAR_QUERY = ("clear and obvious error serious missed incident review", None)
 
+# Refereeing guidance: how the Laws are applied in practice, in the words a referee is taught.
+GUIDANCE = """Refereeing guidance (how the Laws are applied in practice):
+- Contact on its own is not a foul. A challenge is a foul when it is careless, reckless or uses
+  excessive force. A defender who clearly plays the ball first has not committed a foul unless the
+  follow-through that comes after the ball is reckless or uses excessive force.
+- Holding is penalised when it stops an opponent moving freely. When both players are holding each
+  other, or the hold does not impede the opponent, play usually goes on.
+- Handball: a natural position or movement of the arm for that action is not an offence; an arm
+  that makes the body unnaturally bigger is. A ball that deflects off the player's own body onto
+  the arm is usually not an offence unless the arm made the body unnaturally bigger deliberately.
+- Offside position is factual: only the measurement at the moment of the pass decides it. A player
+  level with or behind the second-last opponent is not in an offside position.
+- Denying an obvious goal-scoring opportunity needs all of: a short distance to goal, the general
+  direction of play towards goal, a likely chance of keeping or gaining control of the ball, and no
+  defender able to cover. Without one of them, it is stopping a promising attack: a yellow card."""
+
 SYSTEM_PROMPT = """You are the VAR assistant of the Fourth Official system. For one refereeing
 incident you get: the facts established on review, the decision the referee made live on the field,
-measurements of what the referee could see, and the relevant pages of the IFAB Laws of the Game
-2025/26 and the VAR protocol.
+measurements of what the referee could see, refereeing guidance, and the relevant pages of the IFAB
+Laws of the Game 2025/26 and the VAR protocol.
 
 1. Decide the correct decision under the Laws, from the facts. Apply the Laws as written; when a
    fact sits close to a line (a light contact, a short hold), say it is borderline.
@@ -95,6 +126,55 @@ def law_pages(family: str) -> str:
         return _law_cache[family]
 
 
+def facts_in_words(item: dict) -> list[str]:
+    """The facts established on review, written out the way a VAR room would see them."""
+    f, fam = item["facts"], item["family"]
+    if fam == "penalty_contact":
+        out = [f"The defender played the ball first; the contact came {f['contact_after_ball_s']:.2f} s after the ball."
+               if f["ball_played_first"] else "The defender did not play the ball."]
+        out.append(f"Force of the contact: {f['contact_force']}. Contact on the attacker's {f['contact_point'].replace('_', ' ')}.")
+        return out
+    if fam == "offside":
+        cm = round(abs(f["margin_m"]) * 100)
+        out = [f"At the moment of the pass, the attacker was {cm} cm beyond the second-last defender, nearer to the goal line."
+               if f["margin_m"] > 0 else
+               f"At the moment of the pass, the attacker was {cm} cm behind the second-last defender (not nearer to the goal line)."
+               if f["margin_m"] < 0 else "At the moment of the pass, the attacker was exactly level with the second-last defender."]
+        out.append("The attacker then played the ball." if f["attacker_involved"]
+                   else "The attacker did not play the ball, interfere with an opponent or gain an advantage.")
+        out.append(f"Measured by the {f.get('measured_by', 'offside line')}.")
+        return out
+    if fam == "handball":
+        arm = {"by_side": "by his side", "natural_movement": "in a natural movement for the action",
+               "extended_away": "extended away from his body", "raised_above_shoulder": "raised above his shoulder"}
+        out = [f"The defender's arm was {arm.get(f['arm_position'], f['arm_position'].replace('_', ' '))}."]
+        out.append("The ball came off the defender's own body onto the arm." if f["deflected_off_own_body"]
+                   else "The ball came straight onto the arm, not off his own body.")
+        out.append("He moved the arm towards the ball deliberately." if f["deliberate"] else "He did not move the arm towards the ball.")
+        out.append(f"The ball travelled {f['distance_from_kick_m']:.1f} m from the kick to the arm.")
+        return out
+    if fam == "dogso":
+        control = {"controlled": "had the ball under control", "likely": "was likely to keep control of the ball",
+                   "unlikely": "was unlikely to keep control of the ball"}
+        out = [f"The foul was {f['distance_to_goal_m']:.0f} m from goal, {f['angle_to_goal_deg']:.0f} degrees off the centre line, "
+               f"{'inside' if f['in_penalty_area'] else 'outside'} the penalty area.",
+               f"The attacker {control.get(f['ball_control'], f['ball_control'])}."]
+        if f["covering_defender_can_reach"]:
+            out.append(f"A covering defender could get there in time ({abs(f['cover_margin_s']):.1f} s to spare).")
+        elif f.get("cover_margin_s", -9) <= -9:
+            out.append("No defender was in a position to cover.")
+        else:
+            out.append(f"The nearest covering defender was {abs(f['cover_margin_s']):.1f} s too late to get there.")
+        out.append("The offender was attempting to play the ball." if f["attempt_to_play_ball"]
+                   else "The offender made no attempt to play the ball.")
+        return out
+    if fam == "holding":
+        return [f"Holding for {f['duration_s']:.1f} s at a {f['set_piece'].replace('_', ' ')}.",
+                "Both players were holding each other." if f["mutual"] else "Only the defender was holding.",
+                "The hold stopped the attacker moving freely." if f["attacker_impeded"] else "The hold did not stop the attacker moving freely."]
+    return [json.dumps(f)]
+
+
 def describe(item: dict) -> str:
     eye = analyze_item(item)
     ref = eye["observers"]["REF"]
@@ -106,7 +186,7 @@ def describe(item: dict) -> str:
     return json.dumps({
         "incident": FAMILY_TEXT[item["family"]],
         "what_the_officials_needed_to_see": item["focal"]["what"],
-        "facts_established_on_review": item["facts"],
+        "facts_established_on_review": facts_in_words(item),
         "decision_on_the_field": item["on_field_decision"],
         "allowed_decisions": DECISIONS[item["family"]],
         "referees_eye": measures,
@@ -118,11 +198,11 @@ def describe(item: dict) -> str:
 def judge(item: dict) -> dict:
     """One incident: the agent's prediction in RefBench format."""
     messages = [{"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": describe(item) + "\n\nLaws of the Game:\n" + law_pages(item["family"])}]
+                {"role": "user", "content": describe(item) + "\n\n" + GUIDANCE + "\n\nLaws of the Game:\n" + law_pages(item["family"])}]
     allowed = DECISIONS[item["family"]]
     answer: dict = {}
     for attempt in range(2):
-        reply = client().chat.completions.create(model=MODEL_STRONG, messages=messages, max_completion_tokens=6000)
+        reply = _ask(messages)
         content = reply.choices[0].message.content
         try:
             answer = parse_json(content)
@@ -133,7 +213,8 @@ def judge(item: dict) -> dict:
         messages += [{"role": "assistant", "content": content or ""},
                      {"role": "user", "content": f"'decision' must be one of {allowed}. Answer with the JSON object again."}]
     decision = answer.get("decision") if answer.get("decision") in allowed else item["on_field_decision"]
-    intervene = bool(answer.get("should_var_intervene")) and decision != item["on_field_decision"]
+    # The VAR protocol, in code: a borderline judgement is the referee's call, VAR stays out of it.
+    intervene = bool(answer.get("should_var_intervene")) and decision != item["on_field_decision"] and not answer.get("borderline")
     if item["family"] == "offside":  # factual: a different answer from the measured line is always a VAR matter
         intervene = decision != item["on_field_decision"]
     return {"item_id": item["item_id"], "decision": decision, "should_var_intervene": intervene,
@@ -141,27 +222,63 @@ def judge(item: dict) -> dict:
             "answered": answer.get("decision") in allowed}
 
 
-def pick(items: list[dict], per_family: int) -> list[dict]:
-    """The first `per_family` incidents of each kind: the same subset every run."""
+def _ask(messages: list):
+    """One model call, waiting and retrying when the deployment's tokens-per-minute limit is hit."""
+    from openai import RateLimitError
+
+    for wait in (0, 15, 30, 60, 60, 60):
+        time.sleep(wait)
+        try:
+            return client().chat.completions.create(model=MODEL_STRONG, messages=messages, max_completion_tokens=6000)
+        except RateLimitError:
+            continue
+    return client().chat.completions.create(model=MODEL_STRONG, messages=messages, max_completion_tokens=6000)
+
+
+SPLITS = ("tuning", "heldout")
+
+
+def pick(items: list[dict], per_family: int, split: str = "tuning") -> list[dict]:
+    """`tuning`: the first `per_family` incidents of each kind (the ones the prompt was written on).
+    `heldout`: the next `per_family` of each kind, never seen while tuning. Same subset every run."""
+    skip = 0 if split == "tuning" else per_family
     out, count = [], {}
     for it in items:
-        if count.get(it["family"], 0) < per_family:
+        k = count.get(it["family"], 0)
+        if skip <= k < skip + per_family:
             out.append(it)
-            count[it["family"]] = count.get(it["family"], 0) + 1
+        count[it["family"]] = k + 1
     return out
+
+
+def wilson(p: float | None, n: int, z: float = 1.96) -> list[float] | None:
+    """95% confidence interval for a proportion (Wilson score)."""
+    if p is None or not n:
+        return None
+    d = 1 + z * z / n
+    c = (p + z * z / (2 * n)) / d
+    h = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5) / d
+    return [round(c - h, 3), round(c + h, 3)]
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--per-family", type=int, default=20, help="incidents per kind (5 kinds); 100 = all 500")
-    ap.add_argument("--workers", type=int, default=4)
-    ap.add_argument("--out", default=str(OUT))
+    ap.add_argument("--workers", type=int, default=2)
+    ap.add_argument("--fresh", action="store_true", help="forget earlier answers and start again")
+    ap.add_argument("--split", choices=SPLITS, default="tuning",
+                    help="tuning = the incidents the prompt was written on; heldout = never seen")
+    ap.add_argument("--out", default=None)
     args = ap.parse_args()
+    if args.out is None:
+        args.out = str(OUT if args.split == "tuning" else OUT.with_name("agents_heldout.jsonl"))
 
     items = [json.loads(l) for l in (DATA / "items.jsonl").read_text().splitlines()]
-    todo = pick(items, args.per_family)
+    todo = pick(items, args.per_family, args.split)
     out = Path(args.out)
     done = {}
+    if args.fresh and out.exists():
+        out.unlink()
     if out.exists():
         done = {r["item_id"]: r for r in (json.loads(l) for l in out.read_text().splitlines() if l.strip())}
     todo = [it for it in todo if it["item_id"] not in done]
@@ -185,7 +302,7 @@ def main():
 
     # Score on exactly the incidents the agents answered, next to the on-field call on the same ones.
     answered = {json.loads(l)["item_id"] for l in out.read_text().splitlines() if l.strip()}
-    on_field = out.parent / "on_field_same_items.jsonl"
+    on_field = out.parent / ("on_field_same_items.jsonl" if args.split == "tuning" else "on_field_heldout.jsonl")
     on_field.write_text("".join(json.dumps({"item_id": it["item_id"], "decision": it["on_field_decision"],
                                             "should_var_intervene": False}) + "\n"
                                 for it in items if it["item_id"] in answered))
@@ -201,8 +318,12 @@ def main():
     # The figures for the README and the video (video/scenes.html reads this file).
     ag, of = scores[out], scores[on_field]
     pct = lambda v: "n/a" if v is None else f"{round(v * 100)}%"
+    n = ag["items_scored"]
     summary = {
-        "items": ag["items_scored"],
+        "split": args.split,
+        "items": n,
+        "agents_accuracy_ci95": wilson(ag["decision_accuracy"], n),
+        "on_field_accuracy_ci95": wilson(of["decision_accuracy"], n),
         "on_field_accuracy": of["decision_accuracy"],
         "agents_accuracy": ag["decision_accuracy"],
         "facts": [["of clear errors flagged for VAR", pct(ag["var_recall"])],
@@ -210,10 +331,13 @@ def main():
                   ["final decisions right, with VAR", pct(ag["final_accuracy"])]],
         "agents": ag, "on_field": of,
     }
-    video = Path(__file__).resolve().parents[1] / "video" / "refbench.json"
-    video.parent.mkdir(exist_ok=True)
-    video.write_text(json.dumps(summary, indent=1))
-    print(f"\nSummary written to {video.relative_to(video.parents[1])}")
+    root = Path(__file__).resolve().parents[1]
+    results = root / "refbench" / "results" / f"{args.split}.json"
+    results.parent.mkdir(exist_ok=True)
+    results.write_text(json.dumps(summary, indent=1))
+    print(f"\nagents {pct(ag['decision_accuracy'])} (95% CI {summary['agents_accuracy_ci95']}), "
+          f"on-field call {pct(of['decision_accuracy'])} (95% CI {summary['on_field_accuracy_ci95']})")
+    print(f"Summary written to {results.relative_to(root)}")
 
 
 if __name__ == "__main__":

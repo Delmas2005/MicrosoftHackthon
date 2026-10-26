@@ -23,10 +23,12 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import time
 
 from agents.card import MatchData
 from agents.contradicteur import review_card
 from agents.llm import MODEL_FAST, client, parse_json
+from agents.telemetry import span
 
 AUDIENCES = {
     "stadium": {
@@ -71,6 +73,8 @@ NUMBER_WORDS = {
 AMBIGUOUS = {"fr": {"un", "neuf"}, "es": {"uno"}, "pt": {"um"}, "nl": {"een"}, "it": {"uno"}}
 
 KIND_PRIORITY = ["verdict", "fact", "law", "context"]
+NEGATED_ZERO = re.compile(r"\b(no|not|n't|never|ne|nunca|não|nicht|non|niet)\b[^.;:]{0,40}?\b0\s?(%|per cent|por ciento|pour cent)",
+                          re.IGNORECASE)
 
 SYSTEM_PROMPT = """You are the Narrator of a football broadcast. You rewrite a verified decision card
 for one screen. You get the card's claims (each with an id) and a brief for the screen.
@@ -135,6 +139,9 @@ def check_narration(answer: dict, source: dict, audience: str, language: str) ->
         spelled = _number_words(text, language)
         if spelled:
             problems.append(f"sentence {i} writes numbers in words {spelled}: use digits")
+        # "could not see 0%" says the opposite of "could see 0%": no negation in front of a 0%.
+        if NEGATED_ZERO.search(text):
+            problems.append(f"sentence {i} puts a negation before 0%, which reverses its meaning: write 'could see 0%'")
         total_words += len(text.split())
     if total_words > spec["max_words"]:
         problems.append(f"{total_words} words, {spec['max_words']} at most")
@@ -220,16 +227,22 @@ def narrate(source: dict, data: MatchData, audience: str, language: str = "en", 
     return result
 
 
-def narrate_all(source: dict, data: MatchData, language: str = "es") -> list[dict]:
-    """Stadium, fan and audio versions of one decided TV card. Never raises."""
-    out = []
-    for audience in AUDIENCES:
+def narrate_safe(source: dict, data: MatchData, audience: str, language: str = "es") -> dict:
+    """One Narrator card (stadium, fan or audio) from a decided TV card. Never raises."""
+    with span(f"narrator {audience}", agent="narrator", incident=source.get("incident_id", ""),
+              audience=audience, language=language):
         try:
-            out.append(narrate(source, data, audience, language))
+            out = narrate(source, data, audience, language)
         except Exception as exc:  # the screen keeps what it already shows
-            out.append({"card": None, "published": False, "problems": [f"{type(exc).__name__}: {exc}"]})
-        out[-1]["audience"] = audience
+            out = {"card": None, "published": False, "problems": [f"{type(exc).__name__}: {exc}"]}
+    out["audience"] = audience
+    out["t_ready"] = time.perf_counter()
     return out
+
+
+def narrate_all(source: dict, data: MatchData, language: str = "es") -> list[dict]:
+    """Stadium, fan and audio versions of one decided TV card, one after the other. Never raises."""
+    return [narrate_safe(source, data, audience, language) for audience in AUDIENCES]
 
 
 # --------------------------------------------------------------------------- try it

@@ -1,0 +1,47 @@
+[
+ {
+  "agent": 0,
+  "lines": [
+   "> py -m agents.laws_clerk INC-03",
+   "=== INC-03: Cross strikes Corrigan's arm in the area",
+   "  search 1: {'query': 'handles the ball', 'law': 'Law 12'} -> pages [56, 59, 57]",
+   "  author: laws_clerk",
+   "  text:   Law 12, Handling the ball: A player is penalised for handball if they deliberately touch the ball with their hand/arm or the arm makes their body unnaturally bigger.",
+   "  quote (page 56): \"deliberately touches the ball with their hand/arm, for example moving the hand/arm towards the ball\"",
+   "  verifier: OK"
+  ]
+ },
+ {
+  "agent": 1,
+  "pace": 0.4,
+  "lines": [
+   "> py -m agents.contradicteur --all --traps",
+   "# a planted sentence: the number is right, the conclusion is not",
+   "#   \"The referee could see 0% of it, so the decision on the field was a guess.\"",
+   "=== INC-01: Penalty shout: Blake goes down under Lund's sliding challenge",
+   "  verifier let through: ['verdict', 'law', 'vis', 'blocker', 'best_view', 'trap']"
+  ]
+ },
+ {
+  "agent": 2,
+  "pace": 0.45,
+  "lines": [
+   "  contradicteur: done",
+   "    dropped trap (rule 1): Goes beyond evidence: 'so the decision was a guess' infers intent/judgement from visibility data.",
+   "Planted mistakes caught: 5/5"
+  ]
+ },
+ {
+  "agent": 3,
+  "lines": [
+   "> py -m agents.narrator INC-01",
+   "  stadium:",
+   "    - No penalty. Contact must be careless, reckless, or use excessive force to be a foul.",
+   "  fan (es, Kestrel Rovers):",
+   "    - No se concedió penalti en esta jugada.",
+   "    - Según la Ley 12, el contacto por sí solo no es falta; la entrada debe ser imprudente, temeraria o con fuerza excesiva.",
+   "> py -m agents.narrator INC-03",
+   "  stadium: NOT SHOWN, removed by the Contradicteur: \"Asserts the arm 'made the body unnaturally bigger', an interpretation of the incident not supported by the provided evidence.\""
+  ]
+ }
+]
