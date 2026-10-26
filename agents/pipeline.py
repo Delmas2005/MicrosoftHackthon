@@ -6,6 +6,9 @@ For every card the live pipeline needs:
    - the Laws Clerk cites the clause of the Laws that applies (once per incident, reused);
    - the Contradicteur reviews every claim and removes the ones that go too far.
    When that is done, revision 2 replaces revision 1 on the screens.
+3. once a decision is settled, the Narrator writes the stadium line, the fan's "Why?" card (their
+   club, their language) and the audio version from the reviewed TV card (revision 3), each one
+   verified and reviewed again.
 
 If an agent is slow or fails, nothing is lost: revision 1 is already on screen, and the agents
 fall back to the template sentence themselves. Screens show, for each (incident, phase, audience),
@@ -19,14 +22,16 @@ from agents.card import MatchData
 from agents.contradicteur import review_card
 from agents.fallback_narrator import LAW_LINE, checking_card, decided_card
 from agents.laws_clerk import law_claim
+from agents.narrator import narrate_all
 
 # Keep this low: every request reserves its token budget against the deployment's tokens-per-minute.
 MAX_PARALLEL_CALLS = 2
 
 
 class AgentDesk:
-    def __init__(self, data: MatchData, workers: int = MAX_PARALLEL_CALLS):
+    def __init__(self, data: MatchData, workers: int = MAX_PARALLEL_CALLS, fan_language: str = "es"):
         self.data = data
+        self.fan_language = fan_language
         self.pool = ThreadPoolExecutor(max_workers=workers)
         self.law_claims: dict[str, Future] = {}
         self.pending: list[Future] = []
@@ -76,6 +81,14 @@ class AgentDesk:
                 r["card"].pop("framing", None)
                 if first["referees_call"]:
                     r["card"]["framing"] = "referees_call"
+            # The Narrator works from the reviewed TV card (or the template one if nothing survived).
+            tv = results[0]["card"] if results[0]["published"] else decided_card(self.data, inc_id, at, "tv")
+            for n in narrate_all(tv, self.data, self.fan_language):
+                if n["published"]:
+                    results.append(n)
+                else:
+                    results.append({"card": None, "published": False,
+                                    "error": f"Narrator, {n['audience']} card not shown: {n['problems']}"})
             return results
         self.pending.append(self.pool.submit(job))
 

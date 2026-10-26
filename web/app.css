@@ -1,0 +1,190 @@
+/* Fourth Official screens.
+   One visual language for three surfaces: the TV panel (16:9), the stadium board, the phone.
+   Grass and chalk for the pitch, referee-kit yellow for what the referee sees, signal red for what
+   hid it, and a quiet paper panel for the words. */
+
+/* Fonts hosted with the site (SIL Open Font License, see fonts/LICENSES.txt): no third-party requests. */
+@font-face { font-family: "Big Shoulders Display"; font-weight: 600; font-display: swap; src: url(fonts/big-shoulders-display-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Big Shoulders Display"; font-weight: 800; font-display: swap; src: url(fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2"); }
+@font-face { font-family: "Big Shoulders Display"; font-weight: 900; font-display: swap; src: url(fonts/big-shoulders-display-latin-900-normal.woff2) format("woff2"); }
+@font-face { font-family: "Atkinson Hyperlegible"; font-weight: 400; font-display: swap; src: url(fonts/atkinson-hyperlegible-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Atkinson Hyperlegible"; font-weight: 400; font-style: italic; font-display: swap; src: url(fonts/atkinson-hyperlegible-latin-400-italic.woff2) format("woff2"); }
+@font-face { font-family: "Atkinson Hyperlegible"; font-weight: 700; font-display: swap; src: url(fonts/atkinson-hyperlegible-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "DotGothic16"; font-weight: 400; font-display: swap; src: url(fonts/dotgothic16-latin-400-normal.woff2) format("woff2"); }
+
+:root {
+  --grass: #1d5b3a;
+  --grass-2: #22673f;
+  --surround: #164a30;
+  --chalk: #eef3e8;
+  --ink: #13212b;
+  --ink-2: #3c4b55;
+  --paper: #f4f7f1;
+  --rule: #d6ded6;
+  --ref: #e5f23c;
+  --alarm: #e5352b;
+  --led-bg: #050807;
+  --led-on: #f3f7ea;
+
+  --display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --text: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --led: "DotGothic16", "Courier New", monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: #0d2a1c;
+  color: var(--ink);
+  font-family: var(--text);
+  overflow: hidden;
+}
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--ref); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------- stage: fixed design size, scaled to fit */
+.stage-wrap { position: fixed; inset: 0; overflow: hidden; }
+.stage { position: absolute; left: 50%; top: 50%; transform-origin: center center; }
+
+/* ---------------------------------------------------------------- TV: 1920 x 1080 */
+.tv { width: 1920px; height: 1080px; display: grid; grid-template-columns: 1340px 580px; background: var(--surround); }
+.tv-pitch { position: relative; overflow: hidden; }
+.tv-pitch .shade { position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(14, 44, 29, .82) 0, rgba(14, 44, 29, .55) 26%, rgba(14, 44, 29, 0) 40%); }
+.tv-pitch svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.tv-pitch svg .lbl { font-family: var(--text); }
+.tv-pitch svg .strong { font-weight: 700; }
+.tv-pitch svg .num { font-family: var(--display); font-weight: 800; }
+.tv-pitch svg .lbl, .tv-pitch svg .num { paint-order: stroke; stroke: rgba(10, 30, 20, .55); stroke-width: .12px; }
+
+.bug {
+  position: absolute; top: 36px; left: 40px; display: flex; align-items: stretch;
+  font-family: var(--display); font-weight: 800; font-size: 34px; color: var(--ink);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .28);
+}
+.bug .team { display: flex; align-items: center; gap: 12px; padding: 6px 18px; background: var(--paper); }
+.bug .swatch { width: 10px; height: 30px; }
+.bug .score { padding: 6px 18px; background: var(--ink); color: var(--paper); letter-spacing: .04em; }
+.bug .clock { padding: 6px 18px; background: var(--ref); color: var(--ink); }
+
+.seen {
+  position: absolute; left: 40px; bottom: 124px; color: var(--chalk); max-width: 400px;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .45);
+}
+.seen .pct { font-family: var(--display); font-weight: 900; font-size: 200px; line-height: .8; color: var(--ref); display: block; }
+.seen .pct.blind { color: var(--chalk); }
+.seen .what { font-size: 27px; line-height: 1.3; margin-top: 16px; }
+.seen .what b { color: var(--ref); font-weight: 700; }
+
+.scrub {
+  position: absolute; left: 40px; right: 40px; bottom: 34px; height: 52px;
+  display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 18px; color: var(--chalk);
+}
+.scrub button {
+  width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--chalk); background: rgba(0, 0, 0, .25); color: var(--chalk);
+  display: grid; place-items: center; font-size: 22px;
+}
+.track { position: relative; height: 52px; }
+.track input { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; }
+.track .bar { position: absolute; left: 0; right: 0; top: 24px; height: 4px; background: rgba(238, 243, 232, .35); }
+.track .fill { position: absolute; left: 0; top: 24px; height: 4px; background: var(--chalk); }
+.track .window { position: absolute; top: 18px; height: 16px; background: rgba(229, 242, 60, .35); }
+.track .key { position: absolute; top: 10px; width: 3px; height: 32px; background: var(--ref); }
+.track .head { position: absolute; top: 15px; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; background: var(--chalk); }
+.scrub .time { font-size: 22px; min-width: 210px; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---------------------------------------------------------------- the panel */
+.panel { background: var(--paper); display: flex; flex-direction: column; padding: 44px 44px 32px; overflow: hidden; }
+.status { display: flex; align-items: center; gap: 14px; font-size: 24px; font-weight: 700; color: var(--ink); }
+.status .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--ref); box-shadow: 0 0 0 4px var(--ink); }
+.checking .status .dot { animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 10px rgba(19, 33, 43, .15); } }
+.headline { font-size: 22px; line-height: 1.35; color: var(--ink-2); margin: 14px 0 0; }
+.decision {
+  font-family: var(--display); font-weight: 900; font-size: 84px; line-height: .92; margin: 20px 0 0; color: var(--ink);
+}
+.checking .decision { font-size: 54px; line-height: .98; }
+.badge {
+  align-self: flex-start; margin-top: 22px; padding: 8px 14px; font-size: 20px; font-weight: 700;
+  background: var(--ink); color: var(--ref);
+}
+.claims { list-style: none; margin: 26px 0 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+.claims li { font-size: 22px; line-height: 1.36; padding-top: 16px; border-top: 2px solid var(--rule); }
+.claims li:first-child { border-top: 0; padding-top: 0; }
+.claims .src { display: block; font-size: 15px; color: var(--ink-2); margin-top: 4px; }
+.claims blockquote { margin: 10px 0 0; padding-left: 14px; border-left: 5px solid var(--ref); font-style: italic; font-size: 18px; line-height: 1.35; color: var(--ink-2); }
+.provenance { margin-top: auto; padding-top: 18px; font-size: 16px; color: var(--ink-2); line-height: 1.4; }
+.fresh { animation: arrive .5s ease-out; }
+@keyframes arrive { from { background: rgba(229, 242, 60, .55); } }
+
+/* ---------------------------------------------------------------- stadium board: 1920 x 400 */
+.stadium {
+  width: 1920px; height: 400px; background: var(--led-bg); color: var(--led-on); font-family: var(--led);
+  display: grid; grid-template-columns: 500px 1fr; position: relative;
+  background-image: radial-gradient(rgba(255, 255, 255, .06) 1px, transparent 1.4px); background-size: 8px 8px;
+}
+.stadium .board-score { border-right: 4px solid #1b2320; padding: 48px 40px; display: flex; flex-direction: column; justify-content: center; gap: 18px; font-size: 46px; }
+.stadium .board-score .row { display: flex; justify-content: space-between; gap: 24px; }
+.stadium .board-score .clock { color: var(--ref); }
+.stadium .line { padding: 0 64px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+.stadium .kicker { font-size: 52px; color: var(--ref); }
+.stadium .text { font-size: 84px; line-height: 1.08; }
+.stadium.checking .kicker { animation: blink 1s steps(2, start) infinite; }
+@keyframes blink { to { visibility: hidden; } }
+
+/* ---------------------------------------------------------------- phone: 390 x 844 */
+.phone-frame { width: 430px; height: 884px; padding: 20px; border-radius: 64px; background: #0c1512; box-shadow: 0 30px 80px rgba(0, 0, 0, .45); }
+.phone {
+  width: 390px; height: 844px; border-radius: 46px; overflow: hidden; background: var(--paper);
+  display: flex; flex-direction: column; position: relative;
+}
+.phone.bare { border-radius: 0; width: 100vw; height: 100dvh; }
+.phone header { background: var(--grass); color: var(--chalk); padding: 54px 24px 20px; }
+.phone header .match { font-size: 15px; opacity: .85; }
+.phone header h1 { font-family: var(--display); font-weight: 800; font-size: 40px; line-height: 1; margin: 10px 0 0; }
+.phone header .club { margin-top: 12px; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+.phone header .club i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 2px solid var(--rule); background: var(--paper); }
+.tabs button { border: 0; background: none; padding: 16px 4px; font-size: 16px; color: var(--ink-2); border-bottom: 4px solid transparent; }
+.tabs button[aria-selected="true"] { color: var(--ink); font-weight: 700; border-bottom-color: var(--ink); }
+.phone .body { padding: 24px; overflow-y: auto; flex: 1; }
+.phone .body .verdict { font-family: var(--display); font-weight: 900; font-size: 52px; line-height: .95; margin: 0 0 18px; }
+.phone .body p { font-size: 19px; line-height: 1.45; margin: 0 0 16px; }
+.phone .note { font-size: 15px; color: var(--ink-2); }
+.phone .meter { display: flex; align-items: baseline; gap: 10px; margin: 6px 0 18px; }
+.phone .meter b { font-family: var(--display); font-size: 64px; font-weight: 900; line-height: 1; }
+.phone .play {
+  width: 100%; margin-top: 8px; padding: 18px; border: 0; background: var(--ink); color: var(--paper);
+  font-size: 19px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 12px;
+}
+.phone .lang { display: inline-block; padding: 2px 8px; border: 1px solid var(--ink-2); font-size: 13px; margin-left: 6px; }
+
+/* ---------------------------------------------------------------- control bar (not shown when recording) */
+.controls {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  padding: 10px 14px; background: rgba(9, 26, 18, .94); color: var(--chalk); font-size: 14px;
+  transform: translateY(calc(100% - 6px)); transition: transform .2s ease;
+}
+.controls:hover, .controls:focus-within, .controls.pinned { transform: none; }
+.controls .group { display: flex; gap: 6px; align-items: center; }
+.controls button, .controls a {
+  border: 1px solid rgba(238, 243, 232, .4); background: none; color: var(--chalk); padding: 7px 11px; text-decoration: none; font-size: 14px;
+}
+.controls button[aria-pressed="true"] { background: var(--chalk); color: var(--ink); }
+.controls .spacer { flex: 1; }
+.controls .live { display: flex; align-items: center; gap: 6px; }
+.controls .live i { width: 9px; height: 9px; border-radius: 50%; background: #6a7a72; display: inline-block; }
+.controls .live.on i { background: var(--alarm); }
+
+/* ---------------------------------------------------------------- wall: the three screens side by side */
+.wall { position: fixed; inset: 0; display: grid; grid-template-columns: 1fr 430px; grid-template-rows: 1fr 30%; gap: 18px; padding: 18px 18px 30px; }
+.wall iframe { border: 0; width: 100%; height: 100%; background: transparent; }
+.wall .w-tv { grid-column: 1; grid-row: 1; }
+.wall .w-stadium { grid-column: 1; grid-row: 2; }
+.wall .w-phone { grid-column: 2; grid-row: 1 / span 2; }
+
+.loading { position: fixed; inset: 0; display: grid; place-items: center; color: var(--chalk); font-size: 22px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

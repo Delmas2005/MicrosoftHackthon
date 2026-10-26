@@ -7,5 +7,6 @@ openai>=1.40
 python-dotenv>=1.0
 azure-search-documents>=11.4
 pypdf>=4.0             # laws/build_index.py only
+azure-messaging-webpubsubservice>=1.2   # live cards to the screens (stream/pubsub.py)
 # Azure (when deploying):
 # azure-eventhub>=5.11

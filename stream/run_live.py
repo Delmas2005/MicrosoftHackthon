@@ -4,6 +4,7 @@
     python -m stream.run_live --from 1:22:50 --until 1:25:00 --speed 5
     python -m stream.run_live --no-wait --out cards.jsonl
     python -m stream.run_live --agents --no-wait --out examples/cards_agents_match_001.jsonl
+    python -m stream.run_live --agents --publish --speed 5 --from 1:22:30   # live to the screens (stream/pubsub.py)
 
 Without --agents, every card comes from the template narrator (agents/fallback_narrator.py):
 instant, free, no model. With --agents, the template card is still published at once
@@ -34,9 +35,11 @@ def publish(card: dict, data: MatchData) -> dict | None:
 def render(result: dict) -> str:
     c = result["card"]
     if c is None:
-        return f"  (an agent job failed, the template card stays on screen: {result.get('error')})"
+        return f"  (kept the card already on screen: {result.get('error')})"
     rev = c.get("revision", 1)
-    who = "AGENTS  " if rev > 1 else "TEMPLATE"
+    who = {1: "TEMPLATE", 2: "AGENTS  ", 3: "NARRATOR"}.get(rev, "AGENTS  ")
+    if c.get("audience") == "fan":
+        who += f" {c.get('language')}, {c.get('club')}"
     head = (f"[{c['issued_at']['period']}H {c['issued_at']['t']:7.1f}s] {c['incident_id']} "
             f"{c['phase'].upper():8s} {c['audience']:7s} rev {rev} {who}")
     if c.get("framing") == "referees_call":
@@ -61,6 +64,8 @@ def main():
     ap.add_argument("--no-wait", action="store_true")
     ap.add_argument("--out", help="also write published cards to this JSONL file")
     ap.add_argument("--agents", action="store_true", help="improve each card with the Foundry agents")
+    ap.add_argument("--fan-language", default="es", help="language of the fan's 'Why?' card (with --agents)")
+    ap.add_argument("--publish", action="store_true", help="push every card to the screens through Azure Web PubSub")
     args = ap.parse_args()
     data = MatchData(args.match)
     spotter = Spotter()
@@ -68,13 +73,21 @@ def main():
     desk = None
     if args.agents:
         from agents.pipeline import AgentDesk
-        desk = AgentDesk(data)
+        desk = AgentDesk(data, fan_language=args.fan_language)
+
+    publisher = None
+    if args.publish:
+        from stream.pubsub import Publisher
+        publisher = Publisher()
 
     def show(res):
         print(render(res), flush=True)
-        if out and res["published"]:
-            out.write(json.dumps(res["card"], ensure_ascii=False) + "\n")
-            out.flush()
+        if res["published"]:
+            if out:
+                out.write(json.dumps(res["card"], ensure_ascii=False) + "\n")
+                out.flush()
+            if publisher:
+                publisher.send(res["card"])
 
     feed = paced(live_events(load_events(Path(args.match))), args.speed, parse_at(args.start), parse_at(args.until), not args.no_wait)
     for e in feed:
@@ -106,6 +119,8 @@ def main():
             show(res)
     if out:
         out.close()
+    if publisher:
+        print(f"Web PubSub: {publisher.sent} cards sent, {publisher.failed} failed.")
 
 
 if __name__ == "__main__":

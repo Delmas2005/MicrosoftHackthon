@@ -37,6 +37,10 @@ def keep_everything_model():
     return SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
 
 
+def no_narrator(monkeypatch):
+    monkeypatch.setattr(pipeline, "narrate_all", lambda tv, data, language: [])
+
+
 def run_with_agents():
     desk, results = pipeline.AgentDesk(DATA), []
     sp = Spotter()
@@ -53,6 +57,7 @@ def run_with_agents():
 
 
 def test_agent_cards_for_every_incident(monkeypatch):
+    no_narrator(monkeypatch)
     monkeypatch.setattr(pipeline, "law_claim", agent_law_claim)
     monkeypatch.setattr(contradicteur, "client", keep_everything_model)
     results = run_with_agents()
@@ -70,14 +75,19 @@ def test_agent_cards_for_every_incident(monkeypatch):
 def test_agents_down_still_gives_safe_cards(monkeypatch):
     def down(*a, **k):
         raise ConnectionError("Foundry unreachable")
+    from agents import narrator
+    monkeypatch.setattr(narrator, "client", lambda: SimpleNamespace(
+        chat=SimpleNamespace(completions=SimpleNamespace(create=down))))
     monkeypatch.setattr(pipeline, "law_claim", lambda inc, text, verbose=False: {
         "id": "law", "kind": "law", "author": "template", "text": text,
         "evidence": [{"type": "law", "law": inc["laws"][0].split(":")[0]}]})
     monkeypatch.setattr(contradicteur, "client", lambda: SimpleNamespace(
         chat=SimpleNamespace(completions=SimpleNamespace(create=down))))
     results = run_with_agents()
-    assert all(r["published"] for r in results)
-    for r in results:
+    shown = [r for r in results if r["published"]]
+    assert len(shown) == 15  # 5 checking + 10 decided: the Narrator's cards are simply not shown
+    assert all("Narrator" in r["error"] for r in results if not r["published"])
+    for r in shown:
         assert verify_card(r["card"], DATA)["ok"]
         assert r["review"]["status"].startswith("unavailable")
 
@@ -90,9 +100,29 @@ def test_referees_call_is_the_same_on_every_screen(monkeypatch):
         flag = body["context"]["audience"] == "tv" and body["context"]["phase"] == "decided"
         answer = {"claims": [{"id": i, "decision": "keep"} for i in ids], "referees_call": flag}
         return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=json.dumps(answer)))])
+    no_narrator(monkeypatch)
     monkeypatch.setattr(pipeline, "law_claim", agent_law_claim)
     monkeypatch.setattr(contradicteur, "client", lambda: SimpleNamespace(
         chat=SimpleNamespace(completions=SimpleNamespace(create=create))))
     decided = [r["card"] for r in run_with_agents() if r["card"]["phase"] == "decided"]
     assert len(decided) == 10
     assert all(c.get("framing") == "referees_call" for c in decided)
+
+
+def test_narrated_cards_join_the_live_pipeline(monkeypatch):
+    from agents import narrator
+
+    def create(**kwargs):  # a narrator that always writes "<decision>" from the verdict claim
+        body = json.loads(kwargs["messages"][1]["content"])
+        verdict = next(c for c in body["claims"] if c["id"] == "verdict")
+        answer = {"claims": [{"text": verdict["text"], "sources": ["verdict"]}]}
+        return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=json.dumps(answer)))])
+    monkeypatch.setattr(pipeline, "law_claim", agent_law_claim)
+    monkeypatch.setattr(contradicteur, "client", keep_everything_model)
+    monkeypatch.setattr(narrator, "client", lambda: SimpleNamespace(
+        chat=SimpleNamespace(completions=SimpleNamespace(create=create))))
+    narrated = [r["card"] for r in run_with_agents() if r["published"] and r["card"]["revision"] == 3]
+    assert len(narrated) == 15  # stadium, fan and audio for each of the 5 incidents
+    assert {c["audience"] for c in narrated} == {"stadium", "fan", "audio"}
+    for c in narrated:
+        assert verify_card(c, DATA)["ok"]

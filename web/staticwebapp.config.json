@@ -1,0 +1,10 @@
+{
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "no-referrer"
+  },
+  "routes": [
+    { "route": "/data/*", "headers": { "Cache-Control": "no-cache" } }
+  ],
+  "mimeTypes": { ".json": "application/json" }
+}
