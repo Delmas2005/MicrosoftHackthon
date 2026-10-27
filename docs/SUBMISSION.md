@@ -13,13 +13,13 @@ The Fourth Official measures it from tracking data. During a VAR check, the TV p
 
 Three agents on Microsoft Foundry write the cards: a Laws Clerk that quotes the IFAB Laws word for word from Azure AI Search, a Contradicteur that removes any sentence that says more than its evidence, and a Narrator for each screen. A verifier with no AI blocks any decision announced early and any number that does not match its measurement. If a model fails, a template card stays on screen: the match never waits for AI.
 
-We built it as two students on an Azure for Students account: no credit card, free tiers wherever they exist, and €0.19 of student credit so far. Anyone with a student account can rebuild it without paying.
+We built it as two students on an Azure for Students account: no credit card, free tiers wherever they exist, and €1.70 of student credit in total. Anyone with a student account can rebuild it without paying.
 
 On RefBench, our benchmark, on 100 incidents they had never seen, the agents reached the right decision more often than the call on the field (90% against 70%) and flagged 16 of 18 clear errors, but a third of their VAR calls were not justified. So the Fourth Official explains decisions; it never makes them.
 
 ## Links
 - Live demo: https://fourthofficialweb.z28.web.core.windows.net/?screen=wall
-- Video: https://youtu.be/dpUy8UCSEo8
+- Video: https://youtu.be/pZxwp7BIxSU
 - Code: https://github.com/Delmas2005/MicrosoftHackthon
 
 ## Azure and Microsoft services used

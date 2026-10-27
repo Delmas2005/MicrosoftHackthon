@@ -122,10 +122,10 @@
 
 <script>
   // What the whole hackathon cost, from Azure Cost Management (resource group rg-fourth-official).
-  const COST = "€0.19";
-  const BUDGET = `Azure for Students: free tiers, no credit card. The whole hackathon so far: ${COST} of student credit.`;
+  const COST = "€1.70";
+  const BUDGET = `Azure for Students: free tiers, no credit card. The whole hackathon: ${COST} of student credit.`;
   const scene = new URLSearchParams(location.search).get("scene") || "title";
-  if (scene === "end") document.getElementById("cost").textContent = `${COST} of student credit, so far.`;
+  if (scene === "end") document.getElementById("cost").textContent = `${COST} of student credit, in total.`;
   document.getElementById(scene).classList.add("on");
   const at = (s, f) => setTimeout(f, s * 1000);
   for (const st of document.querySelectorAll(`#${scene} .step`)) {

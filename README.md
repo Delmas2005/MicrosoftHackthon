@@ -18,11 +18,11 @@ hand, on three screens:
   with an analyst view and an audio version read aloud.
 
 **Try it:** https://fourthofficialweb.z28.web.core.windows.net/?screen=wall (the three screens together; `?screen=tv`, `?screen=stadium`, `?screen=phone` for each one)
-**Video (1 min 44 s):** https://youtu.be/dpUy8UCSEo8
+**Video (1 min 44 s):** https://youtu.be/pZxwp7BIxSU
 
 Built for the Microsoft × Premier League *Inside the Game* hackathon by two students, on an
 **Azure for Students** account: no credit card, free tiers wherever one exists, and
-**€0.19 of student credit for the whole hackathon so far**. Every club, player, official and venue in
+**€1.70 of student credit for the whole hackathon**. Every club, player, official and venue in
 this repository is fictional. All match data is synthetic.
 
 ![TV panel: the referee could see 0% of the contact, number 5 was in his line of sight](docs/screenshots/tv.png)
@@ -34,17 +34,18 @@ end, without paying.
 
 | Service | What it does here | Tier | Cost |
 |---|---|---|---|
-| Microsoft Foundry: gpt-5-mini, gpt-4.1-mini | the agents | Global Standard, pay per token | €0.19 |
+| Microsoft Foundry: gpt-5-mini, gpt-4.1-mini | the agents | Global Standard, pay per token | €1.70 |
 | Azure AI Search | the Laws of the Game index | Free | 0 |
 | Azure Web PubSub | live cards to the screens | Free | 0 |
 | Azure AI Speech | neural voice for the audio cards and the video | Free (F0) | 0 |
 | Application Insights | a trace of every agent and model call | free monthly allowance | 0 |
-| Azure Storage, static website | the three screens, online | Standard LRS | €0.00 |
+| Azure Storage, static website | the three screens, online | Standard LRS | under €0.01 |
 | GitHub Actions | the tests, on every push | free for public repos | 0 |
-| **Total for the hackathon so far** | | | **€0.19** |
+| **Total for the hackathon** | | | **€1.70** |
 
-From Azure Cost Management, resource group `rg-fourth-official`, 22 to 26 October 2026 (Cost
-Management shows costs a few hours late, so the last runs may not be counted yet). What the student
+From Azure Cost Management, resource group `rg-fourth-official`, 22 to 27 October 2026. Almost all of it
+is model calls, and most of it was spent on 26 October, the day of the held-out benchmark, the
+latency runs and the evaluation. What the student
 account changed: Azure Static Web Apps was refused in every region on our subscription, so the
 screens run as a static website on Azure Storage instead, for a few cents. The two models were
 chosen for what they cost per call as much as for what they do: the strong one only where reasoning
