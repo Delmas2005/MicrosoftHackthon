@@ -18,7 +18,7 @@ hand, on three screens:
   with an analyst view and an audio version read aloud.
 
 **Try it:** https://fourthofficialweb.z28.web.core.windows.net/?screen=wall (the three screens together; `?screen=tv`, `?screen=stadium`, `?screen=phone` for each one)
-**Video:** VIDEO_URL_PLACEHOLDER
+**Video (1 min 44 s):** https://youtu.be/dpUy8UCSEo8
 
 Built for the Microsoft × Premier League *Inside the Game* hackathon by two students, on an
 **Azure for Students** account: no credit card, free tiers wherever one exists, and

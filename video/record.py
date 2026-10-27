@@ -1,4 +1,4 @@
-"""Record the demo video (under 2 minutes, 1920x1080, no sound) from the real screens.
+"""Record the demo video (under 2 minutes, 2560x1440, with the voice-over) from the real screens.
 
     py -m pip install playwright imageio-ffmpeg
     py -m playwright install chromium
@@ -118,30 +118,57 @@ def serve():
     return httpd
 
 
+FPS = 30
+SCALE = 4 / 3   # pages laid out at 1920 x 1080, rendered at 2560 x 1440: sharp text, and YouTube's better 1440p encoding
+# CSS animations and transitions follow the page's controlled clock too (see record()).
+ANIMATIONS_JS = """(now) => { const m = window.__anim || (window.__anim = new Map());
+  for (const a of document.getAnimations()) { if (!m.has(a)) { m.set(a, now); a.pause(); } a.currentTime = Math.max(0, now - m.get(a)); } }"""
+
+
 async def record(tmp: Path) -> list[Path]:
+    """Every frame is a still screenshot taken on a controlled clock: the page's time (Date,
+    timers, requestAnimationFrame, CSS animations) moves exactly 1/30 s between two frames,
+    however long a screenshot takes. No screen-recording codec in between: every frame is sharp."""
     from playwright.async_api import async_playwright
 
-    clips = []
+    ffmpeg, clips = ffmpeg_exe(), []
     async with async_playwright() as p:
         browser = await p.chromium.launch()
         for name, url, seconds, cues in SCENES:
-            ctx = await browser.new_context(viewport={"width": 1920, "height": 1080},
-                                            record_video_dir=str(tmp / name), record_video_size={"width": 1920, "height": 1080})
+            ctx = await browser.new_context(viewport={"width": 1920, "height": 1080}, device_scale_factor=SCALE)
             page = await ctx.new_page()
+            t0 = 1_793_000_000_000
+            await page.clock.install(time=t0)
+            await page.clock.pause_at(t0 + 1000)
             await page.goto(BASE + url)
-            await page.wait_for_timeout(400)  # let fonts and data load; trimmed below
-            t = 0.0
-            for at, caption, action in timeline(name, cues):
-                await page.wait_for_timeout(max(0, int((at - t) * 1000)))
-                t = max(t, at)
-                if caption is not None:
-                    await page.evaluate(CAPTION_JS, [caption, name == "wall"])
-                if action is not None:
-                    await action(page)
-            await page.wait_for_timeout(max(0, int((seconds - t) * 1000)))
+            await page.wait_for_load_state("networkidle")
+            await page.wait_for_timeout(600)          # fonts; the page's own clock is not moving
+            frames_dir = tmp / name
+            frames_dir.mkdir()
+            events = timeline(name, cues)
+            n = round((seconds - 0.2) * FPS)
+            for i in range(n):
+                t = i / FPS
+                while events and events[0][0] <= t:
+                    _, caption, action = events.pop(0)
+                    if caption is not None:
+                        await page.evaluate(CAPTION_JS, [caption, name == "wall"])
+                    if action is not None:
+                        await action(page)
+                for f in page.frames:
+                    try:
+                        await f.evaluate(ANIMATIONS_JS, t * 1000)
+                    except Exception:
+                        pass
+                await page.screenshot(path=str(frames_dir / f"{i:05d}.jpg"), type="jpeg", quality=93)
+                await page.clock.run_for(round((i + 1) * 1000 / FPS) - round(i * 1000 / FPS))   # whole ms
             await ctx.close()
-            clips.append(next((tmp / name).glob("*.webm")))
-            print(f"  recorded {name} ({seconds:.0f} s)")
+            clip = tmp / f"{name}.mp4"
+            subprocess.run([ffmpeg, "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", str(frames_dir / "%05d.jpg"),
+                            "-c:v", "libx264", "-preset", "medium", "-crf", "14", "-pix_fmt", "yuv420p", str(clip)], check=True)
+            shutil.rmtree(frames_dir)
+            clips.append(clip)
+            print(f"  recorded {name} ({seconds:.0f} s, {n} frames)")
         await browser.close()
     return clips
 
@@ -153,13 +180,7 @@ def ffmpeg_exe() -> str:
 
 def assemble(clips: list[Path], tmp: Path):
     ffmpeg = ffmpeg_exe()
-    parts = []
-    for (name, _, seconds, _), clip in zip(SCENES, clips):
-        part = tmp / f"{name}.mp4"
-        # Skip the first 0.6 s (page loading), keep exactly the scene's length.
-        subprocess.run([ffmpeg, "-y", "-loglevel", "error", "-ss", "0.6", "-i", str(clip), "-t", str(seconds - 0.2),
-                        "-vf", "fps=30,format=yuv420p", "-c:v", "libx264", "-preset", "medium", "-crf", "18", str(part)], check=True)
-        parts.append(part)
+    parts = clips
     # Join the scenes with short crossfades.
     silent = tmp / "silent.mp4"
     cmd, chain, offset, prev = [ffmpeg, "-y", "-loglevel", "error"], [], 0.0, "0:v"
@@ -170,8 +191,8 @@ def assemble(clips: list[Path], tmp: Path):
         out = f"v{k}"
         chain.append(f"[{prev}][{k}:v]xfade=transition=fade:duration={FADE}:offset={offset:.3f}[{out}]")
         prev = out
-    cmd += ["-filter_complex", ";".join(chain), "-map", f"[{prev}]", "-c:v", "libx264", "-preset", "medium", "-crf", "18",
-            "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(silent)]
+    cmd += ["-filter_complex", ";".join(chain), "-map", f"[{prev}]", "-c:v", "libx264", "-preset", "slow", "-crf", "18",
+            "-maxrate", "4M", "-bufsize", "8M", "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(silent)]
     subprocess.run(cmd, check=True)
     if not add_voice(silent, OUT):
         shutil.copy(silent, OUT)

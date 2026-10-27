@@ -19,7 +19,7 @@ On RefBench, our benchmark, on 100 incidents they had never seen, the agents rea
 
 ## Links
 - Live demo: https://fourthofficialweb.z28.web.core.windows.net/?screen=wall
-- Video: VIDEO_URL
+- Video: https://youtu.be/dpUy8UCSEo8
 - Code: https://github.com/Delmas2005/MicrosoftHackthon
 
 ## Azure and Microsoft services used
